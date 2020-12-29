@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>MainWindowBG.png</file>
+        <file>logo_no_bg.png</file>
+    </qresource>
+</RCC>
