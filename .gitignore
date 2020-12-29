@@ -130,3 +130,8 @@ dmypy.json
 
 # QTcreator files
 ASMtracer.cflags
+ASMtracer.config
+ASMtracer.creator
+ASMtracer.cxxflags
+ASMtracer.files
+ASMtracer.includes
