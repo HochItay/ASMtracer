@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/mainWindow">
+        <file>logo_no_bg.png</file>
+        <file>MainWindowBG.png</file>
+    </qresource>
+</RCC>
