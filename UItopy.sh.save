@@ -1,0 +1,4 @@
+#!/bin/bash
+
+pyside2-rcc sketches/resources/resources.qrc -o src/UI/rc_resources.py
+pyside2-uic sketches/mai > src/UI/ui_mainwindow.py
