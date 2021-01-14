@@ -10,10 +10,13 @@ class TraceWindow(QMainWindow):
         self.disassembler = Disassembler(file)
         self.ui = Ui_TraceWindow()
         self.ui.setupUi(self)
-        self.ui.comboBox.addItems(self.disassembler.get_functions())
-        self.ui.comboBox.currentIndexChanged.connect(self.show_function)
+        self.ui.func_combo.addItems(self.disassembler.get_functions())
+        self.ui.func_combo.currentIndexChanged.connect(self.show_function)
 
     def show_function(self):
-        code = self.disassembler.disassemble_func(self.ui.comboBox.currentText())
-        self.ui.code_area.setText(code)
+        code = self.disassembler.disassemble_func(self.ui.func_combo.currentText())
+        self.ui.listWidget.clear()
+        self.ui.listWidget.addItems(code)
+        self.ui.listView.clear()
+        self.ui.listView.addItems(code)
         

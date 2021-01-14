@@ -17,16 +17,35 @@ class Ui_TraceWindow(object):
     def setupUi(self, TraceWindow):
         if not TraceWindow.objectName():
             TraceWindow.setObjectName(u"TraceWindow")
-        TraceWindow.resize(900, 600)
+        TraceWindow.resize(1087, 677)
         self.centralwidget = QWidget(TraceWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.code_area = QTextEdit(self.centralwidget)
-        self.code_area.setObjectName(u"code_area")
-        self.code_area.setGeometry(QRect(0, 30, 361, 571))
-        self.code_area.setStyleSheet(u"background-color: rgb(252, 242, 162);")
-        self.comboBox = QComboBox(self.centralwidget)
-        self.comboBox.setObjectName(u"comboBox")
-        self.comboBox.setGeometry(QRect(0, 0, 351, 25))
+        self.verticalLayoutWidget = QWidget(self.centralwidget)
+        self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
+        self.verticalLayoutWidget.setGeometry(QRect(0, 0, 451, 671))
+        self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.func_combo = QComboBox(self.verticalLayoutWidget)
+        self.func_combo.setObjectName(u"func_combo")
+
+        self.verticalLayout.addWidget(self.func_combo)
+
+        self.listView = QListView(self.verticalLayoutWidget)
+        self.listView.setObjectName(u"listView")
+
+        self.verticalLayout.addWidget(self.listView)
+
+        self.listWidget = QListWidget(self.centralwidget)
+        self.listWidget.setObjectName(u"listWidget")
+        self.listWidget.setGeometry(QRect(540, 20, 449, 638))
+        font = QFont()
+        font.setPointSize(14)
+        self.listWidget.setFont(font)
+        self.listWidget.setStyleSheet(u"background-color: rgb(252, 242, 162);")
+        self.listWidget.setMovement(QListView.Free)
+        self.listWidget.setProperty("isWrapping", False)
+        self.listWidget.setItemAlignment(Qt.AlignLeading)
         TraceWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(TraceWindow)

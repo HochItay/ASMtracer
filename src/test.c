@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <unistd.h>
+
 int isPrime(int n) {
 	for (int i = 2; i < n; ++i) {
 		if (n % i == 0) {
@@ -8,9 +11,8 @@ int isPrime(int n) {
 }
 
 int main() {
-	int i = 0;
-	int n = 12;
-	i += n;
+	int i = 23;
 	isPrime(i);
+	printf("hello!");
 	return 0;
 }
