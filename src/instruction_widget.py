@@ -4,8 +4,8 @@ from PySide2.QtWidgets import *
 
 # a widget for displaying an instruction
 class QInstruction(QWidget):
-    def __init__ (self, instruction):
-        QWidget.__init__(self)
+    def __init__ (self, instruction, parent=None):
+        QWidget.__init__(self, parent)
         self.instruction = instruction
 
         self.layout = QVBoxLayout()
@@ -15,6 +15,12 @@ class QInstruction(QWidget):
         self.setLayout(self.layout)
 
         # setStyleSheet
+        self.instruction_label.setStyleSheet('''
+            color: rgb(0, 0, 0);
+        ''')
+
+    # highlight the instruction
+    def highlight(self):
         self.instruction_label.setStyleSheet('''
             color: rgb(0, 0, 255);
         ''')

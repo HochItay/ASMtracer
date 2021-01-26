@@ -15,7 +15,7 @@ class Debugger(Tracer):
 
         self.functions = self.reader.functions_address()
         self.function_by_name = {} # dictionary that maps function name to its information
-        self.functions_by_addr = {} # dictionary that maps function address to its information
+        self.function_by_addr = {} # dictionary that maps function address to its information
 
         self.load_address, self.code = self.get_mem_by_region(os.path.abspath(file))
         self.init_functions()
@@ -25,7 +25,7 @@ class Debugger(Tracer):
         for name, addr in self.functions:
             func = self.disas.disassemble_func(name, self.load_address + addr, self.code[addr:])
             self.function_by_name[name] = func
-            self.functions_by_addr[self.load_address + addr] = func
+            self.function_by_addr[self.load_address + addr] = func
 
             for i in func.instructions:
                 self.add_note_on_instruction(i)
@@ -51,3 +51,12 @@ class Debugger(Tracer):
     # get function by its name
     def get_function(self, name):
         return self.function_by_name[name]
+
+    # find the function that contains a given address and return it
+    # or None if no such function exists
+    def find_function_with_address(self, address):
+        for func in self.function_by_name.values():
+            if func.start_addr <= address <= func.end_addr:
+                return func
+
+        return None

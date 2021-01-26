@@ -36,6 +36,10 @@ class Tracer:
     def get_registers(self):
         return ptrace_getregs(self.pid)
     
+    # set registers value
+    def set_registers(self, regs):
+        ptrace_setregs(self.pid, regs)
+
     # read memory from the child process of the whole region
     # using the /proc/<pid>/maps file and /proc/<pid>/mem file
     # return the base address of the region, and its content
@@ -75,3 +79,16 @@ class Tracer:
         with open('/proc/' + str(self.pid) + '/mem', 'rb') as mem:
             mem.seek(addr)
             return mem.read(size)
+
+    # decrease rip by one
+    def dec_rip(self):
+        regs = self.get_registers()
+        regs.rip -= 1
+        self.set_registers(regs)
+
+    def set_breackpoint_and_run(self, addr):
+        b = breakpoints.Breakpoint(self.pid, addr)
+        b.enable()
+        self.continue_execution()
+        b.disable()
+        self.dec_rip()

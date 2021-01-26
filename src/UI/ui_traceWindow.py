@@ -18,7 +18,7 @@ class Ui_TraceWindow(object):
     def setupUi(self, TraceWindow):
         if not TraceWindow.objectName():
             TraceWindow.setObjectName(u"TraceWindow")
-        TraceWindow.resize(1087, 677)
+        TraceWindow.resize(1062, 658)
         icon = QIcon()
         icon.addFile(u":/mainWindow/logo_no_bg.png", QSize(), QIcon.Normal, QIcon.Off)
         TraceWindow.setWindowIcon(icon)
@@ -35,22 +35,19 @@ class Ui_TraceWindow(object):
 
         self.code_area.addWidget(self.func_combo)
 
-        self.instruction_list = QListWidget(self.verticalLayoutWidget)
-        self.instruction_list.setObjectName(u"instruction_list")
-        font = QFont()
-        font.setPointSize(14)
-        self.instruction_list.setFont(font)
-        self.instruction_list.setAutoFillBackground(False)
-        self.instruction_list.setStyleSheet(u"background-color: rgb(252, 242, 162);")
+        self.func_stack = QStackedWidget(self.verticalLayoutWidget)
+        self.func_stack.setObjectName(u"func_stack")
+        self.func_stack.setStyleSheet(u"background-color: rgb(252, 242, 162);")
 
-        self.code_area.addWidget(self.instruction_list)
+        self.code_area.addWidget(self.func_stack)
 
         self.pushButton = QPushButton(self.centralwidget)
         self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setGeometry(QRect(540, 130, 211, 81))
-        font1 = QFont()
-        font1.setPointSize(20)
-        self.pushButton.setFont(font1)
+        self.pushButton.setGeometry(QRect(610, 260, 241, 101))
+        font = QFont()
+        font.setPointSize(20)
+        self.pushButton.setFont(font)
+        self.pushButton.setToolTipDuration(1)
         TraceWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(TraceWindow)
@@ -60,6 +57,9 @@ class Ui_TraceWindow(object):
 
     def retranslateUi(self, TraceWindow):
         TraceWindow.setWindowTitle(QCoreApplication.translate("TraceWindow", u"ASMtracer", None))
+#if QT_CONFIG(tooltip)
+        self.pushButton.setToolTip("")
+#endif // QT_CONFIG(tooltip)
         self.pushButton.setText(QCoreApplication.translate("TraceWindow", u"step", None))
     # retranslateUi
 
