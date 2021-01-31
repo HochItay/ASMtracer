@@ -2,7 +2,7 @@ from UI.ui_traceWindow import Ui_TraceWindow
 
 from PySide2.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QListWidget
 from PySide2.QtCore import QFile
-from instruction_widget import QInstruction
+from .instruction_widget import QInstruction
 
 import debugger
 
@@ -18,13 +18,18 @@ class TraceWindow(QMainWindow):
 
         self.instructions_by_func = {}
         self.init_instructions()
+        self.current_instruction = None
+        self.functions = self.debugger.get_function_names()
 
-        self.debugger.set_breackpoint_and_run(self.debugger.get_function('main').start_addr)
+        self.debugger.place_breakpoint(self.debugger.get_function('main').start_addr)
+        self.debugger.continue_execution()
+        self.debugger.remove_breakpoint(self.debugger.get_function('main').start_addr)
+        self.update_display()
 
     # initialize instructions_by_func which maps function name to list of Qinstructions
     def init_instructions(self):
         for func in self.debugger.get_function_names():
-            self.instructions_by_func[func] = [QInstruction(i, self) for i in self.debugger.get_function(func).instructions]
+            self.instructions_by_func[func] = [QInstruction(i, self.debugger, self) for i in self.debugger.get_function(func).instructions]
 
             instruction_list = QListWidget()
             # create a new list widget for that function
@@ -40,7 +45,7 @@ class TraceWindow(QMainWindow):
 
 
     def show_function(self, func):
-        self.ui.func_stack.setCurrentIndex(list(self.instructions_by_func.keys()).index(func))
+        self.ui.func_stack.setCurrentIndex(self.functions.index(func))
 
     def single_step(self):
         self.debugger.single_step()
@@ -48,11 +53,17 @@ class TraceWindow(QMainWindow):
         
     # update the display to match current program state
     def update_display(self):
-        current_address = self.debugger.get_current_instruction()
-        print(hex(current_address))
+        if self.current_instruction is not None:
+            self.current_instruction.unlight()
 
+        current_address = self.debugger.get_current_instruction()
+
+        # find what is the current instruction
         current_function = self.debugger.find_function_with_address(current_address)
-        self.show_function(current_function.name)
-        current_instruction = next((i for i in self.instructions_by_func[current_function.name] if i.instruction.address == current_address), None)
-        if current_instruction is not None:
-            current_instruction.highlight()
+        if current_function.name in self.functions:
+            self.ui.func_combo.setCurrentIndex(self.ui.func_combo.findText(current_function.name))
+        self.current_instruction = next((i for i in self.instructions_by_func[current_function.name] if i.instruction.address == current_address), None)
+
+        # highlight current instruction, only if it exists in the original file
+        if self.current_instruction is not None:
+            self.current_instruction.highlight()

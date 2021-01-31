@@ -17,7 +17,7 @@ class Disassembler:
         disassembled_code = []
         disas_generator = self.disassembler.disasm(code, func_addr)
 
-        last_addr = func_addr
+        end_addr = func_addr
         i = next(disas_generator, None)
         while i != None and i.mnemonic != 'ret': # disassemble until ret command reached
             

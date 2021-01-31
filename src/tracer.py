@@ -15,7 +15,7 @@ class Tracer:
             ptrace_traceme()
             os.execl(exe, exe)
         else:
-            self.breakpoints = []
+            self.breakpoints = {} # maps address to breakpoint
             # wait for signal from child
             os.waitpid(self.pid, 0)
 
@@ -25,8 +25,16 @@ class Tracer:
         os.waitpid(self.pid, 0)
 
     def single_step(self):
-        ptrace_singlestep(self.pid)
-        os.waitpid(self.pid, 0)
+        rip = self.get_current_instruction()
+        if rip in self.breakpoints and self.breakpoints[rip].is_enable:
+            b = self.breakpoints[rip]
+            b.disable()
+            ptrace_singlestep(self.pid)
+            os.waitpid(self.pid, 0)
+            b.enable()
+        else:
+            ptrace_singlestep(self.pid)
+            os.waitpid(self.pid, 0)
 
     # return the address of the current instruction (value of rip)
     def get_current_instruction(self):
@@ -86,9 +94,31 @@ class Tracer:
         regs.rip -= 1
         self.set_registers(regs)
 
-    def set_breackpoint_and_run(self, addr):
+    # place a breakpoint in a given address
+    def place_breakpoint(self, addr):
         b = breakpoints.Breakpoint(self.pid, addr)
         b.enable()
-        self.continue_execution()
-        b.disable()
-        self.dec_rip()
+        self.breakpoints[addr] = b
+
+    # remove a breakpoint in a given address
+    def remove_breakpoint(self, addr):
+        del self.breakpoints[addr]
+
+    # single step
+    # if execution stopped by a breakpoint, jump over that breakpoint
+    def step_over_breakpoint(self):
+        # if we stopped at a breakpoint, the rip will point to one byte over the breakpointed instruction
+        possible_breakpoint = self.get_current_instruction() - 1
+
+        # check if breakpoint is exist and active
+        if possible_breakpoint in self.breakpoints and self.breakpoints[possible_breakpoint].is_enable:
+            b = self.breakpoints[possible_breakpoint]
+            b.disable()
+            self.dec_rip()
+            ptrace_singlestep(self.pid)
+            os.waitpid(self.pid, 0)
+            b.enable()
+
+        else:
+            ptrace_singlestep(self.pid)
+            os.waitpid(self.pid, 0)

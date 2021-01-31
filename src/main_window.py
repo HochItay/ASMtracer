@@ -2,7 +2,7 @@ import sys
 from UI.ui_mainwindow import Ui_MainWindow
 
 from PySide2.QtWidgets import QApplication, QMainWindow, QFileDialog, QStackedWidget
-from trace_window import TraceWindow
+from trace_window.trace_window import TraceWindow
 
 class MainWindow(QMainWindow):
     def __init__(self):

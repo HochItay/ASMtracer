@@ -27,8 +27,11 @@ class Debugger(Tracer):
             self.function_by_name[name] = func
             self.function_by_addr[self.load_address + addr] = func
 
+            #print(func.instructions[-1].mnemonic)
             for i in func.instructions:
                 self.add_note_on_instruction(i)
+            
+            
 
     # add a note on instruction
     # currrent aviable notes:
@@ -40,13 +43,13 @@ class Debugger(Tracer):
                     call_addr = int(instruction.parameters, 0)
                     called_func = next((func for func in self.functions if func[1] + self.load_address == call_addr), None)
                     if called_func != None:
-                        instruction.set_note(f'({called_func})')
+                        instruction.set_note(f'({called_func[0]})')
                 except:
                     pass
 
     # return list of function names in the ELF file
     def get_function_names(self):
-        return self.function_by_name.keys()
+        return list(self.function_by_name.keys())
 
     # get function by its name
     def get_function(self, name):

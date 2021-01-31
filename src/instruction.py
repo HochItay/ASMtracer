@@ -4,6 +4,8 @@ class Instruction:
         self.address = i.address
         self.mnemonic = i.mnemonic
         self.parameters = i.op_str
+        if self.mnemonic == 'ret':
+            print('a')
         self.note = ''
 
     # set note on the instruction
@@ -11,4 +13,4 @@ class Instruction:
         self.note = note
 
     def __str__(self):
-        return "0x%x:\t%s\t%s %s\n" %(self.address, self.mnemonic, self.parameters, self.note)
+        return f'{hex(self.address)}:\t{self.mnemonic}\t{self.parameters} {self.note}'
