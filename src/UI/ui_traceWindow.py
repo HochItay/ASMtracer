@@ -18,15 +18,18 @@ class Ui_TraceWindow(object):
     def setupUi(self, TraceWindow):
         if not TraceWindow.objectName():
             TraceWindow.setObjectName(u"TraceWindow")
-        TraceWindow.resize(1062, 658)
+        TraceWindow.resize(1026, 750)
         icon = QIcon()
         icon.addFile(u":/mainWindow/logo_no_bg.png", QSize(), QIcon.Normal, QIcon.Off)
         TraceWindow.setWindowIcon(icon)
         self.centralwidget = QWidget(TraceWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.verticalLayoutWidget = QWidget(self.centralwidget)
+        self.splitter = QSplitter(self.centralwidget)
+        self.splitter.setObjectName(u"splitter")
+        self.splitter.setGeometry(QRect(0, 0, 1011, 731))
+        self.splitter.setOrientation(Qt.Horizontal)
+        self.verticalLayoutWidget = QWidget(self.splitter)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(0, 0, 451, 671))
         self.code_area = QVBoxLayout(self.verticalLayoutWidget)
         self.code_area.setObjectName(u"code_area")
         self.code_area.setContentsMargins(0, 0, 0, 0)
@@ -41,13 +44,30 @@ class Ui_TraceWindow(object):
 
         self.code_area.addWidget(self.func_stack)
 
-        self.pushButton = QPushButton(self.centralwidget)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setGeometry(QRect(610, 260, 241, 101))
+        self.splitter.addWidget(self.verticalLayoutWidget)
+        self.verticalLayoutWidget_2 = QWidget(self.splitter)
+        self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
+        self.verticalLayout_2 = QVBoxLayout(self.verticalLayoutWidget_2)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.step_btn = QPushButton(self.verticalLayoutWidget_2)
+        self.step_btn.setObjectName(u"step_btn")
+        self.step_btn.setMinimumSize(QSize(0, 100))
         font = QFont()
         font.setPointSize(20)
-        self.pushButton.setFont(font)
-        self.pushButton.setToolTipDuration(1)
+        self.step_btn.setFont(font)
+        self.step_btn.setToolTipDuration(1)
+
+        self.verticalLayout_2.addWidget(self.step_btn)
+
+        self.cont_btn = QPushButton(self.verticalLayoutWidget_2)
+        self.cont_btn.setObjectName(u"cont_btn")
+        self.cont_btn.setMinimumSize(QSize(0, 100))
+        self.cont_btn.setFont(font)
+
+        self.verticalLayout_2.addWidget(self.cont_btn)
+
+        self.splitter.addWidget(self.verticalLayoutWidget_2)
         TraceWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(TraceWindow)
@@ -58,8 +78,9 @@ class Ui_TraceWindow(object):
     def retranslateUi(self, TraceWindow):
         TraceWindow.setWindowTitle(QCoreApplication.translate("TraceWindow", u"ASMtracer", None))
 #if QT_CONFIG(tooltip)
-        self.pushButton.setToolTip("")
+        self.step_btn.setToolTip("")
 #endif // QT_CONFIG(tooltip)
-        self.pushButton.setText(QCoreApplication.translate("TraceWindow", u"step", None))
+        self.step_btn.setText(QCoreApplication.translate("TraceWindow", u"step", None))
+        self.cont_btn.setText(QCoreApplication.translate("TraceWindow", u"continue", None))
     # retranslateUi
 

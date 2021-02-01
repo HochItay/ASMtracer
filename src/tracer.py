@@ -21,20 +21,17 @@ class Tracer:
 
     # contincue execution of the tracee until next breakpoint
     def continue_execution(self):
+        self.step_over_breakpoint()
         ptrace_cont(self.pid)
         os.waitpid(self.pid, 0)
 
+        # if stopped by breakpoint 
+        possible_bp = self.get_current_instruction() - 1
+        if possible_bp in self.breakpoints and self.breakpoints[possible_bp].is_enable:
+            self.dec_rip()
+
     def single_step(self):
-        rip = self.get_current_instruction()
-        if rip in self.breakpoints and self.breakpoints[rip].is_enable:
-            b = self.breakpoints[rip]
-            b.disable()
-            ptrace_singlestep(self.pid)
-            os.waitpid(self.pid, 0)
-            b.enable()
-        else:
-            ptrace_singlestep(self.pid)
-            os.waitpid(self.pid, 0)
+        self.step_over_breakpoint()
 
     # return the address of the current instruction (value of rip)
     def get_current_instruction(self):
@@ -102,19 +99,18 @@ class Tracer:
 
     # remove a breakpoint in a given address
     def remove_breakpoint(self, addr):
+        if self.breakpoints[addr].is_enable:
+            self.breakpoints[addr].disable()
         del self.breakpoints[addr]
 
-    # single step
-    # if execution stopped by a breakpoint, jump over that breakpoint
+    # single step, ignoring breakpoints
     def step_over_breakpoint(self):
-        # if we stopped at a breakpoint, the rip will point to one byte over the breakpointed instruction
-        possible_breakpoint = self.get_current_instruction() - 1
+        rip = self.get_current_instruction()
 
         # check if breakpoint is exist and active
-        if possible_breakpoint in self.breakpoints and self.breakpoints[possible_breakpoint].is_enable:
-            b = self.breakpoints[possible_breakpoint]
+        if rip in self.breakpoints and self.breakpoints[rip].is_enable:
+            b = self.breakpoints[rip]
             b.disable()
-            self.dec_rip()
             ptrace_singlestep(self.pid)
             os.waitpid(self.pid, 0)
             b.enable()

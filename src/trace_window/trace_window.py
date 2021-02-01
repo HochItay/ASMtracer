@@ -14,7 +14,8 @@ class TraceWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.func_combo.addItems(self.debugger.get_function_names())
         self.ui.func_combo.currentIndexChanged.connect(lambda: self.show_function(self.ui.func_combo.currentText()))
-        self.ui.pushButton.clicked.connect(self.single_step)
+        self.ui.step_btn.clicked.connect(self.single_step)
+        self.ui.cont_btn.clicked.connect(self.continue_execution)
 
         self.instructions_by_func = {}
         self.init_instructions()
@@ -51,6 +52,10 @@ class TraceWindow(QMainWindow):
         self.debugger.single_step()
         self.update_display()
         
+    def continue_execution(self):
+        self.debugger.continue_execution()
+        self.update_display()
+
     # update the display to match current program state
     def update_display(self):
         if self.current_instruction is not None:

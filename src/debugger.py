@@ -23,7 +23,7 @@ class Debugger(Tracer):
     # initialize all information about all functions, inclue assembly code
     def init_functions(self):
         for name, addr in self.functions:
-            func = self.disas.disassemble_func(name, self.load_address + addr, self.code[addr:])
+            func = self.disas.disassemble_func(name, self.load_address + addr, self.code[addr:], [self.load_address + func[1] for func in self.functions])
             self.function_by_name[name] = func
             self.function_by_addr[self.load_address + addr] = func
 
