@@ -3,8 +3,11 @@ from UI.ui_traceWindow import Ui_TraceWindow
 from PySide2.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QListWidget
 from PySide2.QtCore import QFile
 from .instruction_widget import QInstruction
+from . import models
 
 import debugger
+
+import sys
 
 class TraceWindow(QMainWindow):
     def __init__(self, file):
@@ -13,14 +16,22 @@ class TraceWindow(QMainWindow):
         self.ui = Ui_TraceWindow()
         self.ui.setupUi(self)
         self.ui.func_combo.addItems(self.debugger.get_function_names())
+
+        # connect buttons to functions
         self.ui.func_combo.currentIndexChanged.connect(lambda: self.show_function(self.ui.func_combo.currentText()))
         self.ui.step_btn.clicked.connect(self.single_step)
         self.ui.cont_btn.clicked.connect(self.continue_execution)
+        self.ui.step_out_btn.clicked.connect(self.step_out)
+        self.ui.step_over_btn.clicked.connect(self.step_over)
 
         self.instructions_by_func = {}
         self.init_instructions()
         self.current_instruction = None
         self.functions = self.debugger.get_function_names()
+
+        self.regs_model = models.RegistersModel(self.debugger.get_registers())
+        self.ui.registers_view.setModel(self.regs_model)
+        self.ui.registers_view.verticalHeader().hide()
 
         self.debugger.place_breakpoint(self.debugger.get_function('main').start_addr)
         self.debugger.continue_execution()
@@ -72,3 +83,15 @@ class TraceWindow(QMainWindow):
         # highlight current instruction, only if it exists in the original file
         if self.current_instruction is not None:
             self.current_instruction.highlight()
+
+        self.regs_model.set_regs(self.debugger.get_registers())
+
+    # step out of current function
+    def step_out(self):
+        self.debugger.step_out()
+        self.update_display()
+
+    # step out of current function
+    def step_over(self):
+        self.debugger.step_over()
+        self.update_display()

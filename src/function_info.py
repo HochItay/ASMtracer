@@ -14,3 +14,9 @@ class FunctionInfo:
 
     def set_text(self, text):
         self.text = text
+
+    # return the index of an instruction by its address
+    def get_instruction_index_by_address(self, address):
+        for i, instruction in enumerate(self.instructions):
+            if instruction.address == address:
+                return i

@@ -5,6 +5,9 @@ import disas
 import os
 import instruction
 
+# list of known compiler defined functions
+COMPILER_FUNCS = ['frame_dummy', 'register_tm_clones', 'deregister_tm_clones']
+
 # A class for combining tracer, disassembler and ELFReader to
 # one debugger for ELF files
 class Debugger(Tracer):
@@ -23,15 +26,13 @@ class Debugger(Tracer):
     # initialize all information about all functions, inclue assembly code
     def init_functions(self):
         for name, addr in self.functions:
-            func = self.disas.disassemble_func(name, self.load_address + addr, self.code[addr:], [self.load_address + func[1] for func in self.functions])
-            self.function_by_name[name] = func
-            self.function_by_addr[self.load_address + addr] = func
+            if not (name.startswith('_') or name in COMPILER_FUNCS):
+                func = self.disas.disassemble_func(name, self.load_address + addr, self.code[addr:], [self.load_address + func[1] for func in self.functions])
+                self.function_by_name[name] = func
+                self.function_by_addr[self.load_address + addr] = func
 
-            #print(func.instructions[-1].mnemonic)
-            for i in func.instructions:
-                self.add_note_on_instruction(i)
-            
-            
+                for i in func.instructions:
+                    self.add_note_on_instruction(i)
 
     # add a note on instruction
     # currrent aviable notes:
@@ -63,3 +64,31 @@ class Debugger(Tracer):
                 return func
 
         return None
+
+    # single step, but skip call commands
+    def step_over(self):
+        # find the current instruction
+        rip = self.get_current_instruction()
+        func = self.find_function_with_address(rip)
+        index = func.get_instruction_index_by_address(rip)
+        current_instruction = func.instructions[index]
+
+        # if current instruction is not call, step regulary
+        if current_instruction.mnemonic != 'call':
+            self.single_step()
+            return
+
+        # if current instruction is call, place temporary breakpoint on next instruction
+        next_instruction_address = func.instructions[index+1].address
+        
+        should_remove_bp = False
+        # place breakpoint at the next instruction address
+        if next_instruction_address not in self.breakpoints:
+            self.place_breakpoint(next_instruction_address)
+            should_remove_bp = True
+
+        while self.get_current_instruction() != next_instruction_address:
+            self.continue_execution()
+
+        if should_remove_bp:
+            self.remove_breakpoint(next_instruction_address)

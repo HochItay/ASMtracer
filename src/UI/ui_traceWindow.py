@@ -18,7 +18,7 @@ class Ui_TraceWindow(object):
     def setupUi(self, TraceWindow):
         if not TraceWindow.objectName():
             TraceWindow.setObjectName(u"TraceWindow")
-        TraceWindow.resize(1026, 750)
+        TraceWindow.resize(1400, 1000)
         icon = QIcon()
         icon.addFile(u":/mainWindow/logo_no_bg.png", QSize(), QIcon.Normal, QIcon.Off)
         TraceWindow.setWindowIcon(icon)
@@ -26,7 +26,7 @@ class Ui_TraceWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.splitter = QSplitter(self.centralwidget)
         self.splitter.setObjectName(u"splitter")
-        self.splitter.setGeometry(QRect(0, 0, 1011, 731))
+        self.splitter.setGeometry(QRect(10, 10, 1361, 981))
         self.splitter.setOrientation(Qt.Horizontal)
         self.verticalLayoutWidget = QWidget(self.splitter)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
@@ -49,6 +49,7 @@ class Ui_TraceWindow(object):
         self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
         self.verticalLayout_2 = QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.step_btn = QPushButton(self.verticalLayoutWidget_2)
         self.step_btn.setObjectName(u"step_btn")
@@ -67,6 +68,29 @@ class Ui_TraceWindow(object):
 
         self.verticalLayout_2.addWidget(self.cont_btn)
 
+        self.step_out_btn = QPushButton(self.verticalLayoutWidget_2)
+        self.step_out_btn.setObjectName(u"step_out_btn")
+        self.step_out_btn.setMinimumSize(QSize(0, 100))
+        self.step_out_btn.setFont(font)
+
+        self.verticalLayout_2.addWidget(self.step_out_btn)
+
+        self.step_over_btn = QPushButton(self.verticalLayoutWidget_2)
+        self.step_over_btn.setObjectName(u"step_over_btn")
+        self.step_over_btn.setMinimumSize(QSize(0, 100))
+        self.step_over_btn.setFont(font)
+
+        self.verticalLayout_2.addWidget(self.step_over_btn)
+
+        self.registers_view = QTableView(self.verticalLayoutWidget_2)
+        self.registers_view.setObjectName(u"registers_view")
+        self.registers_view.setMaximumSize(QSize(600, 400))
+        self.registers_view.setLayoutDirection(Qt.LeftToRight)
+        self.registers_view.setShowGrid(False)
+        self.registers_view.setGridStyle(Qt.NoPen)
+
+        self.verticalLayout_2.addWidget(self.registers_view)
+
         self.splitter.addWidget(self.verticalLayoutWidget_2)
         TraceWindow.setCentralWidget(self.centralwidget)
 
@@ -80,7 +104,12 @@ class Ui_TraceWindow(object):
 #if QT_CONFIG(tooltip)
         self.step_btn.setToolTip("")
 #endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(statustip)
+        self.step_btn.setStatusTip("")
+#endif // QT_CONFIG(statustip)
         self.step_btn.setText(QCoreApplication.translate("TraceWindow", u"step", None))
         self.cont_btn.setText(QCoreApplication.translate("TraceWindow", u"continue", None))
+        self.step_out_btn.setText(QCoreApplication.translate("TraceWindow", u"step out", None))
+        self.step_over_btn.setText(QCoreApplication.translate("TraceWindow", u"step over", None))
     # retranslateUi
 

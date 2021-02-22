@@ -36,7 +36,7 @@ class QInstruction(QWidget):
         self.bp_is_enable = True
         self.debugger.place_breakpoint(self.instruction.address)
         self.ui.bp_btn.setStyleSheet('''
-            background-color: #b6f074;
+            background-color: #cc3300;
         ''')
 
     # remove breakpoint from this instruction

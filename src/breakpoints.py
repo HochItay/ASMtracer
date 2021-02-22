@@ -18,6 +18,7 @@ class Breakpoint:
         # a mask for getting the wanted address out of the aligned one
         self.address_from_align_mask = 0xff << ((addr % ALIGNMENT) * 8)
 
+    # enable the breakpoint
     def enable(self):
         data = ptrace_peektext(self.pid, self.align_address)
 
@@ -30,6 +31,7 @@ class Breakpoint:
 
         self.is_enable = True
 
+    # disable the breakpoint
     def disable(self):
         data = ptrace_peektext(self.pid, self.align_address)
         restored_data = (data & ~self.address_from_align_mask) | self.saved_data

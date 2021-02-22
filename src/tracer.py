@@ -79,7 +79,13 @@ class Tracer:
         
         return base_addr, mem
 
+    # read one word (8 bytes) from memory
+    # return an int
+    def read_word_from_memory(self, addr):
+        return ptrace_peektext(self.pid, addr)
+
     # read a big chunk from the memory using the /proc/<pid>/mem file
+    # return a binary string
     def read_from_memory(self, addr, size):
         with open('/proc/' + str(self.pid) + '/mem', 'rb') as mem:
             mem.seek(addr)
@@ -93,9 +99,10 @@ class Tracer:
 
     # place a breakpoint in a given address
     def place_breakpoint(self, addr):
-        b = breakpoints.Breakpoint(self.pid, addr)
-        b.enable()
-        self.breakpoints[addr] = b
+        if addr not in self.breakpoints:
+            b = breakpoints.Breakpoint(self.pid, addr)
+            b.enable()
+            self.breakpoints[addr] = b
 
     # remove a breakpoint in a given address
     def remove_breakpoint(self, addr):
@@ -118,3 +125,26 @@ class Tracer:
         else:
             ptrace_singlestep(self.pid)
             os.waitpid(self.pid, 0)
+
+    # step out of the current function
+    def step_out(self):
+        # if convetions are followed, each function starts with:
+        # push rbp
+        # mov rbp, rsp
+        # therefore, the return address of the function is located
+        # 1 word above rbp
+        base_pointer = self.get_registers().rbp
+        return_address = self.read_word_from_memory(base_pointer + 8)
+
+        should_remove_bp = False
+
+        # place breakpoint at the return address
+        if return_address not in self.breakpoints:
+            self.place_breakpoint(return_address)
+            should_remove_bp = True
+
+        while self.get_current_instruction() != return_address:
+            self.continue_execution()
+
+        if should_remove_bp:
+            self.remove_breakpoint(return_address)
