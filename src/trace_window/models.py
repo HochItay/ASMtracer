@@ -5,11 +5,12 @@ from PySide2.QtWidgets import *
 # a model for showing registers value
 class RegistersModel(QAbstractTableModel):
     
-    def __init__(self, parent = None):
+    def __init__(self, regs, parent = None):
         QAbstractTableModel.__init__(self, parent)
         self.headers = ['general', 'parameters', 'flags']
-        self.regs = None
-        self.prev_regs = None
+        self.regs = []
+        self.prev_regs = []
+        self.set_regs(regs)
 
     # set the registers table
     def set_regs(self, regs):
@@ -19,8 +20,7 @@ class RegistersModel(QAbstractTableModel):
             [('rax', regs.rax), ('rbx', regs.rbx), ('rbp', regs.rbp), ('rip', regs.rip), ('rsp', regs.rsp)],
             [('rdi', regs.rdi), ('rsi', regs.rsi), ('rdx', regs.rbp), ('rcx', regs.rcx), ('r8', regs.r8), ('r9', regs.r9)] 
         ]
-        if self.prev_regs is None:
-            self.prev_regs = self.regs
+        self.layoutChanged.emit()
 
     def rowCount(self, parent):
         return 7

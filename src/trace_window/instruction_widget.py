@@ -42,7 +42,7 @@ class QInstruction(QWidget):
     # remove breakpoint from this instruction
     def remove_breakpoint(self):
         self.bp_is_enable = False
-        self.debugger.remove_breakpoint(self.instruction.address)
+        self.debugger.clear_breakpoint(self.instruction.address)
         self.ui.bp_btn.setStyleSheet('''
             background-color: #ffffff;
         ''')
