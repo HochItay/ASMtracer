@@ -5,22 +5,22 @@ from PySide2.QtWidgets import *
 # a model for showing registers value
 class RegistersModel(QAbstractTableModel):
     
-    def __init__(self, regs, parent = None):
+    def __init__(self, parent = None):
         QAbstractTableModel.__init__(self, parent)
         self.headers = ['general', 'parameters', 'flags']
-        self.regs = []
-        self.prev_regs = []
-        self.set_regs(regs)
+        self.regs = None
+        self.prev_regs = None
 
     # set the registers table
     def set_regs(self, regs):
         self.layoutChanged.emit()
         self.prev_regs = self.regs
         self.regs = [
-            [('rax', regs.rax), ('rbx', regs.rbx), ('rbp', regs.rbp), ('rip', regs.rip)],
+            [('rax', regs.rax), ('rbx', regs.rbx), ('rbp', regs.rbp), ('rip', regs.rip), ('rsp', regs.rsp)],
             [('rdi', regs.rdi), ('rsi', regs.rsi), ('rdx', regs.rbp), ('rcx', regs.rcx), ('r8', regs.r8), ('r9', regs.r9)] 
         ]
-        self.layoutChanged.emit()
+        if self.prev_regs is None:
+            self.prev_regs = self.regs
 
     def rowCount(self, parent):
         return 7
@@ -51,11 +51,10 @@ class RegistersModel(QAbstractTableModel):
             column = index.column()
             if column < len(self.regs) and row < len(self.regs[column]):
                 if self.regs[column][row] != self.prev_regs[column][row]:
-                    print('aa')
-                    return QColor('yellow')
+                    return QColor('#ffff00')
 
                 else:
-                    return '#ffffff'
+                    return QColor('#ffffff')
               
         # value of the register
         if role == Qt.DisplayRole:    

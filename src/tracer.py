@@ -143,7 +143,11 @@ class Tracer:
             self.place_breakpoint(return_address)
             should_remove_bp = True
 
-        while self.get_current_instruction() != return_address:
+        # we stop on breakpoint if it is located at the return address
+        # since we might reach to the return address before finishing
+        # the current function (with recursion), we will also check the
+        # stack is smaller than the size when the function was called
+        while self.get_current_instruction() != return_address or self.get_registers().rsp < base_pointer:
             self.continue_execution()
 
         if should_remove_bp:

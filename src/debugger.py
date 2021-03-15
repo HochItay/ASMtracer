@@ -87,8 +87,25 @@ class Debugger(Tracer):
             self.place_breakpoint(next_instruction_address)
             should_remove_bp = True
 
-        while self.get_current_instruction() != next_instruction_address:
+        stack_pointer = self.get_registers().rsp
+        # to avoid cases where we reach to the next command on another frame
+        # because of recursion, we will make sure the stack size is the same
+        while self.get_current_instruction() != next_instruction_address or stack_pointer > self.get_registers().rsp:
             self.continue_execution()
 
         if should_remove_bp:
             self.remove_breakpoint(next_instruction_address)
+
+    def calling_stack(self):
+        stack = []
+        curr_func = self.find_function_with_address(self.get_current_instruction()).name
+        bp = self.get_registers().rbp
+
+        stack.append(curr_func)
+        while curr_func != 'main':
+            addr = self.read_word_from_memory(bp + 8)
+            curr_func = self.find_function_with_address(addr).name
+            stack.append(curr_func)
+            bp = self.read_word_from_memory(bp)
+
+        print(stack)

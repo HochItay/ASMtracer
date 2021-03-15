@@ -21,7 +21,7 @@ class TraceWindow(QMainWindow):
         self.ui.func_combo.currentIndexChanged.connect(lambda: self.show_function(self.ui.func_combo.currentText()))
         self.ui.step_btn.clicked.connect(self.single_step)
         self.ui.cont_btn.clicked.connect(self.continue_execution)
-        self.ui.step_out_btn.clicked.connect(self.step_out)
+        self.ui.step_out_btn.clicked.connect(self.debugger.calling_stack)
         self.ui.step_over_btn.clicked.connect(self.step_over)
 
         self.instructions_by_func = {}
@@ -29,7 +29,7 @@ class TraceWindow(QMainWindow):
         self.current_instruction = None
         self.functions = self.debugger.get_function_names()
 
-        self.regs_model = models.RegistersModel(self.debugger.get_registers())
+        self.regs_model = models.RegistersModel()
         self.ui.registers_view.setModel(self.regs_model)
         self.ui.registers_view.verticalHeader().hide()
 

@@ -29,7 +29,7 @@ class Disassembler:
             i = next(disas_generator, None)
 
         if i != None and i.mnemonic == 'ret':
-            disassembled_code.append(i)
+            disassembled_code.append(instruction.Instruction(i))
             end_addr = i.address
 
         func = function_info.FunctionInfo(func_name, func_addr, end_addr, disassembled_code)
