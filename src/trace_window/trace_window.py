@@ -35,7 +35,7 @@ class TraceWindow(QMainWindow):
 
         self.debugger.place_breakpoint(self.debugger.get_function('main').start_addr)
         self.debugger.continue_execution()
-        self.debugger.remove_breakpoint(self.debugger.get_function('main').start_addr)
+        self.debugger.clear_breakpoint(self.debugger.get_function('main').start_addr)
         self.update_display()
 
     # initialize instructions_by_func which maps function name to list of Qinstructions
