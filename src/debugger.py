@@ -23,6 +23,7 @@ class Debugger(Tracer):
 
         # addresses of all the user defined breakpints
         self.__user_defined_breakpoints = []
+        self.__non_user_defined_breakpoints = []
 
         self.load_address, self.code = self.get_mem_by_region(os.path.abspath(file))
         self.__init_functions()
@@ -68,16 +69,19 @@ class Debugger(Tracer):
             for instruction in func.instructions:
                 if instruction.mnemonic == 'call' or instruction.mnemonic == 'ret':
                     self.add_breakpoint(instruction.address)
+                    self.__non_user_defined_breakpoints.append(instruction.address)
 
     # place a breakpoint at the given address
     def place_breakpoint(self, addr):
         self.__user_defined_breakpoints.append(addr)
-        self.add_breakpoint(addr)
+        if addr not in self.__non_user_defined_breakpoints:
+            self.add_breakpoint(addr)
 
     # clear a breakpoint
     def clear_breakpoint(self, addr):
         self.__user_defined_breakpoints.remove(addr)
-        self.remove_breakpoint(addr)
+        if addr not in self.__non_user_defined_breakpoints:
+            self.remove_breakpoint(addr)
 
     
     # find the function that contains a given address and return it
@@ -99,24 +103,43 @@ class Debugger(Tracer):
     # this function checks what caused the signal
     # and update the calling stack
     def process_event(self):
-        #find current instruction
-        rip = self.get_current_instruction()
-        print(hex(rip))
-        instruction = self.get_instruction_by_address(rip)
+        try:
+            #find current instruction
+            rip = self.get_current_instruction()
+            instruction = self.get_instruction_by_address(rip)
 
-        # pop the function if current instruction is ret
-        if instruction.mnemonic == 'ret':
-            self.__calling_stack.pop()
+            # pop the function if current instruction is ret
+            if instruction.mnemonic == 'ret':
+                self.__calling_stack.pop()
 
-        # push the function if instruction is call
-        if instruction.mnemonic == 'call':
-            self.__calling_stack.append(funcEntry.FuncEntry(self.find_function_with_address(int(instruction.parameters, 16)), rip))
+            # push the function if instruction is call
+            if instruction.mnemonic == 'call':
+                self.__calling_stack.append(funcEntry.FuncEntry(self.find_function_with_address(int(instruction.parameters, 16)), rip))
+        except:
+            pass
+
+    # overide single step
+    def single_step(self):
+        self.process_event()
+        super().single_step()
+        for func in self.__calling_stack:
+            print(func.func.name, end=', ')
+        print()
         
         
     # continue the execution until a user defined breakpoint is hitted
     def continue_execution(self):
+        # skip one instruction if current instruction have breakpoint
+        if self.get_current_instruction() in self.__user_defined_breakpoints:
+            self.single_step()
+
         while self.get_current_instruction() not in self.__user_defined_breakpoints:
+            self.process_event()
+            super().continue_execution()
+
+    # step until out of the current function
+    def step_out(self):
+        stack_length = len(self.__calling_stack)
+        while len(self.__calling_stack) >= stack_length:
             super().continue_execution()
             self.process_event()
-        for func in self.__calling_stack:
-            print(func.func.name)
