@@ -7,9 +7,13 @@ int isPrime(int n) {
 	return 1;
 }
 
+void recursiveFunc(int n) {
+	if (n == 1) return;
+	isPrime(n);
+	recursiveFunc(n-1);
+}
+
 int main() {
-	int i = 23;
-	isPrime(i);
-	isPrime(134);
+	recursiveFunc(5);
 	return 0;
 }

@@ -23,14 +23,13 @@ class Disassembler:
         end_addr = i.address
         i = next(disas_generator, None)
         while i != None and i.mnemonic != 'ret' and i.address not in functions_addresses: # disassemble until ret command reached
-
+            
             disassembled_code.append(instruction.Instruction(i))
             end_addr = i.address
             i = next(disas_generator, None)
-            
 
         if i != None and i.mnemonic == 'ret':
-            disassembled_code.append(i)
+            disassembled_code.append(instruction.Instruction(i))
             end_addr = i.address
 
         func = function_info.FunctionInfo(func_name, func_addr, end_addr, disassembled_code)

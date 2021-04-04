@@ -28,7 +28,7 @@ class Debugger(Tracer):
         self.load_address, self.code = self.get_mem_by_region(os.path.abspath(file))
         self.__init_functions()
         self.__init_breakpoints()
-        self.__calling_stack = []
+        self.__call_stack = []
 
     # initialize all information about all functions, inclue assembly code
     def __init_functions(self):
@@ -105,16 +105,18 @@ class Debugger(Tracer):
     def process_event(self):
         try:
             #find current instruction
-            rip = self.get_current_instruction()
+            regs = self.get_registers()
+            rip = regs.rip
+            rsp = regs.rsp
             instruction = self.get_instruction_by_address(rip)
 
             # pop the function if current instruction is ret
             if instruction.mnemonic == 'ret':
-                self.__calling_stack.pop()
+                self.__call_stack.pop()
 
             # push the function if instruction is call
             if instruction.mnemonic == 'call':
-                self.__calling_stack.append(funcEntry.FuncEntry(self.find_function_with_address(int(instruction.parameters, 16)), rip))
+                self.__call_stack.append(funcEntry.FuncEntry(self.find_function_with_address(int(instruction.parameters, 16)), rip, rsp - 8))
         except:
             pass
 
@@ -122,7 +124,7 @@ class Debugger(Tracer):
     def single_step(self):
         self.process_event()
         super().single_step()
-        for func in self.__calling_stack:
+        for func in self.__call_stack:
             print(func.func.name, end=', ')
         print()
         
@@ -139,7 +141,31 @@ class Debugger(Tracer):
 
     # step until out of the current function
     def step_out(self):
-        stack_length = len(self.__calling_stack)
-        while len(self.__calling_stack) >= stack_length:
+        stack_length = len(self.__call_stack)
+        while len(self.__call_stack) >= stack_length:
             super().continue_execution()
             self.process_event()
+        
+        # stop on ret command, now step one more
+        super().single_step()
+
+        # single step, but step over 'call' commands
+    def step_over(self):
+        # find the current instruction
+        rip = self.get_current_instruction()
+        func = self.find_function_with_address(rip)
+        index = func.get_instruction_index_by_address(rip)
+        current_instruction = func.instructions[index]
+
+        # if current instruction is not call, step regulary
+        if current_instruction.mnemonic != 'call':
+            self.single_step()
+            return
+
+        # else, step into function then step out
+        self.single_step()
+        self.step_out()
+
+    # get the call atck
+    def call_stack(self):
+        return self.__call_stack

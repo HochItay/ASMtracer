@@ -28,7 +28,7 @@ class Tracer:
         # if stopped by breakpoint 
         possible_bp = self.get_current_instruction() - 1
         if possible_bp in self.breakpoints and self.breakpoints[possible_bp].is_enable:
-            self.dec_rip()
+            self.__dec_rip()
 
     def single_step(self):
         self.step_over_breakpoint()
@@ -92,7 +92,7 @@ class Tracer:
             return mem.read(size)
 
     # decrease rip by one
-    def dec_rip(self):
+    def __dec_rip(self):
         regs = self.get_registers()
         regs.rip -= 1
         self.set_registers(regs)

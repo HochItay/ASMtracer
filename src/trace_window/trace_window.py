@@ -1,8 +1,8 @@
 from UI.ui_traceWindow import Ui_TraceWindow
 
-from PySide2.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QListWidget
+from PySide2.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QListWidget, QLabel
 from PySide2.QtCore import QFile
-from .instruction_widget import QInstruction
+from .custom_widgets import QInstruction, QStackFunction
 from . import models
 
 import debugger
@@ -55,10 +55,41 @@ class TraceWindow(QMainWindow):
 
             self.ui.func_stack.addWidget(instruction_list)
 
+    # update the call stack
+    def update_call_stack(self):
+        # clear the stack
+        self.ui.calling_stack.clear()
 
+        call_satck = self.debugger.call_stack()
+        for func in call_satck:
+            func_in_stack = QStackFunction(func.func, func.return_addr, self)
+
+            # Create QListWidgetItem
+            list_widget = QListWidgetItem()
+            # Set size hint
+            list_widget.setSizeHint(func_in_stack.sizeHint())
+            self.ui.calling_stack.addItem(list_widget)
+            self.ui.calling_stack.setItemWidget(list_widget, func_in_stack)
+    
+    # show a certain function on the window
     def show_function(self, func):
         self.ui.func_stack.setCurrentIndex(self.functions.index(func))
 
+    # show a certain instruction on the window and highlight it
+    def show_instruction(self, addr):
+        if self.current_instruction is not None:
+            self.current_instruction.unlight()
+
+        # search the instruction widget
+        current_function = self.debugger.find_function_with_address(addr)
+        if current_function.name in self.functions:
+            self.ui.func_combo.setCurrentIndex(self.ui.func_combo.findText(current_function.name))
+        self.current_instruction = next((i for i in self.instructions_by_func[current_function.name] if i.instruction.address == addr), None)
+
+        # highlight current instruction, only if it exists in the original file
+        if self.current_instruction is not None:
+            self.current_instruction.highlight()
+    
     def single_step(self):
         self.debugger.single_step()
         self.update_display()
@@ -85,6 +116,7 @@ class TraceWindow(QMainWindow):
             self.current_instruction.highlight()
 
         self.regs_model.set_regs(self.debugger.get_registers())
+        self.update_call_stack()
 
     # step out of current function
     def step_out(self):

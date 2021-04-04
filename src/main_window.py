@@ -26,7 +26,7 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
-    window = TraceWindow('a.out')
+    window = MainWindow()
     window.show()
 
     sys.exit(app.exec_())

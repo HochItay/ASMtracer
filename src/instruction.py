@@ -4,8 +4,6 @@ class Instruction:
         self.address = i.address
         self.mnemonic = i.mnemonic
         self.parameters = i.op_str
-        if self.mnemonic == 'ret':
-            print('a')
         self.note = ''
 
     # set note on the instruction
