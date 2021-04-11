@@ -66,3 +66,14 @@ class QStackFunction(QPushButton):
         self.setText(self.__function_name)
         self.setFlat(True)
         self.clicked.connect(lambda: self.__window.show_instruction(self.__return_addr))
+        self.setStyleSheet(u"QPushButton {\n"
+"	 background-color: #cce6ff;\n"
+"    border-style: outset;\n"
+"    padding: 6px;\n"
+"    }\n"
+"\n"
+"QPushButton:hover {\n"
+"	font:  bold;\n"
+"    border-width: 3px;\n"
+"	background-color: #b3daff;\n"
+"    }\n")

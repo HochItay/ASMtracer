@@ -3,4 +3,9 @@
         <file>logo_no_bg.png</file>
         <file>MainWindowBG.png</file>
     </qresource>
+    <qresource prefix="/traceWindow">
+        <file>step_over.png</file>
+        <file>step_out.png</file>
+        <file>step_in.png</file>
+    </qresource>
 </RCC>

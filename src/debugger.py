@@ -124,9 +124,6 @@ class Debugger(Tracer):
     def single_step(self):
         self.process_event()
         super().single_step()
-        for func in self.__call_stack:
-            print(func.func.name, end=', ')
-        print()
         
         
     # continue the execution until a user defined breakpoint is hitted
@@ -149,7 +146,7 @@ class Debugger(Tracer):
         # stop on ret command, now step one more
         super().single_step()
 
-        # single step, but step over 'call' commands
+    # single step, but step over 'call' commands
     def step_over(self):
         # find the current instruction
         rip = self.get_current_instruction()
