@@ -5,6 +5,7 @@ class Instruction:
         self.mnemonic = i.mnemonic
         self.parameters = i.op_str
         self.note = ''
+        self.size = i.size
 
     # set note on the instruction
     def set_note(self, note):

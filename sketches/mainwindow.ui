@@ -185,12 +185,32 @@ QPushButton:pressed {
      </rect>
     </property>
    </widget>
+   <widget class="QLabel" name="warning_lbl">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>300</y>
+      <width>231</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(239, 41, 41);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
    <zorder>bg_lbl</zorder>
    <zorder>instrction_lbl</zorder>
    <zorder>logo_lbl</zorder>
    <zorder>choose_file_btn</zorder>
    <zorder>run_btn</zorder>
    <zorder>lineEdit</zorder>
+   <zorder>warning_lbl</zorder>
   </widget>
  </widget>
  <resources>

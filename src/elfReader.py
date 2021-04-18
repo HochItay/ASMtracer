@@ -11,6 +11,16 @@ class ELFReader:
         if self.__elf_file.has_dwarf_info():
             self.__dwarf = self.__elf_file.get_dwarf_info()
 
+
+    # check if the file is executable type
+    def is_exec(self):
+        file_type = self.__elf_file['e_type']
+        if file_type == 'ET_EXEC':
+            return True
+
+        return False
+
+    
     # look at the symbol table for all functions name and adresses
     # return: a list of tuples, each contain a function name and address
     def functions_address(self):
@@ -33,5 +43,8 @@ class ELFReader:
     # return starting address of a segment by its name
     def get_section_address(self, section):
         return self.__elf_file.get_section_by_name(section)['sh_addr']
+
+    def get_section_size(self, section):
+        return self.__elf_file.get_section_by_name(section)['sh_size']
 
     

@@ -5,13 +5,15 @@ from PySide2.QtWidgets import QApplication, QMainWindow, QFileDialog, QStackedWi
 
 # an instruction viewed in the list of instructions
 class QInstruction(QWidget):
-    def __init__(self, instruction, debugger, parent=None):
+    def __init__(self, instruction, debugger, load_address, parent=None):
         QWidget.__init__(self, parent)
         self.ui = Ui_InstructionWidget()
         self.ui.setupUi(self)
+        self.load_address = load_address
+        self.relative_address = False
 
         self.instruction = instruction
-        self.ui.description.setText(str(self.instruction))
+        self.ui.description.setText(self.__instruction_to_str())
         self.__debugger = debugger
 
         self.__bp_is_enable = False
@@ -20,7 +22,34 @@ class QInstruction(QWidget):
             background-color: #ffffff;
         ''')
 
+    def __instruction_to_str(self):
+        if self.relative_address:
+            try:
+                par = hex(int(self.instruction.parameters, 16) - self.load_address)
+            except:
+                par = self.instruction.parameters
 
+            try:
+                note = hex(int(self.instruction.note, 16) - self.load_address)
+            except:
+                note = self.instruction.note
+
+            if note:
+                return f'{hex(self.instruction.address - self.load_address)}:\t{self.instruction.mnemonic}\t{par} ({note})'
+            else:
+                return f'{hex(self.instruction.address - self.load_address)}:\t{self.instruction.mnemonic}\t{par} {note}'
+        else:
+            if self.instruction.note:
+                return f'{hex(self.instruction.address)}:\t{self.instruction.mnemonic}\t{self.instruction.parameters} ({self.instruction.note})'
+            else:
+                return f'{hex(self.instruction.address)}:\t{self.instruction.mnemonic}\t{self.instruction.parameters} {self.instruction.note}'
+
+    # set address mode
+    def set_relative_mode(self, is_relative):
+        self.relative_address = is_relative
+        self.ui.description.setText(self.__instruction_to_str())
+
+        
     # highlight the instruction
     def highlight(self):
         self.ui.description.setStyleSheet('''
@@ -69,6 +98,7 @@ class QStackFunction(QPushButton):
         self.setStyleSheet(u"QPushButton {\n"
 "	 background-color: #cce6ff;\n"
 "    border-style: outset;\n"
+"    border-width: 1px;"
 "    padding: 6px;\n"
 "    }\n"
 "\n"

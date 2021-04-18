@@ -7,7 +7,7 @@ class RegistersModel(QAbstractTableModel):
     
     def __init__(self, regs, parent = None):
         QAbstractTableModel.__init__(self, parent)
-        self.headers = ['general', 'parameters', 'flags']
+        self.headers = ['parameters', 'caller saved', 'callee saved', 'special']
         self.regs = []
         self.prev_regs = []
         self.set_regs(regs)
@@ -17,17 +17,19 @@ class RegistersModel(QAbstractTableModel):
         self.layoutChanged.emit()
         self.prev_regs = self.regs
         self.regs = [
-            [('rax', regs.rax), ('rbx', regs.rbx), ('rbp', regs.rbp), ('rip', regs.rip), ('rsp', regs.rsp)],
-            [('rdi', regs.rdi), ('rsi', regs.rsi), ('rdx', regs.rbp), ('rcx', regs.rcx), ('r8', regs.r8), ('r9', regs.r9)] 
+            [('rdi', regs.rdi), ('rsi', regs.rsi), ('rdx', regs.rbp), ('rcx', regs.rcx), ('r8', regs.r8), ('r9', regs.r9)],
+            [('rax', regs.rax), ('r10', regs.r10), ('r11', regs.r11)],
+            [('rbx', regs.rbx), ('r12', regs.r12), ('r13', regs.r13), ('r14', regs.r14), ('r15', regs.r15)],
+            [('rip', regs.rip), ('rsp', regs.rsp), ('rbp', regs.rbp)]
         ]
         self.layoutChanged.emit()
 
     def rowCount(self, parent):
-        return 7
+        return 6
     
     
     def columnCount(self, parent):
-        return 2
+        return 4
 
 
     def flags(self, index):
@@ -62,7 +64,7 @@ class RegistersModel(QAbstractTableModel):
             column = index.column()
             if column < len(self.regs) and row < len(self.regs[column]):
                 register = self.regs[column][row]
-                value = '{:016x}'.format(register[1])
+                value = '{:0x}'.format(register[1])
                 return f'{register[0]} {value}'
 
     def headerData(self, section, orientation, role):
@@ -97,17 +99,11 @@ class StackFrameModel(QAbstractListModel):
 
 
     def data(self, index, role):
-        # tooltip for the registers
         if role == Qt.ToolTipRole:
-            row = index.row()
-            column = index.column()
-
-            if column == 0 and row == 3:
-                return 'rip holds the address of the current instruction'
-            return 'a tooltip'
+            pass
 
         if role == Qt.BackgroundRole:
-            pass
+            return QColor('#1DC913')
               
         # value of the register
         if role == Qt.DisplayRole:

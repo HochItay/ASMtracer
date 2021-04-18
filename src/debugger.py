@@ -5,6 +5,7 @@ import disas
 import os
 import instruction
 import funcEntry
+import re
 
 # list of known compiler defined functions
 COMPILER_FUNCS = ['frame_dummy', 'register_tm_clones', 'deregister_tm_clones']
@@ -25,10 +26,22 @@ class Debugger(Tracer):
         self.__user_defined_breakpoints = []
         self.__non_user_defined_breakpoints = []
 
-        self.load_address, self.code = self.get_mem_by_region(os.path.abspath(file))
+        # if file is executale, the load address is 0
+        if self.__reader.is_exec():
+            self.load_address = 0
+            self.code = self.read_from_memory(self.__reader.get_section_address(elfReader.CODE_SECTION), self.__reader.get_section_size(elfReader.CODE_SECTION))
+        else:
+            self.load_address, self.code = self.get_mem_by_region(os.path.abspath(file))
+
         self.__init_functions()
         self.__init_breakpoints()
         self.__call_stack = []
+
+        # execute until main
+        self.place_breakpoint(self.get_function('main').start_addr)
+        self.continue_execution()
+        self.clear_breakpoint(self.get_function('main').start_addr)
+        self.__call_stack.append(funcEntry.FuncEntry(self.get_function('main'), self.get_registers().rip, self.get_registers().rsp))
 
     # initialize all information about all functions, inclue assembly code
     def __init_functions(self):
@@ -51,9 +64,17 @@ class Debugger(Tracer):
                     call_addr = int(instruction.parameters, 0)
                     called_func = next((func for func in self.functions if func[1] + self.load_address == call_addr), None)
                     if called_func != None:
-                        instruction.set_note(f'({called_func[0]})')
+                        instruction.set_note(called_func[0])
                 except:
                     pass
+        # parse experssions in the form of [rip + 0xXXX]
+        find = re.search('\[rip \+ .+\]', instruction.parameters)
+        if find:
+            pos = find.span()
+            str_part = find.string[pos[0]: pos[1]]
+            addr = instruction.address + int(str_part[7:-1] ,16) + instruction.size
+            instruction.set_note(hex(addr))
+        
 
     # return list of function names in the ELF file
     def get_function_names(self):
@@ -82,7 +103,6 @@ class Debugger(Tracer):
         self.__user_defined_breakpoints.remove(addr)
         if addr not in self.__non_user_defined_breakpoints:
             self.remove_breakpoint(addr)
-
     
     # find the function that contains a given address and return it
     # or None if no such function exists
@@ -102,7 +122,7 @@ class Debugger(Tracer):
     # this is called after the child process is stopped
     # this function checks what caused the signal
     # and update the calling stack
-    def process_event(self):
+    def __process_event(self):
         try:
             #find current instruction
             regs = self.get_registers()
@@ -122,7 +142,7 @@ class Debugger(Tracer):
 
     # overide single step
     def single_step(self):
-        self.process_event()
+        self.__process_event()
         super().single_step()
         
         
@@ -133,7 +153,7 @@ class Debugger(Tracer):
             self.single_step()
 
         while self.get_current_instruction() not in self.__user_defined_breakpoints:
-            self.process_event()
+            self.__process_event()
             super().continue_execution()
 
     # step until out of the current function
@@ -141,7 +161,7 @@ class Debugger(Tracer):
         stack_length = len(self.__call_stack)
         while len(self.__call_stack) >= stack_length:
             super().continue_execution()
-            self.process_event()
+            self.__process_event()
         
         # stop on ret command, now step one more
         super().single_step()
@@ -159,9 +179,23 @@ class Debugger(Tracer):
             self.single_step()
             return
 
-        # else, step into function then step out
-        self.single_step()
-        self.step_out()
+        # if current instruction is call, place temporary breakpoint on next instruction
+        next_instruction_address = func.instructions[index+1].address
+        
+        should_remove_bp = False
+        # place breakpoint at the next instruction address
+        if next_instruction_address not in self.breakpoints:
+            self.place_breakpoint(next_instruction_address)
+            should_remove_bp = True
+
+        stack_pointer = self.get_registers().rsp
+        # to avoid cases where we reach to the next command on another frame
+        # because of recursion, we will make sure the stack size is the same
+        while self.get_current_instruction() != next_instruction_address or stack_pointer > self.get_registers().rsp:
+            self.continue_execution()
+
+        if should_remove_bp:
+            self.remove_breakpoint(next_instruction_address)
 
     # get the call atck
     def call_stack(self):

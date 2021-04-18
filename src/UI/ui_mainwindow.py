@@ -100,6 +100,11 @@ class Ui_MainWindow(object):
         self.lineEdit = QLineEdit(self.centralwidget)
         self.lineEdit.setObjectName(u"lineEdit")
         self.lineEdit.setGeometry(QRect(170, 330, 201, 31))
+        self.warning_lbl = QLabel(self.centralwidget)
+        self.warning_lbl.setObjectName(u"warning_lbl")
+        self.warning_lbl.setGeometry(QRect(80, 300, 231, 20))
+        self.warning_lbl.setStyleSheet(u"color: rgb(239, 41, 41);")
+        self.warning_lbl.setAlignment(Qt.AlignCenter)
         MainWindow.setCentralWidget(self.centralwidget)
         self.bg_lbl.raise_()
         self.instrction_lbl.raise_()
@@ -107,6 +112,7 @@ class Ui_MainWindow(object):
         self.choose_file_btn.raise_()
         self.run_btn.raise_()
         self.lineEdit.raise_()
+        self.warning_lbl.raise_()
 
         self.retranslateUi(MainWindow)
 
@@ -123,5 +129,6 @@ class Ui_MainWindow(object):
         self.bg_lbl.setText("")
         self.choose_file_btn.setText(QCoreApplication.translate("MainWindow", u"choose file", None))
         self.run_btn.setText(QCoreApplication.translate("MainWindow", u"start running!", None))
+        self.warning_lbl.setText("")
     # retranslateUi
 

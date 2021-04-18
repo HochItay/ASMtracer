@@ -24,6 +24,9 @@ class TraceWindow(QMainWindow):
         self.ui.step_out_btn.clicked.connect(self.step_out)
         self.ui.step_over_btn.clicked.connect(self.step_over)
         self.ui.get_data_btn.clicked.connect(self.get_data)
+        self.ui.back_instruction.clicked.connect(self.show_current_instruction)
+        self.ui.actionabsolute.triggered.connect(lambda: self.set_relative_address_mode(False))
+        self.ui.actionrelative_address.triggered.connect(lambda: self.set_relative_address_mode(True))
 
         self.instructions_by_func = {}
         self.init_instructions()
@@ -33,21 +36,19 @@ class TraceWindow(QMainWindow):
         # registers list
         self.regs_model = models.RegistersModel(self.debugger.get_registers())
         self.ui.registers_view.setModel(self.regs_model)
+        self.ui.registers_view.setStyleSheet('background-color: #FFFFFF')
         self.ui.registers_view.verticalHeader().hide()
 
         # frame content
         self.frame_model = models.StackFrameModel()
         self.ui.stack_frame.setModel(self.frame_model)
 
-        self.debugger.place_breakpoint(self.debugger.get_function('main').start_addr)
-        self.debugger.continue_execution()
-        self.debugger.clear_breakpoint(self.debugger.get_function('main').start_addr)
         self.update_display()
 
     # initialize instructions_by_func which maps function name to list of Qinstructions
     def init_instructions(self):
         for func in self.debugger.get_function_names():
-            self.instructions_by_func[func] = [QInstruction(i, self.debugger, self) for i in self.debugger.get_function(func).instructions]
+            self.instructions_by_func[func] = [QInstruction(i, self.debugger, self.debugger.load_address, self) for i in self.debugger.get_function(func).instructions]
 
             instruction_list = QListWidget()
             # create a new list widget for that function
@@ -61,14 +62,28 @@ class TraceWindow(QMainWindow):
 
             self.ui.func_stack.addWidget(instruction_list)
 
+    # set the address mode
+    def set_relative_address_mode(self, is_relative):
+        for func_instructions in self.instructions_by_func.values():
+            for i in func_instructions:
+                i.set_relative_mode(is_relative)
+
+
+    # show current instruction
+    def show_current_instruction(self):
+        self.show_instruction(self.debugger.get_registers().rip)
+
     # update the call stack
     def update_call_stack(self):
         # clear the stack
         self.ui.calling_stack.clear()
 
         call_satck = self.debugger.call_stack()
-        for func in call_satck:
-            func_in_stack = QStackFunction(func.func, func.return_addr, self)
+        for i, func in enumerate(call_satck):
+            if i != len(call_satck) - 1:
+                func_in_stack = QStackFunction(func.func, call_satck[i+1].return_addr, self)
+            else:
+                func_in_stack = QStackFunction(func.func, self.debugger.get_current_instruction(), self)
 
             # Create QListWidgetItem
             list_widget = QListWidgetItem()
@@ -79,13 +94,15 @@ class TraceWindow(QMainWindow):
     
     # update the content of the current frame
     def update_frame(self):
-        regs = self.debugger.get_registers()
-        if regs.rbp - regs.rsp >= 0:
-            content = self.debugger.read_from_memory(regs.rbp, regs.rbp - regs.rsp)
+        # look for the start of the frame
+        frame_pointer = self.debugger.call_stack()[-1].frame_start
+        stack_pointer = self.debugger.get_registers().rsp
 
-            # convert bytes to int list
-            frame = [int.from_bytes(content[x:x+8], byteorder='little', signed=False) for x in range(0, len(content), 8)]
-            self.frame_model.set_frame(frame)
+        content = self.debugger.read_from_memory(frame_pointer, frame_pointer - stack_pointer + 8)
+
+        # convert bytes to int list
+        frame = [int.from_bytes(content[x:x+8], byteorder='little', signed=False) for x in range(0, len(content), 8)]
+        self.frame_model.set_frame(frame)
 
     # show a certain function on the window
     def show_function(self, func):
@@ -170,11 +187,14 @@ class TraceWindow(QMainWindow):
             hex_data = ''
             # convert 8 bytes to ascii
             for j in range(8):
-                if 32 < data[i + j] < 128:
+                if 0 < data[i + j] < 128:
                     ascii_data += chr(data[i + j])
                 else:
                     ascii_data += '.'
-                hex_data += hex(data[i + j])[2:] + ' '
+                c = hex(data[i + j])[2:]
+                if len(c) < 2:
+                    c += ' '
+                hex_data += c + ' '
 
             text += hex_data + '\t' + ascii_data + '\n'
 
@@ -183,13 +203,15 @@ class TraceWindow(QMainWindow):
         i = len(data) - (len(data) % 8)
         # convert 8 bytes to ascii
         for j in range(len(data) % 8):
-            if 32 < data[i + j] < 128 and 1==0:
+            if 0 < data[i + j] < 128 and 1==0:
                 ascii_data += chr(data[i + j])
             else:
                 ascii_data += '.'
-            hex_data += hex(data[i + j])[2:] + ' '
+            c = hex(data[i + j])[2:]
+            if len(c) < 2:
+                c += ' '
+            hex_data += c + ' '
 
         text += hex_data + '\t' + ascii_data + '\n'
-        print(text)
             
         self.ui.data_area.setText(text)

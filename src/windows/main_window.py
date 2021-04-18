@@ -14,11 +14,22 @@ class MainWindow(QMainWindow):
 
     # open file dialog to choose a file
     def choose_file(self):
-        file_name, _ = QFileDialog.getOpenFileName(self, 'open executable file', r'\\', 'All Files (*.out *.elf)')
+        file_name, _ = QFileDialog.getOpenFileName(self, 'open executable file', r'\\')
         self.ui.lineEdit.setText(file_name)
+
     
     # start the execution of the executable
     def run_exe(self):
+
+        # check file is really ELF by reading the magic
+        with open(self.ui.lineEdit.text(), 'rb') as f:
+            magic = f.read(4)
+            # ELF magic is '0x7f 0x45 0x4c 0x46'
+            if magic != b'\x7f\x45\x4c\x46':
+                self.ui.warning_lbl.setText('file format not supported')
+                return
+
         self.window = TraceWindow(self.ui.lineEdit.text())
         self.window.show()
         self.close()
+
