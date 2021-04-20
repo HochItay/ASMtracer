@@ -12,12 +12,32 @@ import sys
 class TraceWindow(QMainWindow):
     def __init__(self, file):
         super(TraceWindow, self).__init__()
+        self.file = file
         self.debugger = debugger.Debugger(file)
         self.ui = Ui_TraceWindow()
         self.ui.setupUi(self)
         self.ui.func_combo.addItems(self.debugger.get_function_names())
+        
+        self.__init_connections()
 
-        # connect buttons to functions
+        # the designer not allow me to set stylesheet of menu, so I assign it manually
+        style = "QMenuBar { background-color: white; } QMenuBar::item:selected {  background: blue; }"
+        self.ui.menuBar.setStyleSheet(style)
+
+        self.instructions_by_func = {}
+        self.init_instructions()
+        self.current_instruction = None
+        self.functions = self.debugger.get_function_names()
+
+        self.__init_models()
+
+        self.ui.splitter.setSizes([700, 1200])
+
+        self.update_display()
+
+
+    # initialize all connections to  buttons
+    def __init_connections(self):
         self.ui.func_combo.currentIndexChanged.connect(lambda: self.show_function(self.ui.func_combo.currentText()))
         self.ui.step_btn.clicked.connect(self.single_step)
         self.ui.cont_btn.clicked.connect(self.continue_execution)
@@ -27,23 +47,40 @@ class TraceWindow(QMainWindow):
         self.ui.back_instruction.clicked.connect(self.show_current_instruction)
         self.ui.actionabsolute.triggered.connect(lambda: self.set_relative_address_mode(False))
         self.ui.actionrelative_address.triggered.connect(lambda: self.set_relative_address_mode(True))
+        self.ui.action16_bit_3.triggered.connect(lambda: self.frame_model.set_size(2))
+        self.ui.action32_bit_2.triggered.connect(lambda: self.frame_model.set_size(4))
+        self.ui.action64_bit_2.triggered.connect(lambda: self.frame_model.set_size(8))
+        self.ui.restart_btn.clicked.connect(self.restart)
+        self.ui.exit_btn.clicked.connect(self.close)
 
-        self.instructions_by_func = {}
-        self.init_instructions()
-        self.current_instruction = None
-        self.functions = self.debugger.get_function_names()
-
+    # initialize models for views
+    def __init_models(self):
+        regs = self.debugger.get_registers()
         # registers list
-        self.regs_model = models.RegistersModel(self.debugger.get_registers())
-        self.ui.registers_view.setModel(self.regs_model)
-        self.ui.registers_view.setStyleSheet('background-color: #FFFFFF')
-        self.ui.registers_view.verticalHeader().hide()
+        self.regs1_model = models.RegistersModel(models.parameters_set_regs)
+        self.ui.regs1_view.setModel(self.regs1_model)
+
+        self.regs2_model = models.RegistersModel(models.caller_set_regs)
+        self.ui.regs2_view.setModel(self.regs2_model)
+
+        self.regs3_model = models.RegistersModel(models.callee_set_regs)
+        self.ui.regs3_view.setModel(self.regs3_model)
+
+        self.regs4_model = models.RegistersModel(models.special_set_regs)
+        self.ui.regs4_view.setModel(self.regs4_model)
+
+        self.regs5_model = models.RegistersModel(models.flags_set_regs)
+        self.ui.regs5_view.setModel(self.regs5_model)
+
+        self.regs1_model.set_regs(regs)
+        self.regs2_model.set_regs(regs)
+        self.regs3_model.set_regs(regs)
+        self.regs4_model.set_regs(regs)
+        self.regs5_model.set_regs(regs)
 
         # frame content
         self.frame_model = models.StackFrameModel()
         self.ui.stack_frame.setModel(self.frame_model)
-
-        self.update_display()
 
     # initialize instructions_by_func which maps function name to list of Qinstructions
     def init_instructions(self):
@@ -98,10 +135,11 @@ class TraceWindow(QMainWindow):
         frame_pointer = self.debugger.call_stack()[-1].frame_start
         stack_pointer = self.debugger.get_registers().rsp
 
-        content = self.debugger.read_from_memory(frame_pointer, frame_pointer - stack_pointer + 8)
+        # add 16 bytes because of the red zone
+        content = self.debugger.read_from_memory(stack_pointer - 24, frame_pointer - stack_pointer + 32)
 
         # convert bytes to int list
-        frame = [int.from_bytes(content[x:x+8], byteorder='little', signed=False) for x in range(0, len(content), 8)]
+        frame = content#[int.from_bytes(content[x:x+2], byteorder='little', signed=False) for x in range(0, len(content), 8)]
         self.frame_model.set_frame(frame)
 
     # show a certain function on the window
@@ -139,7 +177,13 @@ class TraceWindow(QMainWindow):
 
         self.show_instruction(current_address)
 
-        self.regs_model.set_regs(self.debugger.get_registers())
+        # update models
+        regs = self.debugger.get_registers()
+        self.regs1_model.set_regs(regs)
+        self.regs2_model.set_regs(regs)
+        self.regs3_model.set_regs(regs)
+        self.regs4_model.set_regs(regs)
+        self.regs5_model.set_regs(regs)
         self.update_call_stack()
 
     # step out of current function
@@ -215,3 +259,10 @@ class TraceWindow(QMainWindow):
         text += hex_data + '\t' + ascii_data + '\n'
             
         self.ui.data_area.setText(text)
+
+    # restart the program
+    def restart(self):
+        del self.debugger
+        self.window = TraceWindow(self.file)
+        self.window.show()
+        self.close()

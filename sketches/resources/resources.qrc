@@ -7,5 +7,7 @@
         <file>step_over.png</file>
         <file>step_out.png</file>
         <file>step_in.png</file>
+        <file>restart.png</file>
+        <file>continue.png</file>
     </qresource>
 </RCC>

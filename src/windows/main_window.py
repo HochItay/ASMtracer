@@ -11,6 +11,7 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.choose_file_btn.clicked.connect(self.choose_file)
         self.ui.run_btn.clicked.connect(self.run_exe)
+        self.ui.exit_btn.clicked.connect(lambda: self.close())
 
     # open file dialog to choose a file
     def choose_file(self):

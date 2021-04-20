@@ -1,3 +1,15 @@
 <RCC>
-    <qresource prefix="/mainWindow"/>
+    <qresource prefix="/mainWindow">
+        <file>resources/step_in.png</file>
+    </qresource>
+    <qresource prefix="/trace_window">
+        <file>resources/step_in.png</file>
+        <file>resources/step_over.png</file>
+        <file>resources/step_out.png</file>
+        <file>resources/restart.png</file>
+        <file>resources/continue.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>resources.qrc</file>
+    </qresource>
 </RCC>

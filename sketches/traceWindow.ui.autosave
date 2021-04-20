@@ -87,7 +87,11 @@ font:  &quot;Ubuntu Mono&quot;;</string>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="func_combo"/>
+           <widget class="QComboBox" name="func_combo">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(238, 238, 236);</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -103,7 +107,7 @@ font:  &quot;Ubuntu Mono&quot;;</string>
            </font>
           </property>
           <property name="text">
-           <string>        address      command</string>
+           <string>       address        command</string>
           </property>
          </widget>
         </item>

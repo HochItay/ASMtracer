@@ -125,3 +125,7 @@ class Tracer:
         else:
             ptrace_singlestep(self.pid)
             os.waitpid(self.pid, 0)
+
+    # kill process when deleted
+    def __del__(self):
+        ptrace_kill(self.pid)

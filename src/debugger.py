@@ -88,7 +88,7 @@ class Debugger(Tracer):
     def __init_breakpoints(self):
         for func in self.function_by_name.values():
             for instruction in func.instructions:
-                if instruction.mnemonic == 'call' or instruction.mnemonic == 'ret':
+                if (instruction.mnemonic == 'call' and int(instruction.parameters,16) in self.function_by_addr) or instruction.mnemonic == 'ret':
                     self.add_breakpoint(instruction.address)
                     self.__non_user_defined_breakpoints.append(instruction.address)
 
@@ -143,7 +143,18 @@ class Debugger(Tracer):
     # overide single step
     def single_step(self):
         self.__process_event()
-        super().single_step()
+
+        # get current instruction
+        rip = self.get_current_instruction()
+        func = self.find_function_with_address(rip)
+        index = func.get_instruction_index_by_address(rip)
+        current_instruction = func.instructions[index]
+
+        # if external function, step over
+        if current_instruction.mnemonic == 'call' and int(current_instruction.parameters, 16) not in self.function_by_addr:
+            self.step_over()
+        else:
+            super().single_step()
         
         
     # continue the execution until a user defined breakpoint is hitted
@@ -200,3 +211,4 @@ class Debugger(Tracer):
     # get the call atck
     def call_stack(self):
         return self.__call_stack
+
