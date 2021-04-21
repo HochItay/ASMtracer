@@ -1,0 +1,8 @@
+<p>The <span style="display: inline-block; color: #000; background-color: #F9F9F9; border: 1px solid #DDD; border-radius: 2px; padding: 1px 4px;"><tt>call</tt></span> instruction is used to call a function.
+</p><p>The CALL instruction performs two operations:
+</p>
+<ol><li>It pushes the return address (address immediately after the <span style="display: inline-block; color: #000; background-color: #F9F9F9; border: 1px solid #DDD; border-radius: 2px; padding: 1px 4px;"><tt>CALL</tt></span> instruction) on the stack.</li>
+<li>It changes <span style="display: inline-block; color: #000; background-color: #F9F9F9; border: 1px solid #DDD; border-radius: 2px; padding: 1px 4px;"><tt>RIP</tt></span> to the call destination. This effectively transfers control to the call target and begins execution there.</li></ol>
+<h1><span class="mw-headline" id="Syntax">Syntax</span></h1>
+<pre>call <i>function_name</i>
+</pre>

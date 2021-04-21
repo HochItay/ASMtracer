@@ -5,7 +5,7 @@ from PySide2.QtWidgets import QApplication, QMainWindow, QFileDialog, QStackedWi
 
 # an instruction viewed in the list of instructions
 class QInstruction(QWidget):
-    def __init__(self, instruction, debugger, load_address, parent=None):
+    def __init__(self, instruction, debugger, load_address, tooltip, parent=None):
         QWidget.__init__(self, parent)
         self.ui = Ui_InstructionWidget()
         self.ui.setupUi(self)
@@ -21,6 +21,10 @@ class QInstruction(QWidget):
         self.ui.bp_btn.setStyleSheet('''
             background-color: #ffffff;
         ''')
+
+        # set tooltip to be explanation of the instruction
+        if self.instruction.mnemonic in tooltip:
+            self.ui.description.setToolTip(tooltip[self.instruction.mnemonic])
 
     def __instruction_to_str(self):
         if self.relative_address:

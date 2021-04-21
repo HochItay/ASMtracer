@@ -69,7 +69,15 @@ def special_set_regs(regs):
     return [('rip', regs.rip), ('rsp', regs.rsp), ('rbp', regs.rbp)]
 
 def flags_set_regs(regs):
-    return [('rdi', regs.rdi), ('rsi', regs.rsi), ('rdx', regs.rbp), ('rcx', regs.rcx), ('r8', regs.r8), ('r9', regs.r9)]
+    flags = [('CF', regs.eflags & 0b1), ('ZF', regs.eflags & 0b1000000), ('SF', regs.eflags & 0b10000000), ('OF', regs.eflags & 0b100000000000)]
+    res = []
+    for name, value in flags:
+        if value == 0:
+            res.append((name, 0))
+        else:
+            res.append((name, 1))
+
+    return res
 # --------------------------------------------------------------------------------
 
 

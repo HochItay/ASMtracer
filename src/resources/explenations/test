@@ -1,0 +1,5 @@
+<p>The <tt>test</tt> instruction is identical to the and instruction except it does not affect operands.
+</p>
+<h1><span class="mw-headline" id="Syntax">Syntax</span></h1>
+<pre>test <i>destination</i>, <i>source</i>
+</pre>

@@ -5,15 +5,16 @@ from PySide2.QtCore import QFile
 from .custom_widgets import QInstruction, QStackFunction
 from . import models
 
-import debugger
+from debugElf.debugger import Debugger
 
 import sys
+import os
 
 class TraceWindow(QMainWindow):
     def __init__(self, file):
         super(TraceWindow, self).__init__()
         self.file = file
-        self.debugger = debugger.Debugger(file)
+        self.debugger = Debugger(file)
         self.ui = Ui_TraceWindow()
         self.ui.setupUi(self)
         self.ui.func_combo.addItems(self.debugger.get_function_names())
@@ -84,8 +85,14 @@ class TraceWindow(QMainWindow):
 
     # initialize instructions_by_func which maps function name to list of Qinstructions
     def init_instructions(self):
+        # initialize a dictionary that maps instruction to its explenation file
+        self.explenation_dic = {}
+        for filename in os.listdir('resources/explenations'):
+            with open('resources/explenations/' + filename, 'r') as f:
+                self.explenation_dic[filename] = f.read()
+
         for func in self.debugger.get_function_names():
-            self.instructions_by_func[func] = [QInstruction(i, self.debugger, self.debugger.load_address, self) for i in self.debugger.get_function(func).instructions]
+            self.instructions_by_func[func] = [QInstruction(i, self.debugger, self.debugger.load_address, self.explenation_dic, self) for i in self.debugger.get_function(func).instructions]
 
             instruction_list = QListWidget()
             # create a new list widget for that function

@@ -1,7 +1,7 @@
 import os
 from ptrace.binding import *
-import breakpoints
-import personality
+from . import breakpoints
+from . import personality
 
 
 class Tracer:

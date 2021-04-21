@@ -1,8 +1,7 @@
 import sys
 import capstone
-import elfReader
-import function_info
-import instruction
+from . import function_info
+from . import instruction
 
 CPU_ARCH = capstone.CS_ARCH_X86
 CPU_MODE = capstone.CS_MODE_64

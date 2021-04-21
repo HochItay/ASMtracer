@@ -1,10 +1,11 @@
-from tracer import Tracer
+from .tracer import Tracer
 
-import elfReader
-import disas
+from . import elfReader
+from . import disas
+from . import tracer
 import os
-import instruction
-import funcEntry
+from . import instruction
+from . import funcEntry
 import re
 
 # list of known compiler defined functions
