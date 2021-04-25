@@ -89,7 +89,17 @@ font:  &quot;Ubuntu Mono&quot;;</string>
           <item>
            <widget class="QComboBox" name="func_combo">
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(238, 238, 236);</string>
+             <string notr="true">
+
+QComboBox {
+    background-color: rgb(238, 238, 236);
+}
+
+QComboBox::item:selected { 
+    color: white;
+    background-color: blue;
+}
+</string>
             </property>
            </widget>
           </item>
@@ -448,10 +458,10 @@ QPushButton:hover {
      <widget class="QListView" name="stack_frame">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>430</y>
-        <width>221</width>
-        <height>241</height>
+        <x>480</x>
+        <y>70</y>
+        <width>341</width>
+        <height>581</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -463,6 +473,7 @@ QPushButton:hover {
       <property name="font">
        <font>
         <family>Ubuntu Mono</family>
+        <pointsize>18</pointsize>
         <weight>50</weight>
         <italic>false</italic>
         <bold>false</bold>
@@ -471,14 +482,20 @@ QPushButton:hover {
       <property name="styleSheet">
        <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
+      <property name="gridSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
      </widget>
      <widget class="QListWidget" name="calling_stack">
       <property name="geometry">
        <rect>
-        <x>470</x>
-        <y>70</y>
-        <width>251</width>
-        <height>311</height>
+        <x>100</x>
+        <y>430</y>
+        <width>261</width>
+        <height>221</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -498,6 +515,14 @@ QPushButton:hover {
         <width>300</width>
         <height>16777215</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
+       </font>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(255, 255, 255);</string>
@@ -670,7 +695,7 @@ QPushButton:hover {
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="parameters_tab">
        <attribute name="title">
@@ -694,6 +719,7 @@ QPushButton:hover {
         <property name="font">
          <font>
           <family>Ubuntu Mono</family>
+          <pointsize>18</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
@@ -704,6 +730,12 @@ QPushButton:hover {
         </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="gridSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
         </property>
        </widget>
       </widget>
@@ -729,6 +761,7 @@ QPushButton:hover {
         <property name="font">
          <font>
           <family>Ubuntu Mono</family>
+          <pointsize>18</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
@@ -739,6 +772,12 @@ QPushButton:hover {
         </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="gridSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
         </property>
        </widget>
       </widget>
@@ -764,6 +803,7 @@ QPushButton:hover {
         <property name="font">
          <font>
           <family>Ubuntu Mono</family>
+          <pointsize>18</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
@@ -774,6 +814,12 @@ QPushButton:hover {
         </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="gridSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
         </property>
        </widget>
       </widget>
@@ -799,6 +845,7 @@ QPushButton:hover {
         <property name="font">
          <font>
           <family>Ubuntu Mono</family>
+          <pointsize>18</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
@@ -809,6 +856,12 @@ QPushButton:hover {
         </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="gridSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
         </property>
        </widget>
       </widget>
@@ -834,6 +887,7 @@ QPushButton:hover {
         <property name="font">
          <font>
           <family>Ubuntu Mono</family>
+          <pointsize>18</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
@@ -844,6 +898,12 @@ QPushButton:hover {
         </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="gridSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
         </property>
        </widget>
       </widget>
@@ -876,8 +936,8 @@ QPushButton:hover {
      <widget class="QLabel" name="label_4">
       <property name="geometry">
        <rect>
-        <x>470</x>
-        <y>20</y>
+        <x>110</x>
+        <y>390</y>
         <width>231</width>
         <height>31</height>
        </rect>
@@ -898,32 +958,11 @@ QPushButton:hover {
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QPlainTextEdit" name="inOutArea">
-      <property name="geometry">
-       <rect>
-        <x>290</x>
-        <y>430</y>
-        <width>391</width>
-        <height>241</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Ubuntu Mono</family>
-        <weight>50</weight>
-        <italic>false</italic>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_5">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>390</y>
+        <x>540</x>
+        <y>10</y>
         <width>211</width>
         <height>31</height>
        </rect>
@@ -944,35 +983,10 @@ QPushButton:hover {
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QLabel" name="label_6">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>400</y>
-        <width>241</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Ubuntu Mono</family>
-        <pointsize>17</pointsize>
-        <weight>50</weight>
-        <italic>false</italic>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>input/output area</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
      <widget class="QPushButton" name="exit_btn">
       <property name="geometry">
        <rect>
-        <x>640</x>
+        <x>700</x>
         <y>800</y>
         <width>91</width>
         <height>51</height>
@@ -1039,9 +1053,9 @@ QPushButton:pressed {
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>220</red>
-         <green>240</green>
-         <blue>189</blue>
+         <red>238</red>
+         <green>238</green>
+         <blue>236</blue>
         </color>
        </brush>
       </colorrole>
@@ -1111,18 +1125,18 @@ QPushButton:pressed {
       <colorrole role="Base">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>220</red>
-         <green>240</green>
-         <blue>189</blue>
+         <red>238</red>
+         <green>238</green>
+         <blue>236</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>220</red>
-         <green>240</green>
-         <blue>189</blue>
+         <red>238</red>
+         <green>238</green>
+         <blue>236</blue>
         </color>
        </brush>
       </colorrole>
@@ -1185,9 +1199,9 @@ QPushButton:pressed {
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>220</red>
-         <green>240</green>
-         <blue>189</blue>
+         <red>238</red>
+         <green>238</green>
+         <blue>236</blue>
         </color>
        </brush>
       </colorrole>
@@ -1257,18 +1271,18 @@ QPushButton:pressed {
       <colorrole role="Base">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>220</red>
-         <green>240</green>
-         <blue>189</blue>
+         <red>238</red>
+         <green>238</green>
+         <blue>236</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>220</red>
-         <green>240</green>
-         <blue>189</blue>
+         <red>238</red>
+         <green>238</green>
+         <blue>236</blue>
         </color>
        </brush>
       </colorrole>
@@ -1331,9 +1345,9 @@ QPushButton:pressed {
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>220</red>
-         <green>240</green>
-         <blue>189</blue>
+         <red>238</red>
+         <green>238</green>
+         <blue>236</blue>
         </color>
        </brush>
       </colorrole>
@@ -1403,18 +1417,18 @@ QPushButton:pressed {
       <colorrole role="Base">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>220</red>
-         <green>240</green>
-         <blue>189</blue>
+         <red>238</red>
+         <green>238</green>
+         <blue>236</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>220</red>
-         <green>240</green>
-         <blue>189</blue>
+         <red>238</red>
+         <green>238</green>
+         <blue>236</blue>
         </color>
        </brush>
       </colorrole>
@@ -1466,11 +1480,39 @@ QPushButton:pressed {
      </disabled>
     </palette>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QMenuBar {
+background-color: rgb(238, 238, 236);
+}
+</string>
+   </property>
    <widget class="QMenu" name="menuview">
+    <property name="styleSheet">
+     <string notr="true">QMenu {
+    background-color: rgb(238, 238, 236);
+}
+
+QMenu::item:selected { 
+    color: white;
+    background-color: blue;
+}
+</string>
+    </property>
     <property name="title">
      <string>view</string>
     </property>
     <widget class="QMenu" name="menuaddress">
+     <property name="styleSheet">
+      <string notr="true">QMenu {
+    background-color: rgb(238, 238, 236);
+}
+
+QMenu::item:selected { 
+    color: white;
+    background-color: blue;
+}
+</string>
+     </property>
      <property name="title">
       <string>address</string>
      </property>
@@ -1479,6 +1521,17 @@ QPushButton:pressed {
      <addaction name="actionrelative_address"/>
     </widget>
     <widget class="QMenu" name="menulocal_variable_size">
+     <property name="styleSheet">
+      <string notr="true">QMenu {
+    background-color: rgb(238, 238, 236);
+}
+
+QMenu::item:selected { 
+    color: white;
+    background-color: blue;
+}
+</string>
+     </property>
      <property name="title">
       <string>local variable size</string>
      </property>

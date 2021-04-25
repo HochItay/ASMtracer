@@ -21,10 +21,6 @@ class TraceWindow(QMainWindow):
         
         self.__init_connections()
 
-        # the designer not allow me to set stylesheet of menu, so I assign it manually
-        style = "QMenuBar { background-color: white; } QMenuBar::item:selected {  background: blue; }"
-        self.ui.menuBar.setStyleSheet(style)
-
         self.instructions_by_func = {}
         self.init_instructions()
         self.current_instruction = None
@@ -146,8 +142,8 @@ class TraceWindow(QMainWindow):
         content = self.debugger.read_from_memory(stack_pointer - 24, frame_pointer - stack_pointer + 32)
 
         # convert bytes to int list
-        frame = content#[int.from_bytes(content[x:x+2], byteorder='little', signed=False) for x in range(0, len(content), 8)]
-        self.frame_model.set_frame(frame)
+        frame = content
+        self.frame_model.set_frame(frame, 0, 1)
 
     # show a certain function on the window
     def show_function(self, func):

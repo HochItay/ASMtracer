@@ -1,4 +1,5 @@
 import os
+import sys
 from ptrace.binding import *
 from . import breakpoints
 from . import personality
@@ -128,4 +129,5 @@ class Tracer:
 
     # kill process when deleted
     def __del__(self):
-        ptrace_kill(self.pid)
+        if self.pid != None:
+            ptrace_kill(self.pid)
