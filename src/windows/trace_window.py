@@ -13,11 +13,14 @@ import os
 class TraceWindow(QMainWindow):
     def __init__(self, file):
         super(TraceWindow, self).__init__()
+        
         self.file = file
         self.debugger = Debugger(file)
         self.ui = Ui_TraceWindow()
         self.ui.setupUi(self)
         self.ui.func_combo.addItems(self.debugger.get_function_names())
+
+        self.setWindowTitle(f'tracing {file}')
         
         self.__init_connections()
 
@@ -25,6 +28,7 @@ class TraceWindow(QMainWindow):
         self.init_instructions()
         self.current_instruction = None
         self.functions = self.debugger.get_function_names()
+        self.__is_relative = False
 
         self.__init_models()
 
@@ -108,6 +112,18 @@ class TraceWindow(QMainWindow):
             for i in func_instructions:
                 i.set_relative_mode(is_relative)
 
+        self.__is_relative = is_relative
+
+    # set color of instruction at address addr
+    def set_color_of_instruction(self, addr, color):
+        # search the instruction widget, only in current function
+        current_function = self.ui.func_combo.currentText()
+        instruction = next((i for i in self.instructions_by_func[current_function] if i.instruction.address == addr), None)
+
+        # highlight current instruction, only if it exists in the original file
+        if instruction is not None:
+            instruction.set_description_color(color)
+
 
     # show current instruction
     def show_current_instruction(self):
@@ -174,6 +190,9 @@ class TraceWindow(QMainWindow):
 
     # update the display to match current program state
     def update_display(self):
+        # do nothing if execution is complete
+        if not self.debugger.is_running:
+            return
         self.update_frame()
 
         current_address = self.debugger.get_current_instruction()
@@ -202,6 +221,8 @@ class TraceWindow(QMainWindow):
     # get data from certain address
     def get_data(self):
         self.ui.data_area.clear()
+
+        # get number of bytes to read
         num_bytes_str = self.ui.num_bytes_line_edit.text()
         try:
             num_bytes = int(num_bytes_str)
@@ -209,6 +230,7 @@ class TraceWindow(QMainWindow):
             self.ui.data_area.setText(f"{num_bytes_str} is not a number")
             return
         
+        # get address to read from
         address_str = self.ui.address_line_edit.text()
         try:
             address = int(address_str, 16)
@@ -216,9 +238,12 @@ class TraceWindow(QMainWindow):
             self.ui.data_area.setText(f"{address_str} is not an hexadecimal number")
             return
 
+        # read the data itself
         try:
-            #data = self.debugger.read_from_memory(address, num_bytes)
-            data = self.debugger.read_from_memory(address, num_bytes)
+            if self.__is_relative:
+                data = self.debugger.read_from_memory(address + self.debugger.load_address, num_bytes)
+            else:
+                data = self.debugger.read_from_memory(address, num_bytes)
             self.show_data(data)
 
         except Exception as e:

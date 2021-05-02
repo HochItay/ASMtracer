@@ -1,0 +1,11 @@
+<h3><span class="mw-headline" id="Syntax">Syntax</span></h3>
+<pre>pop <i>register</i>
+</pre>
+
+<h3><span class="mw-headline" id="Description">Description</span></h3>
+<ul><li>The <tt>pop</tt> instruction is used to restore the top of the stack into a register</li></ul>
+
+<h3><span class="mw-headline" id="Example">Example</span></h3>
+<pre>push 0xdebf    ; push a value to the stack
+pop rax        ; rax is now 0xdebf
+</pre>

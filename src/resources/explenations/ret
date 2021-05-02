@@ -1,0 +1,7 @@
+<h3><span class="mw-headline" id="Syntax">Syntax</span></h3>
+<pre>ret
+</pre>
+
+<h3><span class="mw-headline" id="Description">Description</span></h3>
+<p><span style="display: inline-block; color: #000; background-color: #F9F9F9; border: 1px solid #DDD; border-radius: 2px; padding: 1px 4px;"><tt>RET</tt></span> pops the return address off the stack and returns control to that location.
+</p>

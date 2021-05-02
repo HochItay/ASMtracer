@@ -1,0 +1,12 @@
+<h3><span class="mw-headline" id="Syntax">Syntax</span></h3>
+<pre>push <i>value</i>
+</pre>
+
+<h3><span class="mw-headline" id="Description">Description</span></h3>
+<ul><li>The <tt>push</tt> instruction is used to push values on the stack.</li>
+
+<h3><span class="mw-headline" id="Examples">Examples</span></h3>
+<h2><span class="mw-headline" id="Example_1">Example 1</span></h2>
+<pre>push   0xdebf        ; push a value to the stack
+pop    rax           ; rax is now 0xdebf
+</pre>

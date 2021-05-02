@@ -60,10 +60,16 @@ class Ui_TraceWindow(object):
         self.splitter.setObjectName(u"splitter")
         self.splitter.setGeometry(QRect(0, 0, 1600, 900))
         self.splitter.setMaximumSize(QSize(16777215, 16777215))
+        self.splitter.setStyleSheet(u"QSplitter::handle\n"
+"{\n"
+"    background-color: rgb(0, 0, 0);\n"
+"}")
         self.splitter.setFrameShape(QFrame.NoFrame)
+        self.splitter.setLineWidth(1)
+        self.splitter.setMidLineWidth(10)
         self.splitter.setOrientation(Qt.Horizontal)
         self.splitter.setOpaqueResize(True)
-        self.splitter.setHandleWidth(4)
+        self.splitter.setHandleWidth(2)
         self.splitter.setChildrenCollapsible(True)
         self.layoutWidget = QWidget(self.splitter)
         self.layoutWidget.setObjectName(u"layoutWidget")
@@ -76,13 +82,14 @@ class Ui_TraceWindow(object):
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.label_7 = QLabel(self.layoutWidget)
         self.label_7.setObjectName(u"label_7")
+        self.label_7.setMaximumSize(QSize(170, 16777215))
         font1 = QFont()
         font1.setPointSize(16)
         font1.setBold(False)
         font1.setItalic(False)
         font1.setWeight(50)
         self.label_7.setFont(font1)
-        self.label_7.setAlignment(Qt.AlignCenter)
+        self.label_7.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.horizontalLayout_3.addWidget(self.label_7)
 
@@ -93,6 +100,11 @@ class Ui_TraceWindow(object):
 "QComboBox {\n"
 "    background-color: rgb(238, 238, 236);\n"
 "}\n"
+"\n"
+"QComboBox::item:selected { \n"
+"   background-color: rgb(238, 238, 236);\n"
+"}\n"
+"\n"
 "\n"
 "QComboBox::item:selected { \n"
 "    color: white;\n"
@@ -114,6 +126,7 @@ class Ui_TraceWindow(object):
         font2.setItalic(False)
         font2.setWeight(50)
         self.label_8.setFont(font2)
+        self.label_8.setStyleSheet(u"")
 
         self.code_area.addWidget(self.label_8)
 
@@ -300,7 +313,7 @@ class Ui_TraceWindow(object):
         self.frame.setStyleSheet(u"border-width: 10px")
         self.frame.setFrameShape(QFrame.Panel)
         self.frame.setFrameShadow(QFrame.Plain)
-        self.frame.setLineWidth(2)
+        self.frame.setLineWidth(1)
         self.frame.setMidLineWidth(2)
         self.label = QLabel(self.frame)
         self.label.setObjectName(u"label")
@@ -580,18 +593,30 @@ class Ui_TraceWindow(object):
         self.action32_bit_2.setText(QCoreApplication.translate("TraceWindow", u"32-bit", None))
         self.action64_bit_2.setText(QCoreApplication.translate("TraceWindow", u"64-bit", None))
         self.label_7.setText(QCoreApplication.translate("TraceWindow", u"function:", None))
-        self.label_8.setText(QCoreApplication.translate("TraceWindow", u"       address        command", None))
+        self.label_8.setText(QCoreApplication.translate("TraceWindow", u"     address        command", None))
+#if QT_CONFIG(tooltip)
+        self.cont_btn.setToolTip(QCoreApplication.translate("TraceWindow", u"<html><head/><body><p>continue execution</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
         self.cont_btn.setText("")
 #if QT_CONFIG(tooltip)
-        self.step_btn.setToolTip("")
+        self.step_btn.setToolTip(QCoreApplication.translate("TraceWindow", u"step into", u"aaa"))
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
         self.step_btn.setStatusTip("")
 #endif // QT_CONFIG(statustip)
         self.step_btn.setText("")
+#if QT_CONFIG(tooltip)
+        self.step_out_btn.setToolTip(QCoreApplication.translate("TraceWindow", u"step out", None))
+#endif // QT_CONFIG(tooltip)
         self.step_out_btn.setText("")
         self.step_over_btn.setText("")
+#if QT_CONFIG(tooltip)
+        self.back_instruction.setToolTip(QCoreApplication.translate("TraceWindow", u"<html><head/><body><p>show current instruction</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
         self.back_instruction.setText(QCoreApplication.translate("TraceWindow", u"current", None))
+#if QT_CONFIG(tooltip)
+        self.restart_btn.setToolTip(QCoreApplication.translate("TraceWindow", u"<html><head/><body><p>restart</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
         self.restart_btn.setText("")
         self.label.setText(QCoreApplication.translate("TraceWindow", u"read", None))
         self.label_2.setText(QCoreApplication.translate("TraceWindow", u"bytes from address", None))

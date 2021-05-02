@@ -1,10 +1,13 @@
-<p>The <tt>add</tt> instruction is used to perform an addition.
-</p>
-<h1><span class="mw-headline" id="Syntax">Syntax</span></h1>
+<h3><span class="mw-headline" id="Syntax">Syntax</span></h3>
 <pre>add <i>destination</i>, <i>value</i>
 </pre>
-<h1><span class="mw-headline" id="Examples">Examples</span></h1>
-<dl><dt><tt>add eax, 0x10</tt></dt>
-<dd>Add <tt>0x10</tt> to <tt>EAX</tt>.</dd>
+
+<h3><span class="mw-headline" id="Syntax">Description</span></h3>
+<p>The <tt>add</tt> instruction is used to perform an addition.
+</p>
+
+<h3><span class="mw-headline" id="Examples">Examples</span></h3>
+<dl><dt><tt>add rax, 0x10</tt></dt>
+<dd>Add <tt>0x10</tt> to <tt>RAX</tt>.</dd>
 <dt><tt>add eax, ebx</tt></dt>
-<dd>Add <tt>EBX</tt> to <tt>EAX</tt> and store the result in <tt>EAX</tt>.</dd></dl>
+<dd>Add <tt>RBX</tt> to <tt>RAX</tt> and store the result in <tt>RAX</tt>.</dd></dl>

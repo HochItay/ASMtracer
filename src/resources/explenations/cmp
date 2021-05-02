@@ -1,3 +1,8 @@
+<h3><span class="mw-headline" id="Syntax">Syntax</span></h3>
+<pre>cmp <i>destination</i>, <i>source</i>
+</pre>
+
+<h3><span class="mw-headline" id="Syntax">Description</span></h3>
 <ul><li>The <tt>cmp</tt> instruction is used to perform comparison. It's identical to the <tt><a href="/wiki/X86-assembly/Instructions/sub" title="X86-assembly/Instructions/sub">sub</a></tt> instruction except it does not affect operands.</li>
 <li>It impacts the <a href="/wiki/X86-assembly/Registers#ZF_.28Zero_Flag.29" title="X86-assembly/Registers">Zero Flag (ZF)</a> as well as the <a href="/wiki/X86-assembly/Registers#CF_.28Carry_Flag.29" title="X86-assembly/Registers">Carry Flag (CF)</a> as follows:</li></ul>
 <table class="wikitable">
@@ -29,6 +34,3 @@
 </td>
 <td>0
 </td></tr></tbody></table>
-<h1><span class="mw-headline" id="Syntax">Syntax</span></h1>
-<pre>cmp <i>destination</i>, <i>source</i>
-</pre>

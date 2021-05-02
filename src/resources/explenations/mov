@@ -1,5 +1,7 @@
-<p>The <tt>mov</tt> instruction is used to move data into registers or RAM. In other words, it is used to read and write into memory.
-</p>
-<h1><span class="mw-headline" id="Syntax">Syntax</span></h1>
+<h3><span class="mw-headline" id="Syntax">Syntax</span></h3>
 <pre>mov <i>destination</i>, <i>source</i>
 </pre>
+
+<h3><span class="mw-headline" id="Syntax">Description</span></h3>
+<p>The <tt>mov</tt> instruction is used to move data into registers or RAM. In other words, it is used to read and write into memory.
+</p>

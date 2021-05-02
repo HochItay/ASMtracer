@@ -17,6 +17,7 @@ class Tracer:
             os.execl(exe, exe)
         else:
             self.breakpoints = {} # maps address to breakpoint
+            self.is_running = True
             # wait for signal from child
             os.waitpid(self.pid, 0)
 
@@ -24,7 +25,11 @@ class Tracer:
     def continue_execution(self):
         self.step_over_breakpoint()
         ptrace_cont(self.pid)
-        os.waitpid(self.pid, 0)
+        status = os.waitpid(self.pid, 0)
+
+        if os.WIFEXITED(status[1]):
+            self.is_running = False
+            return
 
         # if stopped by breakpoint 
         possible_bp = self.get_current_instruction() - 1
@@ -129,5 +134,5 @@ class Tracer:
 
     # kill process when deleted
     def __del__(self):
-        if self.pid != None:
+        if self.pid != None and self.is_running:
             ptrace_kill(self.pid)

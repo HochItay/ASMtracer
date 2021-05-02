@@ -12,22 +12,30 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
+import windows.custom_widgets
 
-class Ui_InstructionWidget(object):
-    def setupUi(self, Form):
-        if not Form.objectName():
-            Form.setObjectName(u"Form")
-        Form.resize(435, 66)
-        Form.setMinimumSize(QSize(0, 0))
-        self.horizontalLayout = QHBoxLayout(Form)
+
+class Ui_instructionWidget(object):
+    def setupUi(self, instructionWidget):
+        if not instructionWidget.objectName():
+            instructionWidget.setObjectName(u"instructionWidget")
+        instructionWidget.resize(441, 61)
+        instructionWidget.setMinimumSize(QSize(0, 0))
+        self.horizontalLayout = QHBoxLayout(instructionWidget)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.bp_btn = QPushButton(Form)
+        self.widget = QWidget(instructionWidget)
+        self.widget.setObjectName(u"widget")
+        self.widget.setMaximumSize(QSize(50, 40))
+        self.bp_btn = QPushButton(self.widget)
         self.bp_btn.setObjectName(u"bp_btn")
+        self.bp_btn.setGeometry(QRect(0, 0, 50, 40))
         self.bp_btn.setMaximumSize(QSize(50, 50))
+        self.bp_btn.setStyleSheet(u"")
+        self.bp_btn.setFlat(True)
 
-        self.horizontalLayout.addWidget(self.bp_btn)
+        self.horizontalLayout.addWidget(self.widget)
 
-        self.description = QLabel(Form)
+        self.description = QLabel(instructionWidget)
         self.description.setObjectName(u"description")
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -38,13 +46,14 @@ class Ui_InstructionWidget(object):
         self.horizontalLayout.addWidget(self.description)
 
 
-        self.retranslateUi(Form)
+        self.retranslateUi(instructionWidget)
 
-        QMetaObject.connectSlotsByName(Form)
+        QMetaObject.connectSlotsByName(instructionWidget)
     # setupUi
 
-    def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
+    def retranslateUi(self, instructionWidget):
+        instructionWidget.setWindowTitle(QCoreApplication.translate("instructionWidget", u"Form", None))
         self.bp_btn.setText("")
+        self.description.setText("")
     # retranslateUi
 

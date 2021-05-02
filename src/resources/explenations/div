@@ -1,0 +1,34 @@
+<h3><span class="mw-headline" id="Syntax">Syntax</span></h3>
+<pre>div <i>value</i>
+</pre>
+
+<h3><span class="mw-headline" id="Description">Description</span></h3>
+<ul><li>The <tt>div</tt> instruction is used to perform a division.</li>
+<li>Always divides the 64 bits value accross <tt>RDX:RAX</tt> by a value.</li>
+<li>The result of the division is stored in <tt>RAX</tt> and the remainder in <tt>EDX</tt>.</li></ul>
+
+
+<h3><span class="mw-headline" id="Example">Example</span></h3>
+<p>The operation <span style="display: inline-block; color: #000; background-color: #F9F9F9; border: 1px solid #DDD; border-radius: 2px; padding: 1px 4px;"><tt>0x8003 / 0x100</tt></span> can be written as follows:
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Assembly
+</th>
+<th>python
+</th></tr>
+<tr valign="top">
+<td>
+<div class="mw-highlight mw-highlight-lang-nasm mw-content-ltr" dir="ltr"><pre><span></span><span class="nf">mov</span> <span class="nb">edx</span><span class="p">,</span> <span class="mi">0</span>        <span class="c1">; clear dividend</span>
+<span class="nf">mov</span> <span class="nb">eax</span><span class="p">,</span> <span class="mh">0x8003</span>   <span class="c1">; dividend</span>
+<span class="nf">mov</span> <span class="nb">ecx</span><span class="p">,</span> <span class="mh">0x100</span>    <span class="c1">; divisor</span>
+<span class="nf">div</span> <span class="nb">ecx</span>           <span class="c1">; RAX = 0x80, RDX = 0x3</span>
+</pre></div>
+</td>
+<td>
+<pre>&gt;&gt;&gt; hex(0x8003 / 0x100)
+'0x80'
+&gt;&gt;&gt; hex(0x8003&nbsp;% 0x100)
+'0x3'
+</pre>
+</td></tr></tbody></table>

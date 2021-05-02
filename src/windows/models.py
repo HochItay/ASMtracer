@@ -55,12 +55,12 @@ class RegistersModel(QAbstractListModel):
                 
                 # add spacing
                 value_str = ''
-                space = False
+                space = 1
                 for c in value:
                     value_str += c
-                    if space:
+                    if space % 4 == 0:
                         value_str += ' '
-                    space = not space
+                    space += 1
 
 
                 return f'{register[0]} {value_str}'
@@ -172,9 +172,20 @@ class StackFrameModel(QAbstractListModel):
 
                 # determine format
                 if self.__size == 8:
-                    return '{:016x}'.format(value)
+                    value = '{:016x}'.format(value)
                 elif self.__size == 4:
-                    return '{:08x}'.format(value)
+                    value = '{:08x}'.format(value)
                 elif self.__size == 2:
-                    return '{:04x}'.format(value)
+                    value = '{:04x}'.format(value)
+
+                # add spacing
+                value_str = ''
+                space = 1
+                for c in value:
+                    value_str += c
+                    if space % 4 == 0:
+                        value_str += ' '
+                    space += 1
+
+                return value_str
                     

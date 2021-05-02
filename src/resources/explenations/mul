@@ -1,0 +1,12 @@
+<h3><span class="mw-headline" id="Syntax">Syntax</span></h1>
+<pre>mul <i>value</i>
+</pre>
+
+<h3><span class="mw-headline" id="Description">Description</span></h3>
+<ul><li>The <tt>mul</tt> instruction is used to perform a multiplication.</li>
+<li>Always multiplies <tt>RAX</tt> by a value.</li>
+<li>The result of the multiplication is stored in a 64-bits value accross EDX (most significant 32 bits of the operation) and RAX (least significant 32 bits of the operation).</li></ul>
+
+<h3><span class="mw-headline" id="Example">Example</span></h3>
+<dl><dt>mul 0x10</dt>
+<dd>Multiplies EAX by 0x10 and stores the result in RDX:RAX.</dd></dl>

@@ -1,0 +1,14 @@
+ <table style="width:100%">
+  <tr>
+    <th>Bytes 0-7</th>
+    <th>Bytes 0-3</th>
+    <th>Bytes 0-1</th>
+    <th>Byte 0</th>
+  </tr>
+  <tr>
+    <th>rax</th>
+    <th>eax</th>
+    <th>ax</th>
+    <th>al</th>
+  </tr>
+</table> 

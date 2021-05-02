@@ -1,13 +1,58 @@
 import sys
-from UI.ui_instructionWidget import Ui_InstructionWidget
+from UI.ui_instructionWidget import Ui_instructionWidget
 
-from PySide2.QtWidgets import QApplication, QMainWindow, QFileDialog, QStackedWidget, QWidget, QPushButton, QLabel
+from PySide2.QtWidgets import QApplication, QMainWindow, QFileDialog, QStackedWidget, QWidget, QPushButton, QLabel, QStyle, QStyleOptionButton
+from PySide2.QtGui import QPainter, QPen, QBrush, QColor, QPixmap, QPaintEvent
+from PySide2.QtCore import QRect, QSize
 
+# custom button for breakpoint
+class QBreakPointButton(QPushButton):
+    def __init__(self, parent=None):
+        QPushButton.__init__(self, parent)
+        self.is_enable = False
+
+    # override paintEvent to draw red circle if needed
+    def paintEvent(self, event):
+        # if enabled, draw red circle
+        if self.is_enable:
+            painter = QPainter(self)
+            painter.setPen(QPen(QBrush('#e51400'), 1))
+            painter.setBrush(QBrush(QColor('#e51400')))
+            painter.drawEllipse(25, 12, 10, 10)
+            painter.end()
+
+        # if mose is hovering over the button, draw brown circle
+        else:
+            option = QStyleOptionButton()
+            option.initFrom(self)
+            if option.state & QStyle.State_MouseOver:
+                painter = QPainter(self)
+                painter.setPen(QPen(QBrush('#6e1911'), 1))
+                painter.setBrush(QBrush(QColor("#6e1911")))
+                painter.drawEllipse(25, 12, 10, 10)
+                painter.end()
+
+# custom label with special hovel affects
+class QHovelableLabel(QLabel):
+    # get functions that describe what to do when mouse starts hovering and when mouse stops
+    def __init__(self, enter_func, leave_func, parent=None):
+        QLabel.__init__(self, parent)
+        self.enter = enter_func
+        self.leave = leave_func
+
+    # override enterEvent
+    def enterEvent(self, event):
+        self.enter()
+
+    # override leaveEvent
+    def leaveEvent(self, event):
+        self.leave()
+        
 # an instruction viewed in the list of instructions
 class QInstruction(QWidget):
     def __init__(self, instruction, debugger, load_address, tooltip, parent=None):
         QWidget.__init__(self, parent)
-        self.ui = Ui_InstructionWidget()
+        self.ui = Ui_instructionWidget()
         self.ui.setupUi(self)
         self.load_address = load_address
         self.relative_address = False
@@ -16,11 +61,31 @@ class QInstruction(QWidget):
         self.ui.description.setText(self.__instruction_to_str())
         self.__debugger = debugger
 
+        self.parent = parent
+
+        self.bp_btn = QBreakPointButton(self)
+        self.bp_btn.setObjectName(u"bp_btn")
+        self.bp_btn.setGeometry(QRect(0, 0, 50, 40))
+        self.bp_btn.setMaximumSize(QSize(50, 40))
+        self.bp_btn.setStyleSheet(u"")
+        self.bp_btn.setFlat(False)
+
+
+        # when hovering above the description label
+        # if the instruction is jump command, mark the
+        # instruction that we are about to jump to
+        jmp_commands = ['jmp', 'je', 'jg', 'jl', 'jle', 'jge', 'ja', 'jb', 'jz']
+        
+        if self.instruction.mnemonic in jmp_commands:
+            # change the description to QHovelableLabel
+            self.ui.description.__class__ = QHovelableLabel
+
+            addr = int(self.instruction.parameters, 16)
+            self.ui.description.enter = lambda: self.parent.set_color_of_instruction(addr, 'blue')
+            self.ui.description.leave = lambda: self.parent.set_color_of_instruction(addr, 'black')
+
         self.__bp_is_enable = False
-        self.ui.bp_btn.clicked.connect(self.breakpoint_clicked)
-        self.ui.bp_btn.setStyleSheet('''
-            background-color: #ffffff;
-        ''')
+        self.bp_btn.clicked.connect(self.breakpoint_clicked)
 
         # set tooltip to be explanation of the instruction
         if self.instruction.mnemonic in tooltip:
@@ -39,14 +104,29 @@ class QInstruction(QWidget):
                 note = self.instruction.note
 
             if note:
-                return f'{hex(self.instruction.address - self.load_address)}:\t{self.instruction.mnemonic}\t{par} ({note})'
+                address =  hex(self.instruction.address - self.load_address) + ':'
+                command = f'{self.instruction.mnemonic}\t{par} ({note})'
             else:
-                return f'{hex(self.instruction.address - self.load_address)}:\t{self.instruction.mnemonic}\t{par} {note}'
+                address =  hex(self.instruction.address - self.load_address) + ':'
+                command = f'{self.instruction.mnemonic}\t{par}'
         else:
             if self.instruction.note:
-                return f'{hex(self.instruction.address)}:\t{self.instruction.mnemonic}\t{self.instruction.parameters} ({self.instruction.note})'
+                address =  hex(self.instruction.address) + ':'
+                command = f'{self.instruction.mnemonic}\t{self.instruction.parameters} ({self.instruction.note})'
             else:
-                return f'{hex(self.instruction.address)}:\t{self.instruction.mnemonic}\t{self.instruction.parameters} {self.instruction.note}'
+                address =  hex(self.instruction.address) + ':'
+                command = f'{self.instruction.mnemonic}\t{self.instruction.parameters}'
+
+        # add spacing
+        address_len = 24
+        address += ' ' * (2 * (address_len - len(address)))
+        return address + command
+
+    # change the description color, get the color as a string
+    def set_description_color(self, color):
+        self.ui.description.setStyleSheet(f'''
+            color: {color};
+        ''')
 
     # set address mode
     def set_relative_mode(self, is_relative):
@@ -69,17 +149,17 @@ class QInstruction(QWidget):
     def place_breakpoint(self):
         self.__bp_is_enable = True
         self.__debugger.place_breakpoint(self.instruction.address)
-        self.ui.bp_btn.setStyleSheet('''
-            background-color: #cc3300;
-        ''')
+
+        self.bp_btn.is_enable = True
+        self.bp_btn.update()
 
     # remove breakpoint from this instruction
     def remove_breakpoint(self):
         self.__bp_is_enable = False
         self.__debugger.clear_breakpoint(self.instruction.address)
-        self.ui.bp_btn.setStyleSheet('''
-            background-color: #ffffff;
-        ''')
+
+        self.bp_btn.is_enable = False
+        self.bp_btn.update()
 
     # change current state of brekpoint (place or remove)
     def breakpoint_clicked(self):
