@@ -131,35 +131,41 @@ class TraceWindow(QMainWindow):
 
     # update the call stack
     def update_call_stack(self):
-        # clear the stack
-        self.ui.calling_stack.clear()
+        try:
+            # clear the stack
+            self.ui.calling_stack.clear()
 
-        call_satck = self.debugger.call_stack()
-        for i, func in enumerate(call_satck):
-            if i != len(call_satck) - 1:
-                func_in_stack = QStackFunction(func.func, call_satck[i+1].return_addr, self)
-            else:
-                func_in_stack = QStackFunction(func.func, self.debugger.get_current_instruction(), self)
+            call_satck = self.debugger.call_stack()
+            for i, func in enumerate(call_satck):
+                if i != len(call_satck) - 1:
+                    func_in_stack = QStackFunction(func.func, call_satck[i+1].return_addr, self)
+                else:
+                    func_in_stack = QStackFunction(func.func, self.debugger.get_current_instruction(), self)
 
-            # Create QListWidgetItem
-            list_widget = QListWidgetItem()
-            # Set size hint
-            list_widget.setSizeHint(func_in_stack.sizeHint())
-            self.ui.calling_stack.addItem(list_widget)
-            self.ui.calling_stack.setItemWidget(list_widget, func_in_stack)
+                # Create QListWidgetItem
+                list_widget = QListWidgetItem()
+                # Set size hint
+                list_widget.setSizeHint(func_in_stack.sizeHint())
+                self.ui.calling_stack.addItem(list_widget)
+                self.ui.calling_stack.setItemWidget(list_widget, func_in_stack)
+        except:
+            pass
     
     # update the content of the current frame
     def update_frame(self):
-        # look for the start of the frame
-        frame_pointer = self.debugger.call_stack()[-1].frame_start
-        stack_pointer = self.debugger.get_registers().rsp
+        try:
+            # look for the start of the frame
+            frame_pointer = self.debugger.call_stack()[-1].frame_start
+            stack_pointer = self.debugger.get_registers().rsp
 
-        # add 16 bytes because of the red zone
-        content = self.debugger.read_from_memory(stack_pointer - 24, frame_pointer - stack_pointer + 32)
+            # add 16 bytes because of the red zone
+            content = self.debugger.read_from_memory(stack_pointer - 24, frame_pointer - stack_pointer + 32)
 
-        # convert bytes to int list
-        frame = content
-        self.frame_model.set_frame(frame, 0, 1)
+            # convert bytes to int list
+            frame = content
+            self.frame_model.set_frame(frame, 0, 1)
+        except:
+            pass
 
     # show a certain function on the window
     def show_function(self, func):

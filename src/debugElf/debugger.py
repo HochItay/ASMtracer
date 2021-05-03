@@ -35,14 +35,14 @@ class Debugger(Tracer):
             self.load_address, self.code = self.get_mem_by_region(os.path.abspath(file))
 
         self.__init_functions()
-        self.__init_breakpoints()
-        self.__call_stack = []
 
         # execute until main
         self.place_breakpoint(self.get_function('main').start_addr)
         self.continue_execution()
         self.clear_breakpoint(self.get_function('main').start_addr)
-        self.__call_stack.append(funcEntry.FuncEntry(self.get_function('main'), self.get_registers().rip, self.get_registers().rsp))
+
+        # save the frame start of main
+        self.__main_frame_start = self.get_registers().rsp
 
     # initialize all information about all functions, inclue assembly code
     def __init_functions(self):
@@ -85,13 +85,6 @@ class Debugger(Tracer):
     def get_function(self, name):
         return self.function_by_name[name]
 
-    # initialize breakpoints at all call/ret commands
-    def __init_breakpoints(self):
-        for func in self.function_by_name.values():
-            for instruction in func.instructions:
-                if (instruction.mnemonic == 'call' and int(instruction.parameters,16) in self.function_by_addr) or instruction.mnemonic == 'ret':
-                    self.add_breakpoint(instruction.address)
-                    self.__non_user_defined_breakpoints.append(instruction.address)
 
     # place a breakpoint at the given address
     def place_breakpoint(self, addr):
@@ -120,31 +113,9 @@ class Debugger(Tracer):
         index = func.get_instruction_index_by_address(address)
         return func.instructions[index]
 
-    # this is called after the child process is stopped
-    # this function checks what caused the signal
-    # and update the calling stack
-    def __process_event(self):
-        try:
-            #find current instruction
-            regs = self.get_registers()
-            rip = regs.rip
-            rsp = regs.rsp
-            instruction = self.get_instruction_by_address(rip)
-
-            # pop the function if current instruction is ret
-            if instruction.mnemonic == 'ret':
-                self.__call_stack.pop()
-
-            # push the function if instruction is call
-            if instruction.mnemonic == 'call':
-                self.__call_stack.append(funcEntry.FuncEntry(self.find_function_with_address(int(instruction.parameters, 16)), rip, rsp - 8))
-        except:
-            pass
 
     # overide single step
     def single_step(self):
-        self.__process_event()
-
         # get current instruction
         rip = self.get_current_instruction()
         func = self.find_function_with_address(rip)
@@ -164,19 +135,34 @@ class Debugger(Tracer):
         if self.get_current_instruction() in self.__user_defined_breakpoints:
             self.single_step()
 
-        while self.get_current_instruction() not in self.__user_defined_breakpoints:
-            self.__process_event()
-            super().continue_execution()
+        super().continue_execution()
 
     # step until out of the current function
     def step_out(self):
-        stack_length = len(self.__call_stack)
-        while len(self.__call_stack) >= stack_length:
-            super().continue_execution()
-            self.__process_event()
-        
-        # stop on ret command, now step one more
-        super().single_step()
+        # if convetions are followed, each function starts with:
+        # push rbp
+        # mov rbp, rsp
+        # therefore, the return address of the function is located
+        # 1 word above rbp
+        base_pointer = self.get_registers().rbp
+        return_address = self.read_word_from_memory(base_pointer + 8)
+
+        should_remove_bp = False
+
+        # place breakpoint at the return address
+        if return_address not in self.breakpoints:
+            self.place_breakpoint(return_address)
+            should_remove_bp = True
+
+        # we stop on breakpoint if it is located at the return address
+        # since we might reach to the return address before finishing
+        # the current function (with recursion), we will also check the
+        # stack is smaller than the size when the function was called
+        while self.get_current_instruction() != return_address or self.get_registers().rsp < base_pointer:
+            self.continue_execution()
+
+        if should_remove_bp:
+            self.remove_breakpoint(return_address)
 
     # single step, but step over 'call' commands
     def step_over(self):
@@ -209,7 +195,23 @@ class Debugger(Tracer):
         if should_remove_bp:
             self.remove_breakpoint(next_instruction_address)
 
-    # get the call atck
+    # get the call stack
     def call_stack(self):
-        return self.__call_stack
+        stack = []
+        regs = self.get_registers()
+        curr_func = self.find_function_with_address(regs.rip)
+        bp = regs.rbp
+
+        if curr_func.name == 'main':
+            stack.insert(0, funcEntry.FuncEntry(curr_func, None, self.__main_frame_start))
+            return stack
+
+        addr = self.read_word_from_memory(bp + 8)
+        stack.append(funcEntry.FuncEntry(curr_func, addr, bp + 8))
+        while curr_func.name != 'main':
+            curr_func = self.find_function_with_address(addr)
+            if curr_func.name == 'main':
+                stack.insert(0, funcEntry.FuncEntry(curr_func, None, self.__main_frame_start))
+
+        return stack
 

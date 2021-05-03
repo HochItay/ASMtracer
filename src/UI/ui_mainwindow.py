@@ -147,7 +147,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"ASMtracer", None))
 #if QT_CONFIG(tooltip)
         self.instrction_lbl.setToolTip("")
 #endif // QT_CONFIG(tooltip)
