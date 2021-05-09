@@ -74,15 +74,15 @@ class QInstruction(QWidget):
         # when hovering above the description label
         # if the instruction is jump command, mark the
         # instruction that we are about to jump to
-        jmp_commands = ['jmp', 'je', 'jg', 'jl', 'jle', 'jge', 'ja', 'jb', 'jz']
+        jmp_commands = ['jmp', 'je', 'jg', 'jl', 'jle', 'jge', 'ja', 'jb', 'jz', 'jne']
         
         if self.instruction.mnemonic in jmp_commands:
             # change the description to QHovelableLabel
             self.ui.description.__class__ = QHovelableLabel
 
             addr = int(self.instruction.parameters, 16)
-            self.ui.description.enter = lambda: self.parent.set_color_of_instruction(addr, 'blue')
-            self.ui.description.leave = lambda: self.parent.set_color_of_instruction(addr, 'black')
+            self.ui.description.enter = lambda: self.description_hovered(addr, 'blue')
+            self.ui.description.leave = lambda: self.description_hovered(addr, 'black')
 
         self.__bp_is_enable = False
         self.bp_btn.clicked.connect(self.breakpoint_clicked)
@@ -122,11 +122,24 @@ class QInstruction(QWidget):
         address += ' ' * (2 * (address_len - len(address)))
         return address + command
 
+    # set the color of this and another command
+    def description_hovered(self, addr, color):
+        self.set_description_color(color)
+        self.parent.set_color_of_instruction(addr, color)
+
     # change the description color, get the color as a string
     def set_description_color(self, color):
         self.ui.description.setStyleSheet(f'''
             color: {color};
         ''')
+
+
+    # change the font size
+    def set_font_size(self, size):
+        font = self.ui.description.font()
+        font.setPointSize(size)
+        self.ui.description.setFont(font)
+
 
     # set address mode
     def set_relative_mode(self, is_relative):

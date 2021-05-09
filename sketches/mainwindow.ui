@@ -2,270 +2,555 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>496</width>
-    <height>620</height>
+    <width>1480</width>
+    <height>900</height>
    </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1700</width>
+    <height>900</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>1700</width>
+    <height>900</height>
+   </size>
   </property>
   <property name="font">
    <font>
-    <pointsize>14</pointsize>
+    <family>Ubuntu Mono</family>
+    <pointsize>13</pointsize>
+    <weight>50</weight>
+    <italic>false</italic>
+    <bold>false</bold>
    </font>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ASMtracer</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources/resources.qrc">
-    <normaloff>:/mainWindow/logo_no_bg.png</normaloff>:/mainWindow/logo_no_bg.png</iconset>
+    <normaloff>:/mainWindow/logo_white_bg.jpeg</normaloff>:/mainWindow/logo_white_bg.jpeg</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">
+background-color: rgb(220, 240, 189);
+font:  &quot;Ubuntu Mono&quot;;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="instrction_lbl">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>250</y>
-      <width>401</width>
-      <height>91</height>
-     </rect>
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>0</number>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>22</pointsize>
-     </font>
+    <property name="rightMargin">
+     <number>0</number>
     </property>
-    <property name="mouseTracking">
-     <bool>false</bool>
-    </property>
-    <property name="toolTip">
-     <string/>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgba(255,255,255,10)</string>
-    </property>
-    <property name="text">
-     <string>choose an ELF file to run</string>
-    </property>
-    <property name="scaledContents">
-     <bool>false</bool>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-    <property name="wordWrap">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="logo_lbl">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>10</y>
-      <width>381</width>
-      <height>241</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="resources/resources.qrc">:/mainWindow/logo_no_bg.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="bg_lbl">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>496</width>
-      <height>620</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="resources/resources.qrc">:/mainWindow/MainWindowBG.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="choose_file_btn">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>410</y>
-      <width>161</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-	 background-color: #B5E48C;
-    border-style: outset;
-    border-radius: 8px;
-    font:  20px;
-    padding: 6px;
-	border-width: 1px;
-	border-color: #000;
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="2,0">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetNoConstraint</enum>
+      </property>
+      <property name="bottomMargin">
+       <number>4</number>
+      </property>
+      <item>
+       <widget class="QFrame" name="menu">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(240, 240, 240);
+background-color: rgb(181, 228, 140);</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QPushButton" name="open_file_btn">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>15</y>
+           <width>60</width>
+           <height>50</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>open file</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+image: url(:/traceWindow/open_file.png) 0 0 0 0 stretch stretch;
+background-color:rgb(225, 245, 195);
+
+border-radius:3px;
+border: 1px solid black;
     }
 
 QPushButton:hover {
-	font:  bold;
-    border-width: 3px;
-	border-color: rgb(78, 154, 6);
+	background-color:rgb(180, 215, 225);
     }
+</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="restart_btn">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>15</y>
+           <width>60</width>
+           <height>50</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>restart</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+image: url(:/traceWindow/restart.png) 0 0 0 0 stretch stretch;
+background-color:rgb(225, 245, 195);
 
-QPushButton:pressed {
-    background-color: rgb(29, 149, 45)
-    }</string>
-    </property>
-    <property name="text">
-     <string>browse</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="run_btn">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>470</y>
-      <width>411</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>-1</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-	 background-color: #B5E48C;
-    border-style: outset;
-    border-radius: 15px;
-    font:  35px;
-    padding: 6px;
-	border-width: 1px;
-	border-color: #000;
+border-radius:3px;
+border: 1px solid black;
     }
 
 QPushButton:hover {
-	font:  bold;
-    border-width: 3px;
-	border-color: rgb(78, 154, 6);
+	background-color:rgb(180, 215, 225);
     }
+</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="default">
+          <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="Line" name="line">
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>1</y>
+           <width>20</width>
+           <height>78</height>
+          </rect>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <property name="lineWidth">
+          <number>5</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="exit_btn">
+         <property name="geometry">
+          <rect>
+           <x>1400</x>
+           <y>15</y>
+           <width>60</width>
+           <height>50</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>exit
+</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+image: url(:/traceWindow/exit.png) 0 0 0 0 stretch stretch;
+background-color:rgb(225, 245, 195);
 
-QPushButton:pressed {
-	border-style: inset;
-    background-color: rgb(29, 149, 45)
-    }</string>
-    </property>
-    <property name="text">
-     <string>start running!</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>410</y>
-      <width>221</width>
-      <height>41</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="warning_lbl">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>350</y>
-      <width>331</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(239, 41, 41);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="exit_btn">
-    <property name="geometry">
-     <rect>
-      <x>390</x>
-      <y>560</y>
-      <width>91</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>-1</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-	 background-color: #ff8080;
-    border-style: outset;
-    border-radius: 15px;
-    font:  30px;
-    padding: 6px;
-	border-width: 1px;
-	border-color: #000;
+border-radius:3px;
+border: 1px solid black;
     }
 
 QPushButton:hover {
-	font:  bold 30px;
-    border-width: 3px;
-	border-color: #ff3333;
+	background-color:rgb(180, 215, 225);
+    }
+</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QSpinBox" name="font_size_spin">
+         <property name="geometry">
+          <rect>
+           <x>230</x>
+           <y>30</y>
+           <width>51</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:rgb(225, 245, 195);</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="minimum">
+          <number>8</number>
+         </property>
+         <property name="maximum">
+          <number>25</number>
+         </property>
+         <property name="value">
+          <number>11</number>
+         </property>
+         <property name="displayIntegerBase">
+          <number>10</number>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label">
+         <property name="geometry">
+          <rect>
+           <x>220</x>
+           <y>10</y>
+           <width>81</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>font size</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_2">
+         <property name="geometry">
+          <rect>
+           <x>340</x>
+           <y>2</y>
+           <width>161</width>
+           <height>15</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>13</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">
+background-color: rgba(0,0,0,0%)</string>
+         </property>
+         <property name="text">
+          <string>stack variable size</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::AutoText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QFrame" name="frame">
+         <property name="geometry">
+          <rect>
+           <x>320</x>
+           <y>10</y>
+           <width>300</width>
+           <height>60</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: 1px solid grey;
+border-radius: 10px;
+
+background-color:rgb(225, 245, 195);</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <property name="lineWidth">
+          <number>4</number>
+         </property>
+         <widget class="QRadioButton" name="radio_16bit">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>20</y>
+            <width>70</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+            <weight>50</weight>
+            <italic>false</italic>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: none;</string>
+          </property>
+          <property name="text">
+           <string>16-bit</string>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radio_64bit">
+          <property name="geometry">
+           <rect>
+            <x>200</x>
+            <y>20</y>
+            <width>70</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+            <weight>50</weight>
+            <italic>false</italic>
+            <bold>false</bold>
+            <kerning>true</kerning>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: none;</string>
+          </property>
+          <property name="text">
+           <string>64-bit</string>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radio_32bit">
+          <property name="geometry">
+           <rect>
+            <x>105</x>
+            <y>20</y>
+            <width>70</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+            <weight>50</weight>
+            <italic>false</italic>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: none;</string>
+          </property>
+          <property name="text">
+           <string>32-bit</string>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_3">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>0</y>
+            <width>161</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color:rgb(225, 245, 195);
+border: none;
+border-radius: 0px;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QPushButton" name="relative_address_btn">
+         <property name="geometry">
+          <rect>
+           <x>640</x>
+           <y>15</y>
+           <width>71</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>toggle relative address mode</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+
+background-color:rgb(225, 245, 195);
+
+border-radius:3px;
+border: 1px solid black;
     }
 
-QPushButton:pressed {
-	border-style: inset;
-    background-color: #ff3333;
-    }</string>
-    </property>
-    <property name="text">
-     <string>exit</string>
-    </property>
-   </widget>
-   <zorder>bg_lbl</zorder>
-   <zorder>instrction_lbl</zorder>
-   <zorder>logo_lbl</zorder>
-   <zorder>choose_file_btn</zorder>
-   <zorder>run_btn</zorder>
-   <zorder>lineEdit</zorder>
-   <zorder>warning_lbl</zorder>
-   <zorder>exit_btn</zorder>
+QPushButton:hover {
+	background-color:rgb(180, 215, 225);
+    }
+</string>
+         </property>
+         <property name="text">
+          <string>relative
+address</string>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <zorder>open_file_btn</zorder>
+        <zorder>restart_btn</zorder>
+        <zorder>line</zorder>
+        <zorder>exit_btn</zorder>
+        <zorder>font_size_spin</zorder>
+        <zorder>label</zorder>
+        <zorder>frame</zorder>
+        <zorder>label_2</zorder>
+        <zorder>relative_address_btn</zorder>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget" native="true">
+        <widget class="QLabel" name="logo_lbl">
+         <property name="geometry">
+          <rect>
+           <x>360</x>
+           <y>120</y>
+           <width>621</width>
+           <height>421</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="resources/resources.qrc">:/mainWindow/logo_no_bg.png</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
+  <action name="action16_bit">
+   <property name="text">
+    <string>16-bit</string>
+   </property>
+  </action>
+  <action name="action32_bit">
+   <property name="text">
+    <string>32-bit</string>
+   </property>
+  </action>
+  <action name="action64_bit">
+   <property name="text">
+    <string>64-bit</string>
+   </property>
+  </action>
+  <action name="actionfull_address">
+   <property name="text">
+    <string>full address</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>address</string>
+   </property>
+  </action>
+  <action name="action16_bit_2">
+   <property name="text">
+    <string>16-bit</string>
+   </property>
+  </action>
+  <action name="actionabsolute">
+   <property name="text">
+    <string>absolute address</string>
+   </property>
+  </action>
+  <action name="actionrelative_address">
+   <property name="text">
+    <string>relative address</string>
+   </property>
+  </action>
+  <action name="action16_bit_3">
+   <property name="text">
+    <string>16-bit</string>
+   </property>
+  </action>
+  <action name="action32_bit_2">
+   <property name="text">
+    <string>32-bit</string>
+   </property>
+  </action>
+  <action name="action64_bit_2">
+   <property name="text">
+    <string>64-bit</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="resources/resources.qrc"/>

@@ -2,6 +2,7 @@
     <qresource prefix="/mainWindow">
         <file>logo_no_bg.png</file>
         <file>MainWindowBG.png</file>
+        <file>logo_white_bg.jpeg</file>
     </qresource>
     <qresource prefix="/traceWindow">
         <file>step_over.png</file>
@@ -9,5 +10,7 @@
         <file>step_in.png</file>
         <file>restart.png</file>
         <file>continue.png</file>
+        <file>open_file.png</file>
+        <file>exit.png</file>
     </qresource>
 </RCC>

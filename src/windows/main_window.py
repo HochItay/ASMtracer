@@ -1,4 +1,5 @@
 import sys
+import os
 from UI.ui_mainwindow import Ui_MainWindow
 
 from PySide2.QtWidgets import QApplication, QMainWindow, QFileDialog, QStackedWidget
@@ -9,28 +10,33 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.choose_file_btn.clicked.connect(self.choose_file)
-        self.ui.run_btn.clicked.connect(self.run_exe)
-        self.ui.exit_btn.clicked.connect(lambda: self.close())
+        self.ui.exit_btn.clicked.connect(self.close)
+        self.ui.open_file_btn.clicked.connect(self.run_exe)
 
     # open file dialog to choose a file
     def choose_file(self):
         file_name, _ = QFileDialog.getOpenFileName(self, 'open executable file', r'\\')
-        self.ui.lineEdit.setText(file_name)
+        return file_name
 
     
     # start the execution of the executable
     def run_exe(self):
+        filename = self.choose_file()
+
+        # check if file exist
+        if not os.path.isfile(filename):
+            #self.ui.warning_lbl.setText('file not exist')
+            return
 
         # check file is really ELF by reading the magic
-        with open(self.ui.lineEdit.text(), 'rb') as f:
+        with open(filename, 'rb') as f:
             magic = f.read(4)
             # ELF magic is '0x7f 0x45 0x4c 0x46'
             if magic != b'\x7f\x45\x4c\x46':
-                self.ui.warning_lbl.setText('only 64-bit ELF format is supported')
+                #self.ui.warning_lbl.setText('only 64-bit ELF format is supported')
                 return
 
-        self.window = TraceWindow(self.ui.lineEdit.text())
+        self.window = TraceWindow(filename)
         self.window.show()
         self.close()
 

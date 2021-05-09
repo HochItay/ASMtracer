@@ -6,11 +6,13 @@ from PySide2.QtWidgets import *
 class RegistersModel(QAbstractListModel):
     
     # get a function that sets the registers list
-    def __init__(self, set_regs_func, parent = None):
+    # also get dictionary with explenations about the registers
+    def __init__(self, set_regs_func, explenations, parent = None):
         QAbstractListModel.__init__(self, parent)
         self.regs = []
         self.prev_regs = []
         self.set_regs_func = set_regs_func
+        self.explenations = explenations
 
     # set the registers table
     def set_regs(self, regs):
@@ -25,14 +27,14 @@ class RegistersModel(QAbstractListModel):
         return  Qt.ItemIsEnabled
 
     def data(self, index, role):
-        # tooltip for the registers
+        # tooltip for the registers is the explenation about the register
         if role == Qt.ToolTipRole:
             row = index.row()
-            column = index.column()
+            if row < len(self.regs):
+                register = self.regs[row][0]
 
-            if column == 0 and row == 3:
-                return 'rip holds the address of the current instruction'
-            return 'a tooltip'
+            if register in self.explenations:
+                return self.explenations[register]
 
         # yellow backround if register value changed from last time
         #otherwise white

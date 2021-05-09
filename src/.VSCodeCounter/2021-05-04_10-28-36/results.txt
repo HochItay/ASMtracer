@@ -1,0 +1,52 @@
+Date : 2021-05-04 10:28:36
+Directory : /home/itay/Desktop/ASMtracer/src
+Total : 23 files,  17322 codes, 324 comments, 343 blanks, all 17989 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Python   |         20 |     17,279 |        324 |        329 |     17,932 |
+| C        |          3 |         43 |          0 |         14 |         57 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                        | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                           |         23 |     17,322 |        324 |        343 |     17,989 |
+| UI                                                          |          5 |     16,415 |        134 |         66 |     16,615 |
+| debugElf                                                    |          9 |        332 |         96 |        103 |        531 |
+| tests                                                       |          3 |         43 |          0 |         14 |         57 |
+| windows                                                     |          5 |        524 |         94 |        157 |        775 |
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                    | language | code       | comment    | blank      | total      |
++-------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /home/itay/Desktop/ASMtracer/src/UI/resources_rc.py         | Python   |     15,615 |         72 |          8 |     15,695 |
+| /home/itay/Desktop/ASMtracer/src/UI/ui_instructionWidget.py | Python   |         36 |         10 |         14 |         60 |
+| /home/itay/Desktop/ASMtracer/src/UI/ui_mainwindow.py        | Python   |        142 |         12 |          9 |        163 |
+| /home/itay/Desktop/ASMtracer/src/UI/ui_popupDialog.py       | Python   |         29 |         10 |          9 |         48 |
+| /home/itay/Desktop/ASMtracer/src/UI/ui_traceWindow.py       | Python   |        593 |         30 |         26 |        649 |
+| /home/itay/Desktop/ASMtracer/src/debugElf/breakpoints.py    | Python   |         22 |         10 |          8 |         40 |
+| /home/itay/Desktop/ASMtracer/src/debugElf/debugger.py       | Python   |        135 |         41 |         38 |        214 |
+| /home/itay/Desktop/ASMtracer/src/debugElf/disas.py          | Python   |         26 |          2 |          7 |         35 |
+| /home/itay/Desktop/ASMtracer/src/debugElf/elfReader.py      | Python   |         28 |          8 |         14 |         50 |
+| /home/itay/Desktop/ASMtracer/src/debugElf/funcEntry.py      | Python   |          5 |          1 |          0 |          6 |
+| /home/itay/Desktop/ASMtracer/src/debugElf/function_info.py  | Python   |         12 |          8 |          2 |         22 |
+| /home/itay/Desktop/ASMtracer/src/debugElf/instruction.py    | Python   |         11 |          2 |          2 |         15 |
+| /home/itay/Desktop/ASMtracer/src/debugElf/personality.py    | Python   |          5 |          1 |          5 |         11 |
+| /home/itay/Desktop/ASMtracer/src/debugElf/tracer.py         | Python   |         88 |         23 |         27 |        138 |
+| /home/itay/Desktop/ASMtracer/src/main.py                    | Python   |          8 |          0 |          3 |         11 |
+| /home/itay/Desktop/ASMtracer/src/tests/stringTest.c         | C        |          5 |          0 |          1 |          6 |
+| /home/itay/Desktop/ASMtracer/src/tests/test.c               | C        |         24 |          0 |         10 |         34 |
+| /home/itay/Desktop/ASMtracer/src/tests/test1.c              | C        |         14 |          0 |          3 |         17 |
+| /home/itay/Desktop/ASMtracer/src/windows/custom_widgets.py  | Python   |        137 |         23 |         34 |        194 |
+| /home/itay/Desktop/ASMtracer/src/windows/main_window.py     | Python   |         24 |          4 |          9 |         37 |
+| /home/itay/Desktop/ASMtracer/src/windows/models.py          | Python   |        126 |         21 |         44 |        191 |
+| /home/itay/Desktop/ASMtracer/src/windows/popup_dialog.py    | Python   |         10 |          0 |          3 |         13 |
+| /home/itay/Desktop/ASMtracer/src/windows/trace_window.py    | Python   |        227 |         46 |         67 |        340 |
+| Total                                                       |          |     17,322 |        324 |        343 |     17,989 |
++-------------------------------------------------------------+----------+------------+------------+------------+------------+

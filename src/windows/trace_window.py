@@ -1,7 +1,8 @@
 from UI.ui_traceWindow import Ui_TraceWindow
 
-from PySide2.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QListWidget, QLabel
+from PySide2.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QListWidget, QLabel, QMessageBox, QFileDialog
 from PySide2.QtCore import QFile
+from PySide2.QtGui import QFont
 from .custom_widgets import QInstruction, QStackFunction
 from . import models
 
@@ -45,32 +46,40 @@ class TraceWindow(QMainWindow):
         self.ui.step_out_btn.clicked.connect(self.step_out)
         self.ui.step_over_btn.clicked.connect(self.step_over)
         self.ui.get_data_btn.clicked.connect(self.get_data)
-        self.ui.back_instruction.clicked.connect(self.show_current_instruction)
-        self.ui.actionabsolute.triggered.connect(lambda: self.set_relative_address_mode(False))
-        self.ui.actionrelative_address.triggered.connect(lambda: self.set_relative_address_mode(True))
-        self.ui.action16_bit_3.triggered.connect(lambda: self.frame_model.set_size(2))
-        self.ui.action32_bit_2.triggered.connect(lambda: self.frame_model.set_size(4))
-        self.ui.action64_bit_2.triggered.connect(lambda: self.frame_model.set_size(8))
+        #self.ui.back_instruction.clicked.connect(self.show_current_instruction)
+        #self.ui.actionabsolute.triggered.connect(lambda: self.set_relative_address_mode(False))
+        #self.ui.actionrelative_address.triggered.connect(lambda: self.set_relative_address_mode(True))
+        self.ui.radio_16bit.toggled.connect(lambda: self.frame_model.set_size(2))
+        self.ui.radio_32bit.toggled.connect(lambda: self.frame_model.set_size(4))
+        self.ui.radio_64bit.toggled.connect(lambda: self.frame_model.set_size(8))
         self.ui.restart_btn.clicked.connect(self.restart)
+        self.ui.font_size_spin.valueChanged.connect(self.set_code_size)
         self.ui.exit_btn.clicked.connect(self.close)
+        self.ui.open_file_btn.clicked.connect(self.run_exe)
 
     # initialize models for views
     def __init_models(self):
+        # initialize a dictionary that maps register to its explenation file
+        self.regs_explenation = {}
+        for filename in os.listdir('resources/registers'):
+            with open('resources/registers/' + filename, 'r') as f:
+                self.regs_explenation[filename] = f.read()
+
         regs = self.debugger.get_registers()
         # registers list
-        self.regs1_model = models.RegistersModel(models.parameters_set_regs)
+        self.regs1_model = models.RegistersModel(models.parameters_set_regs, self.regs_explenation)
         self.ui.regs1_view.setModel(self.regs1_model)
 
-        self.regs2_model = models.RegistersModel(models.caller_set_regs)
+        self.regs2_model = models.RegistersModel(models.caller_set_regs, self.regs_explenation)
         self.ui.regs2_view.setModel(self.regs2_model)
 
-        self.regs3_model = models.RegistersModel(models.callee_set_regs)
+        self.regs3_model = models.RegistersModel(models.callee_set_regs, self.regs_explenation)
         self.ui.regs3_view.setModel(self.regs3_model)
 
-        self.regs4_model = models.RegistersModel(models.special_set_regs)
+        self.regs4_model = models.RegistersModel(models.special_set_regs, self.regs_explenation)
         self.ui.regs4_view.setModel(self.regs4_model)
 
-        self.regs5_model = models.RegistersModel(models.flags_set_regs)
+        self.regs5_model = models.RegistersModel(models.flags_set_regs, self.regs_explenation)
         self.ui.regs5_view.setModel(self.regs5_model)
 
         self.regs1_model.set_regs(regs)
@@ -124,6 +133,11 @@ class TraceWindow(QMainWindow):
         if instruction is not None:
             instruction.set_description_color(color)
 
+    # change the font size of the code
+    def set_code_size(self, size):
+        for func in self.instructions_by_func:
+            for i in self.instructions_by_func[func]:
+                i.set_font_size(size)
 
     # show current instruction
     def show_current_instruction(self):
@@ -154,8 +168,10 @@ class TraceWindow(QMainWindow):
     # update the content of the current frame
     def update_frame(self):
         try:
+            call_stack = self.debugger.call_stack()
+
             # look for the start of the frame
-            frame_pointer = self.debugger.call_stack()[-1].frame_start
+            frame_pointer = call_stack[-1].frame_start
             stack_pointer = self.debugger.get_registers().rsp
 
             # add 16 bytes because of the red zone
@@ -164,8 +180,8 @@ class TraceWindow(QMainWindow):
             # convert bytes to int list
             frame = content
             self.frame_model.set_frame(frame, 0, 1)
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
     # show a certain function on the window
     def show_function(self, func):
@@ -173,6 +189,11 @@ class TraceWindow(QMainWindow):
 
     # show a certain instruction on the window and highlight it
     def show_instruction(self, addr):
+        # check if execution ended
+        if not self.debugger.is_running:
+            self.execution_ended_dialog()
+            return
+            
         if self.current_instruction is not None:
             self.current_instruction.unlight()
 
@@ -187,10 +208,20 @@ class TraceWindow(QMainWindow):
             self.current_instruction.highlight()
     
     def single_step(self):
+        # check if execution ended
+        if not self.debugger.is_running:
+            self.execution_ended_dialog()
+            return
+
         self.debugger.single_step()
         self.update_display()
         
     def continue_execution(self):
+        # check if execution ended
+        if not self.debugger.is_running:
+            self.execution_ended_dialog()
+            return
+
         self.debugger.continue_execution()
         self.update_display()
 
@@ -199,6 +230,13 @@ class TraceWindow(QMainWindow):
         # do nothing if execution is complete
         if not self.debugger.is_running:
             return
+
+        call_stack = self.debugger.call_stack()
+        # update the function combo box above the frame
+        self.ui.frame_combo.clear()
+        frame_functions = [f'{i} - {func.func.name}' for i, func in enumerate(call_stack)]
+        self.ui.frame_combo.addItems(frame_functions)
+
         self.update_frame()
 
         current_address = self.debugger.get_current_instruction()
@@ -216,16 +254,31 @@ class TraceWindow(QMainWindow):
 
     # step out of current function
     def step_out(self):
+        # check if execution ended
+        if not self.debugger.is_running:
+            self.execution_ended_dialog()
+            return
+
         self.debugger.step_out()
         self.update_display()
 
     # step out of current function
     def step_over(self):
+        # check if execution ended
+        if not self.debugger.is_running:
+            self.execution_ended_dialog()
+            return
+
         self.debugger.step_over()
         self.update_display()
 
     # get data from certain address
     def get_data(self):
+        # check if execution ended
+        if not self.debugger.is_running:
+            self.execution_ended_dialog()
+            return
+
         self.ui.data_area.clear()
 
         # get number of bytes to read
@@ -294,9 +347,43 @@ class TraceWindow(QMainWindow):
             
         self.ui.data_area.setText(text)
 
+    # open a message box that notify the execution has ended
+    def execution_ended_dialog(self):
+        msg = QMessageBox()
+        msg.setWindowTitle("ASMtracer")
+        msg.setText("The execution has ended!")
+        x = msg.exec_()
+
     # restart the program
     def restart(self):
         del self.debugger
         self.window = TraceWindow(self.file)
+        self.window.show()
+        self.close()
+
+    # open file dialog to choose a file
+    def choose_file(self):
+        file_name, _ = QFileDialog.getOpenFileName(self, 'open executable file', r'\\')
+        return file_name
+
+    
+    # start the execution of the executable
+    def run_exe(self):
+        filename = self.choose_file()
+
+        # check if file exist
+        if not os.path.isfile(filename):
+            #self.ui.warning_lbl.setText('file not exist')
+            return
+
+        # check file is really ELF by reading the magic
+        with open(filename, 'rb') as f:
+            magic = f.read(4)
+            # ELF magic is '0x7f 0x45 0x4c 0x46'
+            if magic != b'\x7f\x45\x4c\x46':
+                #self.ui.warning_lbl.setText('only 64-bit ELF format is supported')
+                return
+
+        self.window = TraceWindow(filename)
         self.window.show()
         self.close()
