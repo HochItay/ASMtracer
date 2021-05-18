@@ -32,9 +32,7 @@ class Ui_MainWindow(object):
         icon = QIcon()
         icon.addFile(u":/mainWindow/logo_white_bg.jpeg", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
-        MainWindow.setStyleSheet(u"\n"
-"background-color: rgb(220, 240, 189);\n"
-"font:  \"Ubuntu Mono\";")
+        MainWindow.setStyleSheet(u"")
         self.action16_bit = QAction(MainWindow)
         self.action16_bit.setObjectName(u"action16_bit")
         self.action32_bit = QAction(MainWindow)
@@ -59,6 +57,15 @@ class Ui_MainWindow(object):
         self.action64_bit_2.setObjectName(u"action64_bit_2")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+        self.centralwidget.setStyleSheet(u"QWidget#centralwidget{\n"
+"border-image: url(:/mainWindow/background3.png) 0 0 0 0 stretch stretch;\n"
+"\n"
+"background-color: rgb(220, 240, 189);\n"
+"font:  \"Ubuntu Mono\";\n"
+"\n"
+"}\n"
+"\n"
+"")
         self.gridLayout = QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(0, -1, 0, -1)
@@ -200,6 +207,22 @@ class Ui_MainWindow(object):
         self.label_3.setStyleSheet(u"background-color:rgb(225, 245, 195);\n"
 "border: none;\n"
 "border-radius: 0px;")
+        self.relative_address_btn = QPushButton(self.menu)
+        self.relative_address_btn.setObjectName(u"relative_address_btn")
+        self.relative_address_btn.setGeometry(QRect(640, 15, 71, 51))
+        self.relative_address_btn.setStyleSheet(u"QPushButton {\n"
+"\n"
+"background-color:rgb(225, 245, 195);\n"
+"\n"
+"border-radius:3px;\n"
+"border: 1px solid black;\n"
+"    }\n"
+"\n"
+"QPushButton:hover {\n"
+"	background-color:rgb(180, 215, 225);\n"
+"    }\n"
+"")
+        self.relative_address_btn.setFlat(True)
         self.open_file_btn.raise_()
         self.restart_btn.raise_()
         self.line.raise_()
@@ -208,15 +231,17 @@ class Ui_MainWindow(object):
         self.label.raise_()
         self.frame.raise_()
         self.label_2.raise_()
+        self.relative_address_btn.raise_()
 
         self.verticalLayout_2.addWidget(self.menu)
 
         self.widget = QWidget(self.centralwidget)
         self.widget.setObjectName(u"widget")
+        self.widget.setStyleSheet(u"")
         self.logo_lbl = QLabel(self.widget)
         self.logo_lbl.setObjectName(u"logo_lbl")
-        self.logo_lbl.setGeometry(QRect(360, 120, 621, 421))
-        self.logo_lbl.setStyleSheet(u"")
+        self.logo_lbl.setGeometry(QRect(350, 110, 721, 501))
+        self.logo_lbl.setStyleSheet(u"background-color: none;")
         self.logo_lbl.setPixmap(QPixmap(u":/mainWindow/logo_no_bg.png"))
         self.logo_lbl.setScaledContents(True)
 
@@ -268,6 +293,11 @@ class Ui_MainWindow(object):
         self.radio_64bit.setText(QCoreApplication.translate("MainWindow", u"64-bit", None))
         self.radio_32bit.setText(QCoreApplication.translate("MainWindow", u"32-bit", None))
         self.label_3.setText("")
+#if QT_CONFIG(tooltip)
+        self.relative_address_btn.setToolTip(QCoreApplication.translate("MainWindow", u"toggle relative address mode", None))
+#endif // QT_CONFIG(tooltip)
+        self.relative_address_btn.setText(QCoreApplication.translate("MainWindow", u"relative\n"
+"address", None))
         self.logo_lbl.setText("")
     # retranslateUi
 

@@ -136,7 +136,7 @@ class Debugger(Tracer):
                 self.__call_stack.pop()
 
             # push the function if instruction is call
-            if instruction.mnemonic == 'call':
+            if instruction.mnemonic == 'call' and int(instruction.parameters,16) in self.function_by_addr:
                 self.__call_stack.append(funcEntry.FuncEntry(self.find_function_with_address(int(instruction.parameters, 16)), rip, rsp - 8))
         except:
             pass

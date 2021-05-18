@@ -3,6 +3,8 @@
         <file>logo_no_bg.png</file>
         <file>MainWindowBG.png</file>
         <file>logo_white_bg.jpeg</file>
+        <file>background2.png</file>
+        <file>background3.png</file>
     </qresource>
     <qresource prefix="/traceWindow">
         <file>step_over.png</file>

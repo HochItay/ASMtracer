@@ -33,8 +33,6 @@ class TraceWindow(QMainWindow):
 
         self.__init_models()
 
-        self.ui.splitter.setSizes([700, 1200])
-
         self.update_display()
 
 
@@ -46,9 +44,7 @@ class TraceWindow(QMainWindow):
         self.ui.step_out_btn.clicked.connect(self.step_out)
         self.ui.step_over_btn.clicked.connect(self.step_over)
         self.ui.get_data_btn.clicked.connect(self.get_data)
-        #self.ui.back_instruction.clicked.connect(self.show_current_instruction)
-        #self.ui.actionabsolute.triggered.connect(lambda: self.set_relative_address_mode(False))
-        #self.ui.actionrelative_address.triggered.connect(lambda: self.set_relative_address_mode(True))
+        self.ui.relative_address_btn.clicked.connect(self.change_relative_address_mode)
         self.ui.radio_16bit.toggled.connect(lambda: self.frame_model.set_size(2))
         self.ui.radio_32bit.toggled.connect(lambda: self.frame_model.set_size(4))
         self.ui.radio_64bit.toggled.connect(lambda: self.frame_model.set_size(8))
@@ -116,12 +112,11 @@ class TraceWindow(QMainWindow):
             self.ui.func_stack.addWidget(instruction_list)
 
     # set the address mode
-    def set_relative_address_mode(self, is_relative):
+    def change_relative_address_mode(self):
+        self.__is_relative = not self.__is_relative
         for func_instructions in self.instructions_by_func.values():
             for i in func_instructions:
-                i.set_relative_mode(is_relative)
-
-        self.__is_relative = is_relative
+                i.set_relative_mode(self.__is_relative)
 
     # set color of instruction at address addr
     def set_color_of_instruction(self, addr, color):
