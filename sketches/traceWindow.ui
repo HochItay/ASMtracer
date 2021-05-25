@@ -38,7 +38,7 @@
    <string>ASMtracer</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources/resources.qrc">
+   <iconset>
     <normaloff>:/mainWindow/logo_white_bg.jpeg</normaloff>:/mainWindow/logo_white_bg.jpeg</iconset>
   </property>
   <property name="styleSheet">
@@ -208,7 +208,7 @@ QPushButton:hover {
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="resources/resources.qrc">:/mainWindow/logo_no_bg.png</pixmap>
+          <pixmap>:/mainWindow/logo_no_bg.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -1704,7 +1704,7 @@ background-color: rgba(0,0,0,0%)</string>
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="resources/resources.qrc">:/traceWindow/info.png</pixmap>
+            <pixmap>:/traceWindow/info.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1726,7 +1726,7 @@ background-color: rgba(0,0,0,0%)</string>
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="resources/resources.qrc">:/traceWindow/info.png</pixmap>
+            <pixmap>:/traceWindow/info.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1745,7 +1745,7 @@ background-color: rgba(0,0,0,0%)</string>
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="resources/resources.qrc">:/traceWindow/info.png</pixmap>
+            <pixmap>:/traceWindow/info.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1764,7 +1764,7 @@ background-color: rgba(0,0,0,0%)</string>
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="resources/resources.qrc">:/traceWindow/info.png</pixmap>
+            <pixmap>:/traceWindow/info.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1834,8 +1834,6 @@ background-color: rgba(0,0,0,0%)</string>
    </property>
   </action>
  </widget>
- <resources>
-  <include location="resources/resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
