@@ -2,7 +2,7 @@ from UI.ui_traceWindow import Ui_TraceWindow
 
 from PySide2.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QListWidget, QLabel, QMessageBox, QFileDialog
 from PySide2.QtCore import QFile
-from PySide2.QtGui import QFont
+from PySide2.QtGui import QFont, QIcon
 from .custom_widgets import QInstruction, QStackFunction
 from . import models
 

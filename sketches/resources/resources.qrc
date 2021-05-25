@@ -14,5 +14,6 @@
         <file>continue.png</file>
         <file>open_file.png</file>
         <file>exit.png</file>
+        <file>info.png</file>
     </qresource>
 </RCC>

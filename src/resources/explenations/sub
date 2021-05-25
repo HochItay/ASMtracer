@@ -1,5 +1,7 @@
-<p>The <tt>sub</tt> instruction is used to perform a substraction. It modifies the 2 following flags: ZF (Zero Flag) and CF (Carry Flag).
-</p>
-<h1><span class="mw-headline" id="Syntax">Syntax</span></h1>
+<h3><span class="mw-headline" id="Syntax">Syntax</span></h3>
 <pre>sub <i>destination</i>, <i>value</i>
 </pre>
+
+<h3><span class="mw-headline" id="Description">Description</span></h3>
+<p>The <tt>sub</tt> instruction is used to perform a substraction. It modifies the 2 following flags: ZF (Zero Flag) and CF (Carry Flag).
+</p>
