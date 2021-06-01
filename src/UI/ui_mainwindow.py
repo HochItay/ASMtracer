@@ -19,8 +19,8 @@ class Ui_MainWindow(object):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setWindowModality(Qt.NonModal)
-        MainWindow.resize(1700, 900)
-        MainWindow.setMaximumSize(QSize(1700, 900))
+        MainWindow.resize(1850, 1000)
+        MainWindow.setMaximumSize(QSize(2000, 1200))
         MainWindow.setBaseSize(QSize(1700, 900))
         font = QFont()
         font.setFamily(u"Ubuntu Mono")
@@ -32,7 +32,7 @@ class Ui_MainWindow(object):
         icon = QIcon()
         icon.addFile(u":/mainWindow/logo_white_bg.jpeg", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
-        MainWindow.setStyleSheet(u"")
+        MainWindow.setStyleSheet(u"QToolTip { color: #000000; background-color: #ffffff; border: 1px; }")
         self.action16_bit = QAction(MainWindow)
         self.action16_bit.setObjectName(u"action16_bit")
         self.action32_bit = QAction(MainWindow)
@@ -73,17 +73,17 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setSizeConstraint(QLayout.SetNoConstraint)
         self.verticalLayout_2.setContentsMargins(-1, -1, -1, 4)
-        self.menu_2 = QFrame(self.centralwidget)
-        self.menu_2.setObjectName(u"menu_2")
-        self.menu_2.setMinimumSize(QSize(0, 80))
-        self.menu_2.setMaximumSize(QSize(16777215, 80))
-        self.menu_2.setStyleSheet(u"background-color: rgb(116, 180, 240);\n"
+        self.menu = QFrame(self.centralwidget)
+        self.menu.setObjectName(u"menu")
+        self.menu.setMinimumSize(QSize(0, 80))
+        self.menu.setMaximumSize(QSize(16777215, 80))
+        self.menu.setStyleSheet(u"QFrame#menu{background-color: #34A0A4;}\n"
 "")
-        self.menu_2.setFrameShape(QFrame.StyledPanel)
-        self.menu_2.setFrameShadow(QFrame.Raised)
-        self.open_file_btn = QPushButton(self.menu_2)
+        self.menu.setFrameShape(QFrame.StyledPanel)
+        self.menu.setFrameShadow(QFrame.Raised)
+        self.open_file_btn = QPushButton(self.menu)
         self.open_file_btn.setObjectName(u"open_file_btn")
-        self.open_file_btn.setGeometry(QRect(1510, 15, 60, 50))
+        self.open_file_btn.setGeometry(QRect(1670, 15, 60, 50))
         self.open_file_btn.setStyleSheet(u"QPushButton {\n"
 "image: url(:/traceWindow/open_file.png) 0 0 0 0 stretch stretch;\n"
 "background-color:rgb(225, 245, 195);\n"
@@ -96,9 +96,9 @@ class Ui_MainWindow(object):
 "	background-color:rgb(180, 215, 225);\n"
 "    }\n"
 "")
-        self.exit_btn = QPushButton(self.menu_2)
+        self.exit_btn = QPushButton(self.menu)
         self.exit_btn.setObjectName(u"exit_btn")
-        self.exit_btn.setGeometry(QRect(1600, 15, 60, 50))
+        self.exit_btn.setGeometry(QRect(1760, 15, 60, 50))
         self.exit_btn.setStyleSheet(u"QPushButton {\n"
 "image: url(:/traceWindow/exit.png) 0 0 0 0 stretch stretch;\n"
 "background-color:rgb(225, 245, 195);\n"
@@ -111,30 +111,56 @@ class Ui_MainWindow(object):
 "	background-color:rgb(180, 215, 225);\n"
 "    }\n"
 "")
-        self.line_2 = QFrame(self.menu_2)
+        self.line_2 = QFrame(self.menu)
         self.line_2.setObjectName(u"line_2")
-        self.line_2.setGeometry(QRect(1570, 1, 20, 78))
+        self.line_2.setGeometry(QRect(1730, 1, 20, 78))
         self.line_2.setFrameShadow(QFrame.Plain)
         self.line_2.setLineWidth(5)
         self.line_2.setFrameShape(QFrame.VLine)
-        self.logo_lbl_2 = QLabel(self.menu_2)
+        self.logo_lbl_2 = QLabel(self.menu)
         self.logo_lbl_2.setObjectName(u"logo_lbl_2")
         self.logo_lbl_2.setGeometry(QRect(0, 0, 201, 81))
         self.logo_lbl_2.setStyleSheet(u"background-color: none;")
         self.logo_lbl_2.setPixmap(QPixmap(u":/mainWindow/logo_no_bg.png"))
         self.logo_lbl_2.setScaledContents(True)
 
-        self.verticalLayout_2.addWidget(self.menu_2)
+        self.verticalLayout_2.addWidget(self.menu)
 
         self.widget = QWidget(self.centralwidget)
         self.widget.setObjectName(u"widget")
         self.widget.setStyleSheet(u"")
-        self.logo_lbl = QLabel(self.widget)
-        self.logo_lbl.setObjectName(u"logo_lbl")
-        self.logo_lbl.setGeometry(QRect(240, 110, 861, 581))
-        self.logo_lbl.setStyleSheet(u"background-color: none;")
-        self.logo_lbl.setPixmap(QPixmap(u":/mainWindow/logo_no_bg.png"))
-        self.logo_lbl.setScaledContents(True)
+        self.gridLayout_2 = QGridLayout(self.widget)
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.label_2 = QLabel(self.widget)
+        self.label_2.setObjectName(u"label_2")
+        font1 = QFont()
+        font1.setPointSize(22)
+        font1.setBold(False)
+        font1.setItalic(False)
+        font1.setUnderline(False)
+        font1.setWeight(50)
+        font1.setStrikeOut(False)
+        font1.setKerning(True)
+        self.label_2.setFont(font1)
+        self.label_2.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
+
+        self.gridLayout_2.addWidget(self.label_2, 3, 0, 1, 2)
+
+        self.label = QLabel(self.widget)
+        self.label.setObjectName(u"label")
+        font2 = QFont()
+        font2.setPointSize(33)
+        font2.setBold(True)
+        font2.setItalic(False)
+        font2.setUnderline(False)
+        font2.setWeight(75)
+        font2.setStrikeOut(False)
+        font2.setKerning(True)
+        self.label.setFont(font2)
+        self.label.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_2.addWidget(self.label, 1, 0, 2, 2)
+
 
         self.verticalLayout_2.addWidget(self.widget)
 
@@ -171,6 +197,8 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(tooltip)
         self.exit_btn.setText("")
         self.logo_lbl_2.setText("")
-        self.logo_lbl.setText("")
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Press the \"open file\" button above and choose ELF file to start tracing", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Welcome to ASMtracer\n"
+"an educational tool for tracing ELF binary files at assembly level", None))
     # retranslateUi
 

@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1700</width>
+    <width>1850</width>
     <height>1000</height>
    </rect>
   </property>
@@ -38,7 +38,7 @@
    <string>ASMtracer</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="resources/resources.qrc">
     <normaloff>:/mainWindow/logo_white_bg.jpeg</normaloff>:/mainWindow/logo_white_bg.jpeg</iconset>
   </property>
   <property name="styleSheet">
@@ -85,7 +85,7 @@ font:  &quot;Ubuntu Mono&quot;;
         <widget class="QPushButton" name="open_file_btn">
          <property name="geometry">
           <rect>
-           <x>1410</x>
+           <x>1560</x>
            <y>15</y>
            <width>60</width>
            <height>50</height>
@@ -115,7 +115,7 @@ QPushButton:hover {
         <widget class="QPushButton" name="restart_btn">
          <property name="geometry">
           <rect>
-           <x>1490</x>
+           <x>1640</x>
            <y>15</y>
            <width>60</width>
            <height>50</height>
@@ -145,7 +145,7 @@ QPushButton:hover {
         <widget class="QPushButton" name="exit_btn">
          <property name="geometry">
           <rect>
-           <x>1600</x>
+           <x>1750</x>
            <y>15</y>
            <width>60</width>
            <height>50</height>
@@ -176,7 +176,7 @@ QPushButton:hover {
         <widget class="Line" name="line_2">
          <property name="geometry">
           <rect>
-           <x>1570</x>
+           <x>1720</x>
            <y>1</y>
            <width>20</width>
            <height>78</height>
@@ -208,7 +208,7 @@ QPushButton:hover {
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>:/mainWindow/logo_no_bg.png</pixmap>
+          <pixmap resource="resources/resources.qrc">:/mainWindow/logo_no_bg.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -272,7 +272,7 @@ QPushButton:hover {
             </property>
             <property name="maximumSize">
              <size>
-              <width>700</width>
+              <width>820</width>
               <height>16777215</height>
              </size>
             </property>
@@ -335,7 +335,7 @@ border-radius: 10px;
                   <item row="0" column="0">
                    <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,3,3,3">
                     <property name="spacing">
-                     <number>30</number>
+                     <number>60</number>
                     </property>
                     <item>
                      <widget class="QPushButton" name="step_btn">
@@ -821,7 +821,7 @@ QComboBox::item:selected {
             <rect>
              <x>10</x>
              <y>630</y>
-             <width>560</width>
+             <width>621</width>
              <height>171</height>
             </rect>
            </property>
@@ -1020,7 +1020,7 @@ border-radius: 10px;
           <widget class="QLabel" name="label_9">
            <property name="geometry">
             <rect>
-             <x>660</x>
+             <x>690</x>
              <y>590</y>
              <width>161</width>
              <height>31</height>
@@ -1048,7 +1048,7 @@ border-radius: 10px;
           <widget class="QLabel" name="label_10">
            <property name="geometry">
             <rect>
-             <x>650</x>
+             <x>680</x>
              <y>20</y>
              <width>211</width>
              <height>31</height>
@@ -1105,7 +1105,7 @@ color:#34A0A4;</string>
           <widget class="QFrame" name="frame_4">
            <property name="geometry">
             <rect>
-             <x>630</x>
+             <x>660</x>
              <y>630</y>
              <width>321</width>
              <height>241</height>
@@ -1187,7 +1187,7 @@ border-radius: 10px;
             <rect>
              <x>10</x>
              <y>60</y>
-             <width>590</width>
+             <width>611</width>
              <height>331</height>
             </rect>
            </property>
@@ -1213,15 +1213,15 @@ border-radius: 10px;
            <widget class="QTabWidget" name="tabWidget">
             <property name="geometry">
              <rect>
-              <x>20</x>
+              <x>10</x>
               <y>10</y>
-              <width>551</width>
+              <width>591</width>
               <height>300</height>
              </rect>
             </property>
             <property name="font">
              <font>
-              <pointsize>16</pointsize>
+              <pointsize>17</pointsize>
               <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
@@ -1231,7 +1231,7 @@ border-radius: 10px;
              <enum>Qt::NoFocus</enum>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="parameters_tab">
              <attribute name="title">
@@ -1242,7 +1242,7 @@ border-radius: 10px;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>551</width>
+                <width>591</width>
                 <height>271</height>
                </rect>
               </property>
@@ -1284,7 +1284,7 @@ border-radius: 10px;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>551</width>
+                <width>591</width>
                 <height>271</height>
                </rect>
               </property>
@@ -1326,7 +1326,7 @@ border-radius: 10px;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>551</width>
+                <width>591</width>
                 <height>311</height>
                </rect>
               </property>
@@ -1368,7 +1368,7 @@ border-radius: 10px;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>551</width>
+                <width>591</width>
                 <height>311</height>
                </rect>
               </property>
@@ -1410,7 +1410,7 @@ border-radius: 10px;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>551</width>
+                <width>591</width>
                 <height>311</height>
                </rect>
               </property>
@@ -1448,7 +1448,7 @@ border-radius: 10px;
           <widget class="QFrame" name="frame_6">
            <property name="geometry">
             <rect>
-             <x>630</x>
+             <x>660</x>
              <y>60</y>
              <width>321</width>
              <height>491</height>
@@ -1704,7 +1704,7 @@ background-color: rgba(0,0,0,0%)</string>
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>:/traceWindow/info.png</pixmap>
+            <pixmap resource="resources/resources.qrc">:/traceWindow/info.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1713,7 +1713,7 @@ background-color: rgba(0,0,0,0%)</string>
           <widget class="QLabel" name="label_13">
            <property name="geometry">
             <rect>
-             <x>635</x>
+             <x>660</x>
              <y>600</y>
              <width>20</width>
              <height>20</height>
@@ -1726,7 +1726,7 @@ background-color: rgba(0,0,0,0%)</string>
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>:/traceWindow/info.png</pixmap>
+            <pixmap resource="resources/resources.qrc">:/traceWindow/info.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1745,7 +1745,7 @@ background-color: rgba(0,0,0,0%)</string>
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>:/traceWindow/info.png</pixmap>
+            <pixmap resource="resources/resources.qrc">:/traceWindow/info.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1754,7 +1754,7 @@ background-color: rgba(0,0,0,0%)</string>
           <widget class="QLabel" name="label_15">
            <property name="geometry">
             <rect>
-             <x>635</x>
+             <x>660</x>
              <y>30</y>
              <width>20</width>
              <height>20</height>
@@ -1764,7 +1764,7 @@ background-color: rgba(0,0,0,0%)</string>
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>:/traceWindow/info.png</pixmap>
+            <pixmap resource="resources/resources.qrc">:/traceWindow/info.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1777,6 +1777,16 @@ background-color: rgba(0,0,0,0%)</string>
      </layout>
     </item>
    </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1850</width>
+     <height>22</height>
+    </rect>
+   </property>
   </widget>
   <action name="action16_bit">
    <property name="text">
@@ -1834,6 +1844,8 @@ background-color: rgba(0,0,0,0%)</string>
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

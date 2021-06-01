@@ -19,7 +19,7 @@ class Ui_TraceWindow(object):
         if not TraceWindow.objectName():
             TraceWindow.setObjectName(u"TraceWindow")
         TraceWindow.setWindowModality(Qt.NonModal)
-        TraceWindow.resize(1700, 1000)
+        TraceWindow.resize(1850, 1000)
         TraceWindow.setMaximumSize(QSize(2000, 1200))
         TraceWindow.setBaseSize(QSize(1700, 900))
         font = QFont()
@@ -32,7 +32,7 @@ class Ui_TraceWindow(object):
         icon = QIcon()
         icon.addFile(u":/mainWindow/logo_white_bg.jpeg", QSize(), QIcon.Normal, QIcon.Off)
         TraceWindow.setWindowIcon(icon)
-        TraceWindow.setStyleSheet(u"QToolTip { color: #ffffff; background-color: #000000; border: 0px; }")
+        TraceWindow.setStyleSheet(u"QToolTip { color: #000000; background-color: #ffffff; border: 1px; }")
         self.action16_bit = QAction(TraceWindow)
         self.action16_bit.setObjectName(u"action16_bit")
         self.action32_bit = QAction(TraceWindow)
@@ -74,13 +74,12 @@ class Ui_TraceWindow(object):
         self.menu.setObjectName(u"menu")
         self.menu.setMinimumSize(QSize(0, 80))
         self.menu.setMaximumSize(QSize(16777215, 80))
-        self.menu.setStyleSheet(u"background-color: #34A0A4;\n"
-"")
+        self.menu.setStyleSheet(u"QFrame#menu{background-color: #34A0A4;}")
         self.menu.setFrameShape(QFrame.StyledPanel)
         self.menu.setFrameShadow(QFrame.Raised)
         self.open_file_btn = QPushButton(self.menu)
         self.open_file_btn.setObjectName(u"open_file_btn")
-        self.open_file_btn.setGeometry(QRect(1410, 15, 60, 50))
+        self.open_file_btn.setGeometry(QRect(1560, 15, 60, 50))
         self.open_file_btn.setStyleSheet(u"QPushButton {\n"
 "image: url(:/traceWindow/open_file.png) 0 0 0 0 stretch stretch;\n"
 "background-color:rgb(225, 245, 195);\n"
@@ -95,7 +94,7 @@ class Ui_TraceWindow(object):
 "")
         self.restart_btn = QPushButton(self.menu)
         self.restart_btn.setObjectName(u"restart_btn")
-        self.restart_btn.setGeometry(QRect(1490, 15, 60, 50))
+        self.restart_btn.setGeometry(QRect(1640, 15, 60, 50))
         self.restart_btn.setStyleSheet(u"QPushButton {\n"
 "image: url(:/traceWindow/restart.png) 0 0 0 0 stretch stretch;\n"
 "background-color:rgb(225, 245, 195);\n"
@@ -110,7 +109,7 @@ class Ui_TraceWindow(object):
 "")
         self.exit_btn = QPushButton(self.menu)
         self.exit_btn.setObjectName(u"exit_btn")
-        self.exit_btn.setGeometry(QRect(1600, 15, 60, 50))
+        self.exit_btn.setGeometry(QRect(1750, 15, 60, 50))
         self.exit_btn.setStyleSheet(u"QPushButton {\n"
 "image: url(:/traceWindow/exit.png) 0 0 0 0 stretch stretch;\n"
 "background-color:rgb(225, 245, 195);\n"
@@ -125,7 +124,7 @@ class Ui_TraceWindow(object):
 "")
         self.line_2 = QFrame(self.menu)
         self.line_2.setObjectName(u"line_2")
-        self.line_2.setGeometry(QRect(1570, 1, 20, 78))
+        self.line_2.setGeometry(QRect(1720, 1, 20, 78))
         self.line_2.setFrameShadow(QFrame.Plain)
         self.line_2.setLineWidth(5)
         self.line_2.setFrameShape(QFrame.VLine)
@@ -170,7 +169,7 @@ class Ui_TraceWindow(object):
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.frame_7.sizePolicy().hasHeightForWidth())
         self.frame_7.setSizePolicy(sizePolicy1)
-        self.frame_7.setMaximumSize(QSize(700, 16777215))
+        self.frame_7.setMaximumSize(QSize(820, 16777215))
         self.frame_7.setStyleSheet(u"QFrame#frame_7{\n"
 "background-color:rgb(225, 245, 195);\n"
 "border: 2px solid black;\n"
@@ -198,7 +197,7 @@ class Ui_TraceWindow(object):
         self.gridLayout_2.setObjectName(u"gridLayout_2")
         self.gridLayout_2.setHorizontalSpacing(20)
         self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setSpacing(30)
+        self.horizontalLayout.setSpacing(60)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.step_btn = QPushButton(self.frame_10)
         self.step_btn.setObjectName(u"step_btn")
@@ -445,7 +444,7 @@ class Ui_TraceWindow(object):
         self.widget_2.setMinimumSize(QSize(980, 0))
         self.frame_2 = QFrame(self.widget_2)
         self.frame_2.setObjectName(u"frame_2")
-        self.frame_2.setGeometry(QRect(10, 630, 560, 171))
+        self.frame_2.setGeometry(QRect(10, 630, 621, 171))
         self.frame_2.setStyleSheet(u"QFrame#frame_2{\n"
 "background-color:rgb(225, 245, 195);\n"
 "border: 2px solid black;\n"
@@ -507,13 +506,13 @@ class Ui_TraceWindow(object):
         self.label_6.setAlignment(Qt.AlignCenter)
         self.label_9 = QLabel(self.widget_2)
         self.label_9.setObjectName(u"label_9")
-        self.label_9.setGeometry(QRect(660, 590, 161, 31))
+        self.label_9.setGeometry(QRect(690, 590, 161, 31))
         self.label_9.setFont(font10)
         self.label_9.setStyleSheet(u"color:#34A0A4;")
         self.label_9.setAlignment(Qt.AlignCenter)
         self.label_10 = QLabel(self.widget_2)
         self.label_10.setObjectName(u"label_10")
-        self.label_10.setGeometry(QRect(650, 20, 211, 31))
+        self.label_10.setGeometry(QRect(680, 20, 211, 31))
         font11 = QFont()
         font11.setFamily(u"Ubuntu Mono")
         font11.setPointSize(20)
@@ -532,7 +531,7 @@ class Ui_TraceWindow(object):
         self.label_12.setAlignment(Qt.AlignCenter)
         self.frame_4 = QFrame(self.widget_2)
         self.frame_4.setObjectName(u"frame_4")
-        self.frame_4.setGeometry(QRect(630, 630, 321, 241))
+        self.frame_4.setGeometry(QRect(660, 630, 321, 241))
         self.frame_4.setStyleSheet(u"QFrame#frame_4{\n"
 "background-color:rgb(225, 245, 195);\n"
 "border: 2px solid black;\n"
@@ -560,7 +559,7 @@ class Ui_TraceWindow(object):
         self.calling_stack.setProperty("isWrapping", False)
         self.frame_5 = QFrame(self.widget_2)
         self.frame_5.setObjectName(u"frame_5")
-        self.frame_5.setGeometry(QRect(10, 60, 590, 331))
+        self.frame_5.setGeometry(QRect(10, 60, 611, 331))
         self.frame_5.setStyleSheet(u"QFrame#frame_5{\n"
 "background-color:rgb(225, 245, 195);\n"
 "border: 2px solid black;\n"
@@ -572,14 +571,14 @@ class Ui_TraceWindow(object):
         self.frame_5.setMidLineWidth(2)
         self.tabWidget = QTabWidget(self.frame_5)
         self.tabWidget.setObjectName(u"tabWidget")
-        self.tabWidget.setGeometry(QRect(20, 10, 551, 300))
-        self.tabWidget.setFont(font7)
+        self.tabWidget.setGeometry(QRect(10, 10, 591, 300))
+        self.tabWidget.setFont(font6)
         self.tabWidget.setFocusPolicy(Qt.NoFocus)
         self.parameters_tab = QWidget()
         self.parameters_tab.setObjectName(u"parameters_tab")
         self.regs1_view = QListView(self.parameters_tab)
         self.regs1_view.setObjectName(u"regs1_view")
-        self.regs1_view.setGeometry(QRect(0, 0, 551, 271))
+        self.regs1_view.setGeometry(QRect(0, 0, 591, 271))
         self.regs1_view.setMaximumSize(QSize(800, 400))
         font12 = QFont()
         font12.setFamily(u"Ubuntu Mono")
@@ -596,7 +595,7 @@ class Ui_TraceWindow(object):
         self.caller_saved_tab.setObjectName(u"caller_saved_tab")
         self.regs2_view = QListView(self.caller_saved_tab)
         self.regs2_view.setObjectName(u"regs2_view")
-        self.regs2_view.setGeometry(QRect(0, 0, 551, 271))
+        self.regs2_view.setGeometry(QRect(0, 0, 591, 271))
         self.regs2_view.setMaximumSize(QSize(800, 400))
         self.regs2_view.setFont(font12)
         self.regs2_view.setLayoutDirection(Qt.LeftToRight)
@@ -607,7 +606,7 @@ class Ui_TraceWindow(object):
         self.callee_saved_tab.setObjectName(u"callee_saved_tab")
         self.regs3_view = QListView(self.callee_saved_tab)
         self.regs3_view.setObjectName(u"regs3_view")
-        self.regs3_view.setGeometry(QRect(0, 0, 551, 311))
+        self.regs3_view.setGeometry(QRect(0, 0, 591, 311))
         self.regs3_view.setMaximumSize(QSize(800, 400))
         self.regs3_view.setFont(font12)
         self.regs3_view.setLayoutDirection(Qt.LeftToRight)
@@ -618,7 +617,7 @@ class Ui_TraceWindow(object):
         self.special_tab.setObjectName(u"special_tab")
         self.regs4_view = QListView(self.special_tab)
         self.regs4_view.setObjectName(u"regs4_view")
-        self.regs4_view.setGeometry(QRect(0, 0, 551, 311))
+        self.regs4_view.setGeometry(QRect(0, 0, 591, 311))
         self.regs4_view.setMaximumSize(QSize(800, 400))
         self.regs4_view.setFont(font12)
         self.regs4_view.setLayoutDirection(Qt.LeftToRight)
@@ -629,7 +628,7 @@ class Ui_TraceWindow(object):
         self.tab.setObjectName(u"tab")
         self.regs5_view = QListView(self.tab)
         self.regs5_view.setObjectName(u"regs5_view")
-        self.regs5_view.setGeometry(QRect(0, 0, 551, 311))
+        self.regs5_view.setGeometry(QRect(0, 0, 591, 311))
         self.regs5_view.setMaximumSize(QSize(800, 400))
         self.regs5_view.setFont(font12)
         self.regs5_view.setLayoutDirection(Qt.LeftToRight)
@@ -638,7 +637,7 @@ class Ui_TraceWindow(object):
         self.tabWidget.addTab(self.tab, "")
         self.frame_6 = QFrame(self.widget_2)
         self.frame_6.setObjectName(u"frame_6")
-        self.frame_6.setGeometry(QRect(630, 60, 321, 491))
+        self.frame_6.setGeometry(QRect(660, 60, 321, 491))
         self.frame_6.setStyleSheet(u"QFrame#frame_6{\n"
 "background-color:rgb(225, 245, 195);\n"
 "border: 2px solid black;\n"
@@ -746,7 +745,7 @@ class Ui_TraceWindow(object):
         self.label_3.setScaledContents(True)
         self.label_13 = QLabel(self.widget_2)
         self.label_13.setObjectName(u"label_13")
-        self.label_13.setGeometry(QRect(635, 600, 20, 20))
+        self.label_13.setGeometry(QRect(660, 600, 20, 20))
         self.label_13.setPixmap(QPixmap(u":/traceWindow/info.png"))
         self.label_13.setScaledContents(True)
         self.label_14 = QLabel(self.widget_2)
@@ -756,7 +755,7 @@ class Ui_TraceWindow(object):
         self.label_14.setScaledContents(True)
         self.label_15 = QLabel(self.widget_2)
         self.label_15.setObjectName(u"label_15")
-        self.label_15.setGeometry(QRect(635, 30, 20, 20))
+        self.label_15.setGeometry(QRect(660, 30, 20, 20))
         self.label_15.setPixmap(QPixmap(u":/traceWindow/info.png"))
         self.label_15.setScaledContents(True)
 
@@ -773,7 +772,7 @@ class Ui_TraceWindow(object):
         self.retranslateUi(TraceWindow)
 
         self.func_stack.setCurrentIndex(1)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(TraceWindow)

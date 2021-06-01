@@ -9,14 +9,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1700</width>
-    <height>900</height>
+    <width>1850</width>
+    <height>1000</height>
    </rect>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1700</width>
-    <height>900</height>
+    <width>2000</width>
+    <height>1200</height>
    </size>
   </property>
   <property name="baseSize">
@@ -42,7 +42,7 @@
     <normaloff>:/mainWindow/logo_white_bg.jpeg</normaloff>:/mainWindow/logo_white_bg.jpeg</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">QToolTip { color: #000000; background-color: #ffffff; border: 1px; }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
@@ -72,7 +72,7 @@ font:  &quot;Ubuntu Mono&quot;;
        <number>4</number>
       </property>
       <item>
-       <widget class="QFrame" name="menu_2">
+       <widget class="QFrame" name="menu">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -86,7 +86,7 @@ font:  &quot;Ubuntu Mono&quot;;
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(116, 180, 240);
+         <string notr="true">QFrame#menu{background-color: #34A0A4;}
 </string>
         </property>
         <property name="frameShape">
@@ -98,7 +98,7 @@ font:  &quot;Ubuntu Mono&quot;;
         <widget class="QPushButton" name="open_file_btn">
          <property name="geometry">
           <rect>
-           <x>1510</x>
+           <x>1670</x>
            <y>15</y>
            <width>60</width>
            <height>50</height>
@@ -128,7 +128,7 @@ QPushButton:hover {
         <widget class="QPushButton" name="exit_btn">
          <property name="geometry">
           <rect>
-           <x>1600</x>
+           <x>1760</x>
            <y>15</y>
            <width>60</width>
            <height>50</height>
@@ -159,7 +159,7 @@ QPushButton:hover {
         <widget class="Line" name="line_2">
          <property name="geometry">
           <rect>
-           <x>1570</x>
+           <x>1730</x>
            <y>1</y>
            <width>20</width>
            <height>78</height>
@@ -204,28 +204,51 @@ QPushButton:hover {
         <property name="styleSheet">
          <string notr="true"/>
         </property>
-        <widget class="QLabel" name="logo_lbl">
-         <property name="geometry">
-          <rect>
-           <x>240</x>
-           <y>110</y>
-           <width>861</width>
-           <height>581</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: none;</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="pixmap">
-          <pixmap resource="resources/resources.qrc">:/mainWindow/logo_no_bg.png</pixmap>
-         </property>
-         <property name="scaledContents">
-          <bool>true</bool>
-         </property>
-        </widget>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="3" column="0" colspan="2">
+          <widget class="QLabel" name="label_2">
+           <property name="font">
+            <font>
+             <pointsize>22</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+             <underline>false</underline>
+             <strikeout>false</strikeout>
+             <kerning>true</kerning>
+            </font>
+           </property>
+           <property name="text">
+            <string>Press the &quot;open file&quot; button above and choose ELF file to start tracing</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignHCenter|Qt::AlignTop</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" rowspan="2" colspan="2">
+          <widget class="QLabel" name="label">
+           <property name="font">
+            <font>
+             <pointsize>33</pointsize>
+             <weight>75</weight>
+             <italic>false</italic>
+             <bold>true</bold>
+             <underline>false</underline>
+             <strikeout>false</strikeout>
+             <kerning>true</kerning>
+            </font>
+           </property>
+           <property name="text">
+            <string>Welcome to ASMtracer
+an educational tool for tracing ELF binary files at assembly level</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>
