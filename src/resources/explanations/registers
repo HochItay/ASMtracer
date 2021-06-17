@@ -1,0 +1,14 @@
+<p style="font-size:18px">In this section, you can see the value of all the general-pupose, special and flags registers.<br>
+Registers that their value have been changed from the last command are highlighted.<br>
+<br>
+The registers are seperated to 5 different categories by calling conventions:<br>
+<br>
+the <b>parameters</b> are registers that are used to pass the first 6 integer or pointer parameters to a functions. the seventh and above parameters are passed through the stack.<br>
+<br>
+<b>Caller-saved</b> registers are registers that any function can override. meaning, that if the caller function wants to preserve its value, it have to save it before the call (at the memory or a callee-saved register).<br>
+<br>
+<b>Callee-saved</b> registers are registers that functions are not allowed to override. each function is responsible for making sure that the values in these registers are the same at exit as they were on entry.<br>
+<br>
+rsp, rip and rbp are <b>special</b> registers.<br>
+<br>
+The <b>flag</b> register contains informaion about the current status of the CPU and can be used to perform conditional jumps. Arithmetic and logical instructions set some or all of the flags , and conditional jump instructions take variable action based on the value of certain flags.</P>

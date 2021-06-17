@@ -1,0 +1,4 @@
+ <p style="font-size:18px">
+ rip is a special-purpose register that always holds the memory address of the next instruction to execute in the program's code segment.
+ rip is updated each time an instruction is executed.
+</p>

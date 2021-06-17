@@ -2,7 +2,7 @@ from UI.ui_traceWindow import Ui_TraceWindow
 
 from PySide2.QtWidgets import QApplication, QMainWindow, QListWidgetItem, QListWidget, QLabel, QMessageBox, QFileDialog
 from PySide2.QtCore import QFile
-from PySide2.QtGui import QFont, QIcon
+from PySide2.QtGui import QFont, QIcon, Qt
 from .custom_widgets import QInstruction, QStackFunction
 from . import models
 
@@ -39,6 +39,7 @@ class TraceWindow(QMainWindow):
     # initialize all connections to  buttons
     def __init_connections(self):
         self.ui.func_combo.currentIndexChanged.connect(lambda: self.show_function(self.ui.func_combo.currentText()))
+        self.ui.frame_combo.currentIndexChanged.connect(self.update_frame)
         self.ui.step_btn.clicked.connect(self.single_step)
         self.ui.cont_btn.clicked.connect(self.continue_execution)
         self.ui.step_out_btn.clicked.connect(self.step_out)
@@ -88,12 +89,22 @@ class TraceWindow(QMainWindow):
         self.frame_model = models.StackFrameModel()
         self.ui.stack_frame.setModel(self.frame_model)
 
+        # tooltips
+        with open('resources/explanations/registers', 'r') as f:
+                self.ui.label_3.setToolTip(f.read())
+        with open('resources/explanations/call_stack', 'r') as f:
+                self.ui.label_13.setToolTip(f.read())
+        with open('resources/explanations/data_area', 'r') as f:
+                self.ui.label_14.setToolTip(f.read())
+        with open('resources/explanations/stack_content', 'r') as f:
+                self.ui.label_15.setToolTip(f.read())
+
     # initialize instructions_by_func which maps function name to list of Qinstructions
     def init_instructions(self):
         # initialize a dictionary that maps instruction to its explenation file
         self.explenation_dic = {}
-        for filename in os.listdir('resources/explenations'):
-            with open('resources/explenations/' + filename, 'r') as f:
+        for filename in os.listdir('resources/instructions'):
+            with open('resources/instructions/' + filename, 'r') as f:
                 self.explenation_dic[filename] = f.read()
 
         for func in self.debugger.get_function_names():
@@ -106,6 +117,7 @@ class TraceWindow(QMainWindow):
                 list_widget = QListWidgetItem()
                 # Set size hint
                 list_widget.setSizeHint(i.sizeHint())
+                list_widget.setFlags(list_widget.flags() & ~Qt.ItemIsSelectable & ~Qt.ItemIsEnabled)
                 instruction_list.addItem(list_widget)
                 instruction_list.setItemWidget(list_widget, i)
 
@@ -163,14 +175,21 @@ class TraceWindow(QMainWindow):
     # update the content of the current frame
     def update_frame(self):
         try:
+            idx = self.ui.frame_combo.currentText().split('-')[0]
+            idx = int(idx)
+
             call_stack = self.debugger.call_stack()
 
             # look for the start of the frame
-            frame_pointer = call_stack[-1].frame_start
-            stack_pointer = self.debugger.get_registers().rsp
+            frame_pointer = call_stack[idx].frame_start
+            if len(call_stack) == idx + 1:
+                stack_pointer = self.debugger.get_registers().rsp
 
-            # add 16 bytes because of the red zone
-            content = self.debugger.read_from_memory(stack_pointer - 24, frame_pointer - stack_pointer + 32)
+                # add 16 bytes because of the red zone
+                content = self.debugger.read_from_memory(stack_pointer - 24, frame_pointer - stack_pointer + 32)
+            else:
+                stack_pointer = call_stack[idx+1].frame_start
+                content = self.debugger.read_from_memory(stack_pointer, frame_pointer - stack_pointer + 8)
 
             # convert bytes to int list
             frame = content
@@ -237,6 +256,9 @@ class TraceWindow(QMainWindow):
         current_address = self.debugger.get_current_instruction()
 
         self.show_instruction(current_address)
+
+        # set the function on the stack content to be the current one
+        self.ui.frame_combo.setCurrentIndex(self.ui.frame_combo.count() - 1)
 
         # update models
         regs = self.debugger.get_registers()
@@ -376,7 +398,10 @@ class TraceWindow(QMainWindow):
             magic = f.read(4)
             # ELF magic is '0x7f 0x45 0x4c 0x46'
             if magic != b'\x7f\x45\x4c\x46':
-                #self.ui.warning_lbl.setText('only 64-bit ELF format is supported')
+                msg = QMessageBox()
+                msg.setWindowTitle("ASMtracer")
+                msg.setText('only 64-bit ELF format is supported')
+                x = msg.exec_()
                 return
 
         self.window = TraceWindow(filename)

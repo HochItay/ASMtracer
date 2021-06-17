@@ -1,0 +1,20 @@
+ <p style="font-size:18px">
+ rbx is a general pupose callee-saved register<br>
+ <br>
+ rbx lower bytes can be accessed by the following names:
+ <br>
+ <table class="wikitable">
+  <tr>
+    <th>Bytes 0-7  </th>
+    <th>Bytes 0-3  </th>
+    <th>Bytes 0-1  </th>
+    <th>Byte 0  </th>
+  </tr>
+  <tr>
+    <th>rbx</th>
+    <th>ebx</th>
+    <th>bx</th>
+    <th>bl</th>
+  </tr>
+</table>
+</p>

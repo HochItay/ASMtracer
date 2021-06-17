@@ -1,0 +1,5 @@
+<p style="font-size:18px">At this area you can inspect the memory of your program from all sections.<br>
+<br>
+For example, if you want to data from the address 0x4a00 to 0x4a20, type 32 (20 in hexadecimal) in the number textline, 4a00 in the address textline and press get data.<br>
+In the left of the big text area, you will see the data you read in hexadecimal value. 
+And on the right, the ascii characters that equivalent to this values.</p>

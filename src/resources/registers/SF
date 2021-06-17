@@ -1,0 +1,8 @@
+<p style="font-size:18px">The Sign Flag (SF) is set to 1 when the result of an operation is negative<br>
+<br> for example:
+<pre>
+mov rax, 3
+mov rbx, 4
+sub rax, rbx ;3 - 4 = -1, therefore, SF will be set to 1
+</pre>
+</p>

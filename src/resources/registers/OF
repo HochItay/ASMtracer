@@ -1,0 +1,10 @@
+<p style="font-size:18px">The Overflow Flag (OF) is set to 1 when the result of an operation is too large or to small for the destination operand. Otherwise, it is set to 0. <br>
+The Overflow flag have meaning only when we work with signed integers.<br>
+<br> for example:
+<pre>
+mov al, b11111111
+mov bl, b10
+add al, bl ;b11111111 + b10 = b1 in 8-bit operations,
+            therefore, OF will be set to 1
+</pre>
+</p>

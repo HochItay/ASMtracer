@@ -1,0 +1,6 @@
+<h3>Syntax</h3>
+<pre>jmp <i>address</i>
+</pre>
+
+<h3><span class="mw-headline" id="Description">Description</span></h3>
+<ul><li>The <tt>jmp</tt> instruction is an unconditional jump that jumps to a specify address.</li></ul>

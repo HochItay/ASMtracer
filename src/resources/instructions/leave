@@ -1,0 +1,11 @@
+<h3>Syntax</h3>
+<pre>leave
+</pre>
+
+<h3><span class="mw-headline" id="Description">Description</span></h3>
+<ul><li>The <tt>leave</tt> instruction is equivalent to:.</li>
+<pre>
+mov rbp, rsp
+pop rbp
+</pre>
+<li>It is used to restore the stack and the rbp register to the way it was at the start of the function and called before a ret command.</li></ul>

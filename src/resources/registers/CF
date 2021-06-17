@@ -1,0 +1,9 @@
+<p style="font-size:18px">The Carry Flag (CF) is set to 1 when the result of an operation is too large or to small for the destination operand. Otherwise, it is set to 0.<br>
+The carry flag have meaning only when we work with unsigned integers.<br>
+<br> for example:
+<pre>
+mov rax, 3
+mov rbx, 4
+sub rax, rbx ;3 - 4 = -1, therefore, CF will be set to 1
+</pre>
+</p>

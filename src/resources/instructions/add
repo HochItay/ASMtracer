@@ -9,5 +9,5 @@
 <h3><span class="mw-headline" id="Examples">Examples</span></h3>
 <dl><dt><tt>add rax, 0x10</tt></dt>
 <dd>Add <tt>0x10</tt> to <tt>RAX</tt>.</dd>
-<dt><tt>add eax, ebx</tt></dt>
+<dt><tt>add rax, rbx</tt></dt>
 <dd>Add <tt>RBX</tt> to <tt>RAX</tt> and store the result in <tt>RAX</tt>.</dd></dl>

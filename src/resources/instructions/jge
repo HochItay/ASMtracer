@@ -1,0 +1,12 @@
+<h3>Syntax</h3>
+<pre>jge <i>address</i>
+</pre>
+
+<h3><span class="mw-headline" id="Description">Description</span></h3>
+<ul><li>The <tt>jge</tt> (jump great equal) instruction is a conditional jump that jumps to an address if the experssion ~​(SF​^​OF) is true.</li>
+<li>The instruction can be used after <i>cmp X, Y</i> command to jump if X is greater or equal (in signed integers) to Y.</li></ul>
+
+<h3><span class="mw-headline" id="Examples">Examples</span></h3>
+<pre>cmp    bl, 78h
+jge     0x402b1d   &nbsp;; if bl >= 78h, jump to 0x402b1d
+</pre>

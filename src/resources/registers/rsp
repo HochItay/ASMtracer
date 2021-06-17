@@ -1,0 +1,4 @@
+ <p style="font-size:18px">
+ rsp is a special-purpose register which functions as the stack pointer, and points to the top of the current stack frame<br>
+ rsp is updated every time a pop/push command is called.
+</p>

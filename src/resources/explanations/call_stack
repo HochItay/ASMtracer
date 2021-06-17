@@ -1,0 +1,3 @@
+<p style="font-size:18px">The call stack is a summary of how your program got where it is.<br>
+It shows all the functions currently on the stack till the 'main' function.<br>
+Pressing on one of the functions in the call stack will show you the instruction that called the function above it</p>

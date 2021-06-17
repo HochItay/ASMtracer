@@ -1,0 +1,12 @@
+<h3>Syntax</h3>
+<pre>jg <i>address</i>
+</pre>
+
+<h3><span class="mw-headline" id="Description">Description</span></h3>
+<ul><li>The <tt>jg</tt> (jump greater) instruction is a conditional jump that jumps to an address if the experssion ~​(SF​^​0F)&​~​ZF is true.</li>
+<li>The instruction can be used after <i>cmp X, Y</i> command to jump if X is greater (in signed integers) than Y.</li></ul>
+
+<h3><span class="mw-headline" id="Examples">Examples</span></h3>
+<pre>cmp    bl, 78h
+jg     0x402b1d   &nbsp;; if bl &gt; 78h, jump to 0x402b1d
+</pre>

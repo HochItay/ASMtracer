@@ -1,0 +1,12 @@
+<h3><span class="mw-headline" id="Syntax">Syntax</span></h3>
+<pre>imul <i>value</i>
+</pre>
+
+<h3><span class="mw-headline" id="Description">Description</span></h3>
+<ul><li>The <tt>imul</tt> instruction is used to perform a multiplication with signed integers.</li>
+<li>Always multiplies <tt>RAX</tt> by a value.</li>
+<li>The result of the multiplication is stored in a 64-bits value accross RDX (most significant 64 bits of the operation) and RAX (least significant 64 bits of the operation).</li></ul>
+
+<h3><span class="mw-headline" id="Example">Example</span></h3>
+<dl><dt>imul 0x10</dt>
+<dd>Multiplies RAX by 0x10 and stores the result in RDX:RAX.</dd></dl>

@@ -1,0 +1,15 @@
+<p><h3><span class="mw-headline" id="Syntax">Syntax</span></h3>
+The <tt>lea</tt> (load effective address) instruction is used to put a memory address into the destination.
+</p>
+<h1><span class="mw-headline" id="Syntax">Syntax</span></h1>
+<pre>lea <i>destination</i>, <i>source</i>
+</pre>
+<h1><span class="mw-headline" id="Examples">Examples</span></h1>
+<table>
+<tbody><tr>
+<td>
+<dl><dt><tt>lea rax, [rbx+8]</tt></dt>
+<dd>Put <tt>[rbx+8]</tt> into <tt>RAX</tt>. After this instruction, <tt>EAX</tt> will equal <tt>rbx+8</tt>.</dd></dl>
+<div style="margin:5px; padding:5px; border-left: solid 10px #90C3D4; background:#E9F2F5;">
+<div style="margin:3px;font-weight:bold;">Note</div>
+<div>In contrast, the instruction <tt>mov rax, [rbx+8]</tt> will make <tt>RAX</tt> equal to the value of the address <tt>rbx+8</tt></div>

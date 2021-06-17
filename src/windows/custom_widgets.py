@@ -56,6 +56,7 @@ class QInstruction(QWidget):
         self.ui.setupUi(self)
         self.load_address = load_address
         self.relative_address = False
+        self._highlighted = False
 
         self.instruction = instruction
         self.ui.description.setText(self.__instruction_to_str())
@@ -129,9 +130,15 @@ class QInstruction(QWidget):
 
     # change the description color, get the color as a string
     def set_description_color(self, color):
-        self.ui.description.setStyleSheet(f'''
+        if self._highlighted:
+            self.ui.description.setStyleSheet(f'''
+            background-color: #b6f074;
             color: {color};
-        ''')
+            ''')
+        else:
+            self.ui.description.setStyleSheet(f'''
+                color: {color};
+            ''')
 
 
     # change the font size
@@ -149,12 +156,14 @@ class QInstruction(QWidget):
         
     # highlight the instruction
     def highlight(self):
+        self._highlighted = True
         self.ui.description.setStyleSheet('''
             background-color: #b6f074;
         ''')
 
     # cancel the highlight the instruction
     def unlight(self):
+        self._highlighted = False
         self.ui.description.setStyleSheet('''
         ''')
 

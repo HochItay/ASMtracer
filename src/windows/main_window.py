@@ -2,7 +2,7 @@ import sys
 import os
 from UI.ui_mainwindow import Ui_MainWindow
 
-from PySide2.QtWidgets import QApplication, QMainWindow, QFileDialog, QStackedWidget
+from PySide2.QtWidgets import QApplication, QMainWindow, QFileDialog, QStackedWidget, QMessageBox
 from windows.trace_window import TraceWindow
 
 class MainWindow(QMainWindow):
@@ -33,7 +33,10 @@ class MainWindow(QMainWindow):
             magic = f.read(4)
             # ELF magic is '0x7f 0x45 0x4c 0x46'
             if magic != b'\x7f\x45\x4c\x46':
-                #self.ui.warning_lbl.setText('only 64-bit ELF format is supported')
+                msg = QMessageBox()
+                msg.setWindowTitle("ASMtracer")
+                msg.setText('only 64-bit ELF format is supported')
+                x = msg.exec_()
                 return
 
         self.window = TraceWindow(filename)

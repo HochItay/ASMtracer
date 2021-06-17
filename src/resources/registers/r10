@@ -1,0 +1,20 @@
+ <p style="font-size:18px">
+ r10 is a general pupose caller-saved register<br>
+ <br>
+ r10 lower bytes can be accessed by the following names:
+ <br>
+ <table class="wikitable">
+  <tr>
+    <th>Bytes 0-7  </th>
+    <th>Bytes 0-3  </th>
+    <th>Bytes 0-1  </th>
+    <th>Byte 0  </th>
+  </tr>
+  <tr>
+    <th>r10</th>
+    <th>r10d</th>
+    <th>r10w</th>
+    <th>r10b</th>
+  </tr>
+</table>
+</p>

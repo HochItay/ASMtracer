@@ -1,0 +1,20 @@
+ <p style="font-size:18px">
+ rcx is a general pupose caller-saved register<br>
+ It is also used to pass the fourth parameter to a function<br><br>
+ rcx lower bytes can be accessed by the following names:
+ <br>
+ <table class="wikitable">
+  <tr>
+    <th>Bytes 0-7  </th>
+    <th>Bytes 0-3  </th>
+    <th>Bytes 0-1  </th>
+    <th>Byte 0  </th>
+  </tr>
+  <tr>
+    <th>rcx</th>
+    <th>ecx</th>
+    <th>cx</th>
+    <th>dl</th>
+  </tr>
+</table>
+</p>

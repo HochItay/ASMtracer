@@ -1,0 +1,8 @@
+<p style="font-size:18px">The Zero Flag (ZF) is set to 1 when the result of an operation is 0. Otherwise, it is set to 0. <br>
+<br> for example:
+<pre>
+mov rax, 3
+mov rbx, 3
+sub rax, rbx ;3 - 3 = 0, therefore, ZF will be set to 1
+</pre>
+</p>

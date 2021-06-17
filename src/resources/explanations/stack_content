@@ -1,0 +1,9 @@
+<p style="font-size:18px">In this area you can inspect the content of the stack.<br>
+<br>
+In green you can see where the return address of the function is stored, this is the start of the frame.<br>
+In X86 assembly, functions usually starts with <i>push rbp</i> and <i>mov rbp, rsp</i>, you can see where rbp points to in yellow. 
+This is the frame pointer and most references to local variables are relative to it.<br>
+The rest of the values are colored in blue.<br>
+<br>
+By default, you only see the frame of the current function. You can see the frame of others functions by choosing it from the list.
+</p>

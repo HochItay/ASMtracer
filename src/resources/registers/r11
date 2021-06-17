@@ -1,0 +1,20 @@
+ <p style="font-size:18px">
+ r11 is a general pupose caller-saved register<br>
+ <br>
+ r11 lower bytes can be accessed by the following names:
+ <br>
+ <table class="wikitable">
+  <tr>
+    <th>Bytes 0-7  </th>
+    <th>Bytes 0-3  </th>
+    <th>Bytes 0-1  </th>
+    <th>Byte 0  </th>
+  </tr>
+  <tr>
+    <th>r11</th>
+    <th>r11d</th>
+    <th>r11w</th>
+    <th>r11b</th>
+  </tr>
+</table>
+</p>

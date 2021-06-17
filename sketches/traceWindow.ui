@@ -313,7 +313,9 @@ border-radius: 10px;
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">background-color: #34A0A4;
+                  <string notr="true">QFrame{
+background-color: #34A0A4;
+}
 </string>
                  </property>
                  <property name="frameShape">
@@ -595,7 +597,7 @@ QPushButton:hover {
                    </property>
                    <property name="font">
                     <font>
-                     <pointsize>15</pointsize>
+                     <pointsize>18</pointsize>
                     </font>
                    </property>
                    <property name="toolTip">
@@ -640,15 +642,15 @@ address</string>
                    <widget class="QSpinBox" name="font_size_spin">
                     <property name="geometry">
                      <rect>
-                      <x>120</x>
+                      <x>130</x>
                       <y>10</y>
                       <width>81</width>
-                      <height>30</height>
+                      <height>41</height>
                      </rect>
                     </property>
                     <property name="font">
                      <font>
-                      <pointsize>14</pointsize>
+                      <pointsize>18</pointsize>
                       <weight>50</weight>
                       <italic>false</italic>
                       <bold>false</bold>
@@ -681,7 +683,7 @@ address</string>
                     </property>
                     <property name="font">
                      <font>
-                      <pointsize>17</pointsize>
+                      <pointsize>18</pointsize>
                       <weight>50</weight>
                       <italic>false</italic>
                       <bold>false</bold>
@@ -703,7 +705,7 @@ address</string>
                    </property>
                    <property name="font">
                     <font>
-                     <pointsize>16</pointsize>
+                     <pointsize>18</pointsize>
                      <weight>50</weight>
                      <italic>false</italic>
                      <bold>false</bold>
@@ -822,7 +824,7 @@ QComboBox::item:selected {
              <x>10</x>
              <y>630</y>
              <width>621</width>
-             <height>171</height>
+             <height>231</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -856,7 +858,7 @@ border-radius: 10px;
             <property name="font">
              <font>
               <family>Ubuntu Mono</family>
-              <pointsize>17</pointsize>
+              <pointsize>18</pointsize>
               <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
@@ -870,14 +872,15 @@ border-radius: 10px;
             <property name="geometry">
              <rect>
               <x>70</x>
-              <y>20</y>
+              <y>15</y>
               <width>100</width>
-              <height>25</height>
+              <height>31</height>
              </rect>
             </property>
             <property name="font">
              <font>
               <family>Ubuntu Mono</family>
+              <pointsize>18</pointsize>
               <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
@@ -898,14 +901,14 @@ border-radius: 10px;
              <rect>
               <x>180</x>
               <y>10</y>
-              <width>211</width>
+              <width>221</width>
               <height>41</height>
              </rect>
             </property>
             <property name="font">
              <font>
               <family>Ubuntu Mono</family>
-              <pointsize>17</pointsize>
+              <pointsize>18</pointsize>
               <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
@@ -918,15 +921,16 @@ border-radius: 10px;
            <widget class="QLineEdit" name="address_line_edit">
             <property name="geometry">
              <rect>
-              <x>400</x>
-              <y>20</y>
-              <width>140</width>
-              <height>25</height>
+              <x>410</x>
+              <y>15</y>
+              <width>191</width>
+              <height>31</height>
              </rect>
             </property>
             <property name="font">
              <font>
               <family>Ubuntu Mono</family>
+              <pointsize>18</pointsize>
               <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
@@ -948,15 +952,16 @@ border-radius: 10px;
            <widget class="QTextEdit" name="data_area">
             <property name="geometry">
              <rect>
-              <x>140</x>
+              <x>170</x>
               <y>70</y>
-              <width>400</width>
-              <height>91</height>
+              <width>431</width>
+              <height>151</height>
              </rect>
             </property>
             <property name="font">
              <font>
               <family>Ubuntu Mono</family>
+              <pointsize>16</pointsize>
               <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
@@ -976,13 +981,31 @@ border-radius: 10px;
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>100</y>
-              <width>121</width>
-              <height>41</height>
+              <y>110</y>
+              <width>141</width>
+              <height>61</height>
              </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>18</pointsize>
+             </font>
             </property>
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+background-color:rgb(245, 255, 225);
+
+border-radius:3px;
+border: 1px solid black;
+    }
+
+QPushButton:hover {
+	background-color:rgb(180, 215, 225);
+    }
+</string>
             </property>
             <property name="text">
              <string>get data</string>
@@ -1188,7 +1211,7 @@ border-radius: 10px;
              <x>10</x>
              <y>60</y>
              <width>611</width>
-             <height>331</height>
+             <height>341</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -1231,7 +1254,7 @@ border-radius: 10px;
              <enum>Qt::NoFocus</enum>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="parameters_tab">
              <attribute name="title">
@@ -1662,15 +1685,15 @@ QComboBox::item:selected {
            <widget class="QLabel" name="label_2">
             <property name="geometry">
              <rect>
-              <x>10</x>
-              <y>20</y>
+              <x>40</x>
+              <y>15</y>
               <width>201</width>
               <height>20</height>
              </rect>
             </property>
             <property name="font">
              <font>
-              <pointsize>16</pointsize>
+              <pointsize>18</pointsize>
               <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
@@ -1688,6 +1711,25 @@ background-color: rgba(0,0,0,0%)</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_16">
+            <property name="geometry">
+             <rect>
+              <x>15</x>
+              <y>17</y>
+              <width>20</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="resources/resources.qrc">:/traceWindow/info.png</pixmap>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
             </property>
            </widget>
           </widget>
@@ -1713,7 +1755,7 @@ background-color: rgba(0,0,0,0%)</string>
           <widget class="QLabel" name="label_13">
            <property name="geometry">
             <rect>
-             <x>660</x>
+             <x>670</x>
              <y>600</y>
              <width>20</width>
              <height>20</height>
@@ -1754,7 +1796,7 @@ background-color: rgba(0,0,0,0%)</string>
           <widget class="QLabel" name="label_15">
            <property name="geometry">
             <rect>
-             <x>660</x>
+             <x>670</x>
              <y>30</y>
              <width>20</width>
              <height>20</height>

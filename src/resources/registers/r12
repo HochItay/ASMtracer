@@ -1,0 +1,20 @@
+ <p style="font-size:18px">
+ r12 is a general pupose callee-saved register<br>
+ <br>
+ r12 lower bytes can be accessed by the following names:
+ <br>
+ <table class="wikitable">
+  <tr>
+    <th>Bytes 0-7  </th>
+    <th>Bytes 0-3  </th>
+    <th>Bytes 0-1  </th>
+    <th>Byte 0  </th>
+  </tr>
+  <tr>
+    <th>r12</th>
+    <th>r12d</th>
+    <th>r12w</th>
+    <th>r12b</th>
+  </tr>
+</table>
+</p>

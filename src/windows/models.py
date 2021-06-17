@@ -83,7 +83,7 @@ def special_set_regs(regs):
     return [('rip', regs.rip), ('rsp', regs.rsp), ('rbp', regs.rbp)]
 
 def flags_set_regs(regs):
-    flags = [('CF ', regs.eflags & 0b1), ('ZF ', regs.eflags & 0b1000000), ('SF ', regs.eflags & 0b10000000), ('OF ', regs.eflags & 0b100000000000)]
+    flags = [('CF', regs.eflags & 0b1), ('ZF', regs.eflags & 0b1000000), ('SF', regs.eflags & 0b10000000), ('OF', regs.eflags & 0b100000000000)]
     res = []
     for name, value in flags:
         if value == 0:
@@ -130,55 +130,60 @@ class StackFrameModel(QAbstractListModel):
         if role == Qt.TextAlignmentRole:
             return Qt.AlignCenter
 
+        # tooltip that indicates the address relative to rbp
         if role == Qt.ToolTipRole:
             row = index.row()
-            if  row < len(self.__frame) / self.__size:
-                # set special tooltip based on location relative to rbp
-                ret_range = (self.__return_address_index * (8 / self.__size), (self.__return_address_index + 1) * (8 / self.__size) - 1)
-                rbp_idx = int((self.__rbp_index + 1) * (8 / self.__size) - 1)
+            if row == 0:
+                return 'return address'
+            if row == 1:
+                return 'rbp'
 
-                if ret_range[0] <= row <= ret_range[1]:
-                    return 'return address'
-                if row == rbp_idx:
-                    return 'rbp'
+            if row < (len(self.__frame) - 16)/ self.__size + 2:
+                row -= 1
+                return f'rbp - {hex(self.__size * row)}'
                 
-                diff_from_rbp = (rbp_idx - row) * self.__size
-                if diff_from_rbp >= 0:
-                    return 'rbp + 0x' + '{:0x}'.format(diff_from_rbp)
-
-                diff_from_rbp = abs(diff_from_rbp)
-                return 'rbp - 0x' + '{:0x}'.format(diff_from_rbp)
 
         if role == Qt.BackgroundRole:
             row = index.row()
-            if  row < len(self.__frame) / self.__size:
-                # set special background for rbp and return address
-                ret_range = (self.__return_address_index * (8 / self.__size), (self.__return_address_index + 1) * (8 / self.__size) - 1)
-                rbp_range = (self.__rbp_index * (8 / self.__size), (self.__rbp_index + 1) * (8 / self.__size) - 1)
 
-                if ret_range[0] <= row <= ret_range[1]:
-                    return QColor('#76C893')
-                if rbp_range[0] <= row <= rbp_range[1]:
-                    return QColor('#D9ED92')
+            if row == 0:
+                # green for return address
+                return QColor('#76C893')
+            elif row == 1:
+                # yellow for rbp
+                return QColor('#D9ED92')
 
-                return QColor('#34A0A4')
+            elif row < (len(self.__frame) - 16)/ self.__size + 2:
+                    # blue for the rest
+                    return QColor('#34A0A4')
               
         # value of the stack
         if role == Qt.DisplayRole:
             row = index.row()
 
-            if row < len(self.__frame) / self.__size :
-                # normalize index since the stack is upside down
-                idx = int(len(self.__frame) / self.__size) - (row + 1)
-                value = int.from_bytes(self.__frame[idx * self.__size: (idx + 1) * self.__size], byteorder='little', signed=False)
+            if row < (len(self.__frame) - 16)/ self.__size + 2:
+                if row == 0 or row == 1:
+                    idx = int(len(self.__frame) / 8) - (row + 1)
+                    value = int.from_bytes(self.__frame[idx * 8: (idx + 1) * 8], byteorder='little', signed=False)
+                else:
+                    if self.__size == 4:
+                        row +=2
+                    if self.__size == 2:
+                        row +=4
+                    # normalize index since the stack is upside down
+                    idx = int(len(self.__frame) / self.__size) - (row + 1)
+                    value = int.from_bytes(self.__frame[idx * self.__size: (idx + 1) * self.__size], byteorder='little', signed=False)
 
                 # determine format
-                if self.__size == 8:
+                if row == 0 or row == 1:
                     value = '{:016x}'.format(value)
-                elif self.__size == 4:
-                    value = '{:08x}'.format(value)
-                elif self.__size == 2:
-                    value = '{:04x}'.format(value)
+                else:
+                    if self.__size == 8:
+                        value = '{:016x}'.format(value)
+                    elif self.__size == 4:
+                        value = '{:08x}'.format(value)
+                    elif self.__size == 2:
+                        value = '{:04x}'.format(value)
 
                 # add spacing
                 value_str = ''

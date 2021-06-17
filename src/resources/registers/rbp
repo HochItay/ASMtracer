@@ -1,0 +1,29 @@
+ <p style="font-size:18px">
+ rbp is a special purpose callee-saved register, that usually used as a frame pointer.<br>
+ Most function prologs look like this:<br>
+ <pre>
+ push rbp      ; Preserve current frame pointer
+ mov rbp, rsp  ; Create new frame pointer pointing to current stack top
+ sub rsp, X    ; allocate X bytes worth of locals on stack
+ </pre>
+ In that way, rbp is always points to the start of the frame, and the program can refer to local variables using it, for example:<br>
+ <pre>mov rax, [rbp - 8]</pre>
+<br>
+
+ rbp lower bytes can be accessed by the following names:
+ <br>
+ <table class="wikitable">
+  <tr>
+    <th>Bytes 0-7  </th>
+    <th>Bytes 0-3  </th>
+    <th>Bytes 0-1  </th>
+    <th>Byte 0  </th>
+  </tr>
+  <tr>
+    <th>rbp</th>
+    <th>ebp</th>
+    <th>bp</th>
+    <th>bpl</th>
+  </tr>
+</table>
+</p>
