@@ -98,6 +98,8 @@ class TraceWindow(QMainWindow):
                 self.ui.label_14.setToolTip(f.read())
         with open('resources/explanations/stack_content', 'r') as f:
                 self.ui.label_15.setToolTip(f.read())
+        with open('resources/explanations/stack_size', 'r') as f:
+                self.ui.label_16.setToolTip(f.read())
 
     # initialize instructions_by_func which maps function name to list of Qinstructions
     def init_instructions(self):
@@ -195,7 +197,7 @@ class TraceWindow(QMainWindow):
             frame = content
             self.frame_model.set_frame(frame, 0, 1)
         except Exception as e:
-            print(e)
+            pass
 
     # show a certain function on the window
     def show_function(self, func):
@@ -221,6 +223,7 @@ class TraceWindow(QMainWindow):
         if self.current_instruction is not None:
             self.current_instruction.highlight()
     
+    # step exactly one instruction
     def single_step(self):
         # check if execution ended
         if not self.debugger.is_running:
@@ -229,7 +232,8 @@ class TraceWindow(QMainWindow):
 
         self.debugger.single_step()
         self.update_display()
-        
+    
+    # continue the execution
     def continue_execution(self):
         # check if execution ended
         if not self.debugger.is_running:
@@ -383,7 +387,6 @@ class TraceWindow(QMainWindow):
         file_name, _ = QFileDialog.getOpenFileName(self, 'open executable file', r'\\')
         return file_name
 
-    
     # start the execution of the executable
     def run_exe(self):
         filename = self.choose_file()

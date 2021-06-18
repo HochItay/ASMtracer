@@ -132,12 +132,16 @@ class QInstruction(QWidget):
     def set_description_color(self, color):
         if self._highlighted:
             self.ui.description.setStyleSheet(f'''
-            background-color: #b6f074;
-            color: {color};
+            QLabel {{
+                background-color: #b6f074;
+                color: {color};
+            }}
             ''')
         else:
             self.ui.description.setStyleSheet(f'''
+            QLabel {{
                 color: {color};
+            }}
             ''')
 
 
@@ -157,8 +161,10 @@ class QInstruction(QWidget):
     # highlight the instruction
     def highlight(self):
         self._highlighted = True
-        self.ui.description.setStyleSheet('''
+        self.ui.description.setStyleSheet(f'''
+        QLabel {{
             background-color: #b6f074;
+        }}
         ''')
 
     # cancel the highlight the instruction
